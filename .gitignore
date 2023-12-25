@@ -1,0 +1,21 @@
+# .gitignore
+
+# Exclude PyCharm's .idea/ directory
+.idea/
+
+# macOS system files
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Virtual environment
+venv/
+
+# Pipenv environment
+Pipfile.lock
+
+# Python bytecode
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
