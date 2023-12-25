@@ -1,7 +1,14 @@
 # .gitignore
 
-# Exclude PyCharm's .idea/ directory
+# Editor-specific files
 .idea/
+.vscode/
+*.sublime-workspace
+*.sublime-project
+
+# Windows system files
+Thumbs.db
+Desktop.ini
 
 # macOS system files
 .DS_Store
