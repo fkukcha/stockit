@@ -54,11 +54,19 @@ class StockIT:
         self.icon_side = PhotoImage(file=side_image_path)
 
         # Menu options
-        menu_options = ["Employee", "Supplier", "Category", "Product", "Sales", "Exit"]
-        for option in menu_options:
+        option_to_method = {
+            "Employee": self.employee,
+            "Supplier": self.supplier,
+            "Category": self.category,
+            "Product": self.product,
+            "Sales": self.sales,
+            "Exit": self.exit,
+        }
+
+        for option in option_to_method:
             menu_options_button = Button(
-                menu_frame, text=option, command=self.employee, image=self.icon_side, compound=LEFT, padx=5, anchor="w",
-                font=("times new roman", 20, "bold"), bg="white", bd=3, cursor="hand2"
+                menu_frame, text=option, command=option_to_method[option], image=self.icon_side, compound=LEFT, padx=5,
+                anchor="w", font=("times new roman", 20, "bold"), bg="white", bd=3, cursor="hand2"
             )
             menu_options_button.pack(side=TOP, fill=X)
 
@@ -84,6 +92,21 @@ class StockIT:
     def employee(self):
         self.employee_window = Toplevel(self.main_window)
         self.employee_instance = Employee(self.employee_window)
+
+    def supplier(self) -> None:
+        pass
+
+    def category(self) -> None:
+        pass
+
+    def product(self) -> None:
+        pass
+
+    def sales(self) -> None:
+        pass
+
+    def exit(self) -> None:
+        pass
 
 
 if __name__ == '__main__':
