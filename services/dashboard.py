@@ -1,6 +1,7 @@
 import os
 from tkinter import *
 from PIL import Image, ImageTk
+from employee import Employee
 
 
 class StockIT:
@@ -55,11 +56,11 @@ class StockIT:
         # Menu options
         menu_options = ["Employee", "Supplier", "Category", "Product", "Sales", "Exit"]
         for option in menu_options:
-            employee_button = Button(
-                menu_frame, text=option, image=self.icon_side, compound=LEFT, padx=5, anchor="w",
+            menu_options_button = Button(
+                menu_frame, text=option, command=self.employee, image=self.icon_side, compound=LEFT, padx=5, anchor="w",
                 font=("times new roman", 20, "bold"), bg="white", bd=3, cursor="hand2"
             )
-            employee_button.pack(side=TOP, fill=X)
+            menu_options_button.pack(side=TOP, fill=X)
 
         # Dashboard content
         dashboard_icons_positions = [(300, 120), (650, 120), (1000, 120), (300, 300), (650, 300)]
@@ -68,7 +69,7 @@ class StockIT:
                                   "Total Products\n[ 0 ]", "Total Sales\n[ 0 ]"]
         for i in range(5):
             label = Label(self.main_window, text=dashboard_icons_labels[i], bd=5, relief=RIDGE,
-                          bg=dashboard_icons_colors[i], fg="white", font=("goody old style", 20, "bold"))
+                          bg=dashboard_icons_colors[i], fg="white", font=("goudy old style", 20, "bold"))
             label.place(x=dashboard_icons_positions[i][0], y=dashboard_icons_positions[i][1], height=150, width=300)
 
         # Footer
@@ -80,7 +81,12 @@ class StockIT:
         parent_dir = os.path.dirname(current_dir)
         return os.path.join(parent_dir, 'images', image_name)
 
+    def employee(self):
+        self.employee_window = Toplevel(self.main_window)
+        self.employee_instance = Employee(self.employee_window)
 
-app = Tk()
-stock_it_instance = StockIT(app)
-app.mainloop()
+
+if __name__ == '__main__':
+    app = Tk()
+    stock_it_instance = StockIT(app)
+    app.mainloop()
