@@ -90,8 +90,44 @@ class StockIT:
         return os.path.join(parent_dir, 'images', image_name)
 
     def employee(self):
+        # Create Toplevel window
         self.employee_window = Toplevel(self.main_window)
+        self.employee_window.overrideredirect(True)  # Hide window decorations
+
+        # Attach employee_window to main_window
+        self.attach_employee_window()
+
+        # Create Employee instance
         self.employee_instance = Employee(self.employee_window)
+
+    def attach_employee_window(self):
+        # Get the position of main_window
+        main_window_x = self.main_window.winfo_x()
+        main_window_y = self.main_window.winfo_y()
+
+        # Set the position of employee_window relative to main_window
+        relative_x = 200
+        relative_y = 155
+        self.employee_window.geometry(f"+{main_window_x + relative_x}+{main_window_y + relative_y}")
+
+        # Raise employee_window to the top
+        self.employee_window.lift()
+
+        # Bind main_window's movement to adjust employee_window's position
+        self.main_window.bind("<Configure>", self.adjust_employee_window_position)
+
+    def adjust_employee_window_position(self, event):
+        # Adjust employee_window's position when main_window is moved
+        main_window_x = self.main_window.winfo_x()
+        main_window_y = self.main_window.winfo_y()
+
+        # Set the position of employee_window relative to main_window
+        relative_x = 200  # Set the relative position based on your design
+        relative_y = 155
+        self.employee_window.geometry(f"+{main_window_x + relative_x}+{main_window_y + relative_y}")
+
+        # Raise employee_window to the top after adjustment
+        self.employee_window.lift()
 
     def supplier(self) -> None:
         pass
