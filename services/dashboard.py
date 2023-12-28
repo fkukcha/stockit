@@ -146,7 +146,6 @@ class StockIT:
 
 
 if __name__ == '__main__':
-    # test
     app = Tk()
     stock_it_instance = StockIT(app)
     app.mainloop()
