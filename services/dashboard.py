@@ -2,6 +2,7 @@ import os
 from tkinter import *
 from PIL import Image, ImageTk
 from employee import Employee
+from sales import Sales
 
 
 class StockIT:
@@ -138,8 +139,41 @@ class StockIT:
     def product(self) -> None:
         pass
 
-    def sales(self) -> None:
-        pass
+    def sales(self):
+        self.sales_window = Toplevel(self.main_window)
+        self.sales_window.overrideredirect(True)
+        self.new_obj = Sales(self.sales_window)
+
+        self.attach_sales_window()
+
+    def attach_sales_window(self):
+        # Get the position of main_window
+        main_window_x = self.main_window.winfo_x()
+        main_window_y = self.main_window.winfo_y()
+
+        # Set the position of employee_window relative to main_window
+        relative_x = 200
+        relative_y = 155
+        self.sales_window.geometry(f"+{main_window_x + relative_x}+{main_window_y + relative_y}")
+
+        # Raise employee_window to the top
+        self.sales_window.lift()
+
+        # Bind main_window's movement to adjust employee_window's position
+        self.main_window.bind("<Configure>", self.adjust_sales_window_position)
+
+    def adjust_sales_window_position(self, event):
+        # Adjust employee_window's position when main_window is moved
+        main_window_x = self.main_window.winfo_x()
+        main_window_y = self.main_window.winfo_y()
+
+        # Set the position of employee_window relative to main_window
+        relative_x = 200  # Set the relative position based on your design
+        relative_y = 155
+        self.sales_window.geometry(f"+{main_window_x + relative_x}+{main_window_y + relative_y}")
+
+        # Raise employee_window to the top after adjustment
+        self.sales_window.lift()
 
     def exit(self) -> None:
         pass
