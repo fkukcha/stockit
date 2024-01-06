@@ -14,6 +14,7 @@ class Sales:
         self.main_window.focus_force()
 
         self.var_invoice = StringVar()
+        self.bill_list=[]
 
         self.create_title_label()
         self.create_invoice_label()
@@ -25,6 +26,7 @@ class Sales:
         self.right_image()
         self.image_label = Label(self.main_window, image=self.menu_image, borderwidth=0, highlightthickness=0)
         self.image_label.place(x=700, y=110)
+        self.show()
 
     def create_title_label(self):
         title = Label(self.main_window, text="View Customer Bills", font=("goudy old style", 30), bg="#184a45",
@@ -41,11 +43,11 @@ class Sales:
         entry.place(x=160, y=100, width=180)
 
     def search_button(self):
-        search_button = Button(self.main_window, text="Search", font=("times new roman", 15, "bold"), bg="#2196f3", fg="white", cursor="hand2")
+        search_button = Button(self.main_window, text="Search", command=self.search, font=("times new roman", 15, "bold"), bg="#2196f3", fg="white", cursor="hand2")
         search_button.place(x=360, y=100, width=120, height=28)
 
     def clear_button(self):
-        clear_button = Button(self.main_window, text="Clear", font=("times new roman", 15, "bold"), bg="lightgray", cursor="hand2")
+        clear_button = Button(self.main_window, text="Clear", command=self.clear, font=("times new roman", 15, "bold"), bg="lightgray", cursor="hand2")
         clear_button.place(x=490, y=100, width=120, height=28)
 
     def sales_frame(self):
@@ -53,10 +55,11 @@ class Sales:
         sales_frame.place(x=50, y=140, width=200, height=330)
 
         scrolly = Scrollbar(sales_frame, orient=VERTICAL)
-        sales_list = Listbox(sales_frame, font=("goudy old styöe", 15), bg="white", yscrollcommand=scrolly.set)
+        self.sales_list = Listbox(sales_frame, font=("goudy old styöe", 15), bg="white", yscrollcommand=scrolly.set)
         scrolly.pack(side=RIGHT, fill=Y)
-        scrolly.config(command=sales_list.yview)
-        sales_list.pack(fill=BOTH, expand=1)
+        scrolly.config(command=self.sales_list.yview)
+        self.sales_list.pack(fill=BOTH, expand=1)
+        self.sales_list.bind("<ButtonRelease-1>", self.get_data)
 
     def bill_frame(self):
         bill_frame = Frame(self.main_window, bd=3, relief=RIDGE)
@@ -66,10 +69,10 @@ class Sales:
         title2.pack(side=TOP, fill=X)
 
         scrolly2 = Scrollbar(bill_frame, orient=VERTICAL)
-        bill_list = Text(bill_frame, font=("goudy old style", 15), bg="lightyellow", yscrollcommand=scrolly2.set)
+        self.bill_area = Text(bill_frame, font=("goudy old style", 15), bg="lightyellow", yscrollcommand=scrolly2.set)
         scrolly2.pack(side=RIGHT, fill=Y)
-        scrolly2.config(command=bill_list.yview)
-        bill_list.pack(fill=BOTH, expand=1)
+        scrolly2.config(command=self.bill_area.yview)
+        self.bill_area.pack(fill=BOTH, expand=1)
 
     def right_image(self):
         current_dir = os.path.dirname(os.path.realpath(__file__))
@@ -82,6 +85,45 @@ class Sales:
         resized_image = original_image.resize((new_width, new_height), Image.LANCZOS)
 
         self.menu_image = ImageTk.PhotoImage(resized_image)
+
+        # ============================================================
+
+    def show(self):
+        del self.bill_list[:]
+        self.sales_list.delete(0, END)
+        # print(os.listdir('../stockit'))
+        for i in os.listdir('bill'):
+            # print(i.split('.'), i.split('.')[-1])
+            if i.split('.')[-1] == 'txt':
+                self.sales_list.insert(END, i)
+                self.bill_list.append(i.split('.')[0])
+
+    def get_data(self, ev):
+        index_ = self.sales_list.curselection()
+        file_name = self.sales_list.get(index_)
+        print(file_name)
+        self.bill_area.delete('1.0', END)
+        fp = open(f'bill/{file_name}', 'r')
+        for i in fp:
+            self.bill_area.insert(END, i)
+        fp.close()
+
+    def search(self):
+        if self.var_invoice.get() == "":
+            messagebox.showerror("Error", "Invoice no. should be required", parent=self.main_window)
+        else:
+            if self.var_invoice.get() in self.bill_list:
+                fp = open(f'bill/{self.var_invoice.get()}.txt', 'r')
+                self.bill_area.delete('1.0', END)
+                for i in fp:
+                    self.bill_area.insert(END, i)
+                fp.close()
+            else:
+                messagebox.showerror("Error", "Invalid Invoice No.", parent=self.main_window)
+
+    def clear(self):
+        self.show()
+        self.bill_area.delete('1.0', END)
 
     @staticmethod
     def get_image_path(current_dir, image_name):
