@@ -4,7 +4,7 @@ from PIL import Image, ImageTk
 from tkinter import ttk, messagebox
 
 
-class productClass:
+class Product:
     def __init__(self, main_window):
         self.main_window = main_window
         self.main_window.geometry("1100x500+220+130")
@@ -15,7 +15,7 @@ class productClass:
         self.search_by = StringVar()
         self.search_text = StringVar()
 
-        #category attributes
+        # category attributes
         self.var_cat = StringVar()
         self.var_sup = StringVar()
         self.var_name = StringVar()
@@ -26,18 +26,18 @@ class productClass:
         self.category_product_frame()
 
     def category_product_frame(self):
-        product_Frame = Frame(self.main_window,bd=3,relief=RIDGE)
-        product_Frame.place(x=10,y=10,width=450,height=480)
+        product_Frame = Frame(self.main_window, bd=3, relief=RIDGE)
+        product_Frame.place(x=10, y=10, width=450, height=480)
 
         title = Label(product_Frame, text ="Manage Product Details", font=("goudy old style", 18),bg="#0f4d7d", fg="white").pack(side=TOP, fill= X)
 
-        #Column1
-        lbl_category = Label(product_Frame, text ="Category", font=("goudy old style", 18),bg="white").place(x=30,y=60)
-        lbl_supplier = Label(product_Frame, text ="Supplier", font=("goudy old style", 18),bg="white").place(x=30,y=110)
-        lbl_product_name = Label(product_Frame, text ="Name", font=("goudy old style", 18),bg="white").place(x=30,y=160)
-        lbl_price = Label(product_Frame, text ="Price", font=("goudy old style", 18),bg="white").place(x=30,y=210)
-        lbl_qty = Label(product_Frame, text ="Quantity", font=("goudy old style", 18),bg="white").place(x=30,y=260)
-        lbl_status = Label(product_Frame, text ="Status", font=("goudy old style", 18),bg="white").place(x=30,y=310)
+        # Column1
+        lbl_category = Label(product_Frame, text ="Category", font=("goudy old style", 18), bg="white").place(x=30,y=60)
+        lbl_supplier = Label(product_Frame, text ="Supplier", font=("goudy old style", 18), bg="white").place(x=30,y=110)
+        lbl_product_name = Label(product_Frame, text ="Name", font=("goudy old style", 18), bg="white").place(x=30,y=160)
+        lbl_price = Label(product_Frame, text ="Price", font=("goudy old style", 18), bg="white").place(x=30,y=210)
+        lbl_qty = Label(product_Frame, text ="Quantity", font=("goudy old style", 18), bg="white").place(x=30,y=260)
+        lbl_status = Label(product_Frame, text ="Status", font=("goudy old style", 18), bg="white").place(x=30,y=310)
 
 
         # Column2
@@ -54,13 +54,13 @@ class productClass:
         combo_box_sup.current(0)
 
         txt_name = Entry(product_Frame, textvariable=self.var_name,
-                                        font=("goudy old style", 15), bg="lightyellow").place(x=150,y=160,width=200)
+                                        font=("goudy old style", 15), bg="lightyellow").place(x=150, y=160, width=200)
 
         txt_price = Entry(product_Frame, textvariable=self.var_price,
-                                        font=("goudy old style", 15), bg="lightyellow").place(x=150,y=210,width=200)
+                                        font=("goudy old style", 15), bg="lightyellow").place(x=150, y=210, width=200)
 
         txt_qty = Entry(product_Frame, textvariable=self.var_qty,
-                                        font=("goudy old style", 15), bg="lightyellow").place(x=150,y=260,width=200)
+                                        font=("goudy old style", 15), bg="lightyellow").place(x=150, y=260, width=200)
 
         combo_box_status = ttk.Combobox(product_Frame, textvariable=self.var_status,
                                         values=("Active", "Inactive"), state="readonly", justify=CENTER,
@@ -92,8 +92,8 @@ class productClass:
 
 
         combo_box_search = ttk.Combobox(search_label_frame, textvariable=self.search_by,
-                                        values=("Select", "Category", "Supplier", "Name"), state="readonly", justify=CENTER,
-                                        font=("goudy old style", 15))
+                                        values=("Select", "Category", "Supplier", "Name"), state="readonly",
+                                        justify=CENTER, font=("goudy old style", 15))
         combo_box_search.place(x=10, y=10, width=180)
         combo_box_search.current(0)
 
@@ -120,8 +120,7 @@ class productClass:
         # Product database columns
         self.product_table = ttk.Treeview(p_frame, columns=(
             "P ID", "Category", "Supplier", "Name", "Price", "Qty", "Status"),
-                                           yscrollcommand=product_scroll_y.set, xscrollcommand=product_scroll_x.set
-                                           )
+                                          yscrollcommand=product_scroll_y.set, xscrollcommand=product_scroll_x.set)
         self.product_table.pack(fill=BOTH, expand=1)
 
         product_scroll_x.pack(side=BOTTOM, fill=X)
@@ -140,5 +139,5 @@ class productClass:
 
 if __name__ == "__main__":
     app = Tk()
-    product_instance = productClass(app)
+    product_instance = Product(app)
     app.mainloop()
