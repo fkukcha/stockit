@@ -7,7 +7,7 @@ from tkinter import ttk, messagebox
 class Product:
     def __init__(self, main_window):
         self.main_window = main_window
-        self.main_window.geometry("1100x500+220+130")
+        self.main_window.geometry("1148x548+200+155")
         self.main_window.title("Inventory Management System")
         self.main_window.config(bg="white")
         self.main_window.focus_force()
