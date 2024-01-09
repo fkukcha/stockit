@@ -3,6 +3,7 @@ from tkinter import *
 from PIL import Image, ImageTk
 from employee import Employee
 from sales import Sales
+from product import Product
 
 
 class StockIT:
@@ -137,7 +138,12 @@ class StockIT:
         pass
 
     def product(self) -> None:
-        pass
+        self.product_window = Toplevel(self.main_window)
+        self.product_window.overrideredirect(True)
+
+        self.attach_window(self.product_window, self.adjust_window_position)
+
+        self.product_instance = Product(self.product_window)
 
     def sales(self):
         self.sales_window = Toplevel(self.main_window)
