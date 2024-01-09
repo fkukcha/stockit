@@ -2,8 +2,6 @@ import os
 from tkinter import *
 from PIL import Image, ImageTk
 from tkinter import ttk, messagebox
-from employee import Employee
-
 
 
 class productClass:
@@ -88,7 +86,7 @@ class productClass:
         clear_button.place(x=340, y=400, width=100, height=40)
 
 
-        search_label_frame = LabelFrame(self.main_window, text="Search Employee", font=("goudy old style", 12, "bold"),
+        search_label_frame = LabelFrame(self.main_window, text="Search Product", font=("goudy old style", 12, "bold"),
                                         bd=2, relief=RIDGE, bg="white", fg="black")
         search_label_frame.place(x=480, y=10, width=600, height=80)
 
@@ -105,9 +103,6 @@ class productClass:
         search_text.place(x=200, y=10)
 
         # Search button
-        """search_button = Button(search_label_frame, text="Search", font=("goudy old style", 15), bg="#4caf50",
-                               fg="white", cursor="hand2")
-        search_button.place(x=420, y=10, width=150, height=31)"""
 
         style = ttk.Style()
         style.configure("Search.TButton", background="green", foreground="white")
@@ -122,7 +117,7 @@ class productClass:
         product_scroll_x = Scrollbar(p_frame, orient=HORIZONTAL)
         product_scroll_y = Scrollbar(p_frame, orient=VERTICAL)
 
-        # Employee database columns
+        # Product database columns
         self.product_table = ttk.Treeview(p_frame, columns=(
             "P ID", "Category", "Supplier", "Name", "Price", "Qty", "Status"),
                                            yscrollcommand=product_scroll_y.set, xscrollcommand=product_scroll_x.set
