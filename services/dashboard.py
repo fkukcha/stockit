@@ -2,6 +2,7 @@ import os
 from tkinter import *
 from PIL import Image, ImageTk
 from employee import Employee
+from sales import Sales
 
 
 class StockIT:
@@ -95,12 +96,12 @@ class StockIT:
         self.employee_window.overrideredirect(True)  # Hide window decorations
 
         # Attach employee_window to main_window
-        self.attach_employee_window()
+        self.attach_window(self.employee_window, self.adjust_window_position)
 
         # Create Employee instance
         self.employee_instance = Employee(self.employee_window)
 
-    def attach_employee_window(self):
+    def attach_window(self, window, adjust_window_position):
         # Get the position of main_window
         main_window_x = self.main_window.winfo_x()
         main_window_y = self.main_window.winfo_y()
@@ -108,26 +109,26 @@ class StockIT:
         # Set the position of employee_window relative to main_window
         relative_x = 200
         relative_y = 155
-        self.employee_window.geometry(f"+{main_window_x + relative_x}+{main_window_y + relative_y}")
+        window.geometry(f"+{main_window_x + relative_x}+{main_window_y + relative_y}")
 
         # Raise employee_window to the top
-        self.employee_window.lift()
+        window.lift()
 
         # Bind main_window's movement to adjust employee_window's position
-        self.main_window.bind("<Configure>", self.adjust_employee_window_position)
+        self.main_window.bind("<Configure>", lambda event: adjust_window_position(window, event))
 
-    def adjust_employee_window_position(self, event):
+    def adjust_window_position(self, window, event):
         # Adjust employee_window's position when main_window is moved
-        main_window_x = self.main_window.winfo_x()
-        main_window_y = self.main_window.winfo_y()
+        main_window_x = event.x
+        main_window_y = event.y
 
         # Set the position of employee_window relative to main_window
         relative_x = 200  # Set the relative position based on your design
         relative_y = 155
-        self.employee_window.geometry(f"+{main_window_x + relative_x}+{main_window_y + relative_y}")
+        window.geometry(f"+{main_window_x + relative_x}+{main_window_y + relative_y}")
 
         # Raise employee_window to the top after adjustment
-        self.employee_window.lift()
+        window.lift()
 
     def supplier(self) -> None:
         pass
@@ -138,8 +139,13 @@ class StockIT:
     def product(self) -> None:
         pass
 
-    def sales(self) -> None:
-        pass
+    def sales(self):
+        self.sales_window = Toplevel(self.main_window)
+        self.sales_window.overrideredirect(True)
+
+        self.attach_window(self.sales_window, self.adjust_window_position)
+
+        self.sales_instance = Sales(self.sales_window)
 
     def exit(self) -> None:
         pass
