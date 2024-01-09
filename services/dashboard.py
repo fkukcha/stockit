@@ -34,7 +34,7 @@ class StockIT:
 
         # Menu frame
         menu_frame = Frame(self.main_window, bd=2, relief=RIDGE, bg="white")
-        menu_frame.place(x=0, y=102, width=200, height=485)
+        menu_frame.place(x=0, y=102, width=200, height=580)
 
         # Menu image
         menu_image_path = self.get_image_path(current_dir, 'menu_im.png')
