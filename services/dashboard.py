@@ -12,6 +12,7 @@ class StockIT:
         self.main_window.geometry("1350x700+0+0")
         self.main_window.title("StockIt")
         self.main_window.config(bg="white")
+        self.opened_windows = {}  # Dictionary to store opened windows
 
         # Get the current directory of the script
         current_dir = os.path.dirname(os.path.realpath(__file__))
@@ -91,16 +92,17 @@ class StockIT:
         parent_dir = os.path.dirname(current_dir)
         return os.path.join(parent_dir, 'images', image_name)
 
+    def destroy_all_windows(self):
+        for window_key in self.opened_windows:
+            self.opened_windows[window_key].destroy()
+        self.opened_windows = {}  # Clear the dictionary after destroying windows
+
     def employee(self):
-        # Create Toplevel window
-        self.employee_window = Toplevel(self.main_window)
-        self.employee_window.overrideredirect(True)  # Hide window decorations
-
-        # Attach employee_window to main_window
-        self.attach_window(self.employee_window, self.adjust_window_position)
-
-        # Create Employee instance
-        self.employee_instance = Employee(self.employee_window)
+        self.destroy_all_windows()
+        self.opened_windows["employee"] = Toplevel(self.main_window)
+        self.opened_windows["employee"].overrideredirect(True)
+        self.attach_window(self.opened_windows["employee"], self.adjust_window_position)
+        self.employee_instance = Employee(self.opened_windows["employee"])
 
     def attach_window(self, window, adjust_window_position):
         # Get the position of main_window
@@ -125,7 +127,7 @@ class StockIT:
 
         # Set the position of employee_window relative to main_window
         relative_x = 200  # Set the relative position based on your design
-        relative_y = 155
+        relative_y = 131
         window.geometry(f"+{main_window_x + relative_x}+{main_window_y + relative_y}")
 
         # Raise employee_window to the top after adjustment
@@ -137,23 +139,22 @@ class StockIT:
     def category(self) -> None:
         pass
 
-    def product(self) -> None:
-        self.product_window = Toplevel(self.main_window)
-        self.product_window.overrideredirect(True)
-
-        self.attach_window(self.product_window, self.adjust_window_position)
-
-        self.product_instance = Product(self.product_window)
+    def product(self):
+        self.destroy_all_windows()
+        self.opened_windows["product"] = Toplevel(self.main_window)
+        self.opened_windows["product"].overrideredirect(True)
+        self.attach_window(self.opened_windows["product"], self.adjust_window_position)
+        self.product_instance = Product(self.opened_windows["product"])
 
     def sales(self):
-        self.sales_window = Toplevel(self.main_window)
-        self.sales_window.overrideredirect(True)
-
-        self.attach_window(self.sales_window, self.adjust_window_position)
-
-        self.sales_instance = Sales(self.sales_window)
+        self.destroy_all_windows()
+        self.opened_windows["sales"] = Toplevel(self.main_window)
+        self.opened_windows["sales"].overrideredirect(True)
+        self.attach_window(self.opened_windows["sales"], self.adjust_window_position)
+        self.sales_instance = Sales(self.opened_windows["sales"])
 
     def exit(self) -> None:
+        # self.main_window.destroy()
         pass
 
 
