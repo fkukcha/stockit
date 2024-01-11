@@ -92,7 +92,7 @@ class Sales:
         del self.bill_list[:]
         self.sales_list.delete(0, END)
         # print(os.listdir('../stockit'))
-        for i in os.listdir('bill'):
+        for i in os.listdir('../bills'):
             # print(i.split('.'), i.split('.')[-1])
             if i.split('.')[-1] == 'txt':
                 self.sales_list.insert(END, i)
@@ -103,7 +103,7 @@ class Sales:
         file_name = self.sales_list.get(index_)
         print(file_name)
         self.bill_area.delete('1.0', END)
-        fp = open(f'bill/{file_name}', 'r')
+        fp = open(f'../bills/{file_name}', 'r')
         for i in fp:
             self.bill_area.insert(END, i)
         fp.close()
@@ -113,7 +113,7 @@ class Sales:
             messagebox.showerror("Error", "Invoice no. should be required", parent=self.main_window)
         else:
             if self.var_invoice.get() in self.bill_list:
-                fp = open(f'bill/{self.var_invoice.get()}.txt', 'r')
+                fp = open(f'../bills/{self.var_invoice.get()}.txt', 'r')
                 self.bill_area.delete('1.0', END)
                 for i in fp:
                     self.bill_area.insert(END, i)

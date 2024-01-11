@@ -120,7 +120,8 @@ class StockIT:
         # Bind main_window's movement to adjust employee_window's position
         self.main_window.bind("<Configure>", lambda event: adjust_window_position(window, event))
 
-    def adjust_window_position(self, window, event):
+    @staticmethod
+    def adjust_window_position(window, event):
         # Adjust employee_window's position when main_window is moved
         main_window_x = event.x
         main_window_y = event.y
