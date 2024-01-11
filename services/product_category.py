@@ -12,33 +12,42 @@ class ProductCategory:
         self.main_window.title("Category")
         self.main_window.config(bg="white")
         self.main_window.focus_force()
+
         # calling title / name / fill
         self.title_label()
         self.name_label()
         #self.fill_label()
+
         # calling variables
         self.var_cat_id = StringVar()
         self.var_name = StringVar()
 
         self.category_frame()
 
+        self.image_left = Image.open('../images/category.jpg')
+        self.image_left = self.image_left.resize((500, 200), Image.LANCZOS)
+        self.image_left = ImageTk.PhotoImage(self.image_left)
+        self.label_image_left = Label(self.main_window, image=self.image_left)
+        self.label_image_left.place(x=50, y=220)
 
-        #self.image_left = Image.open('images/category.jpg')
-        #self.image_left = self.image_left.resize((500, 200), Image.ANTIALIAS)
-        #self.image_left = ImageTk.PhotoImage(self.image_left)
-        #self.label_image_left = Label(self.main_window, image=self.image_left)
-        #self.label_image_left.place(x=50, y=200)
+        entry_txt = Entry(
+            self.main_window,textvariable=self.var_name, font=("goudy old style", 18), bg="#F5F5DC", fg="black")
+        entry_txt.place(x=50, y=175, width=275)
+        button_add = Button(self.main_window,text="ADD", font=("goudy old style", 11), bg="green", fg="white",
+                            cursor="hand2", command=self.add_category)
+        button_add.place(x=350, y=175, width=100)
+        button_delete = Button(
+            self.main_window, text="Delete", font=("goudy old style", 11), bg="red", fg="white", cursor="hand2")
+        button_delete.place(x=500, y=175, width=100)
 
-        entry_txt = Entry(self.main_window,textvariable=self.var_name, font=("goudy old style", 18), bg="#F5F5DC", fg="black").place(x=50, y=175, width=275)
-        button_add = Button(self.main_window,text="ADD", font=("goudy old style", 11), bg="green", fg="white", cursor="hand2", command=self.add_category).place(x=350, y=175, width=100)
-        button_delete = Button(self.main_window, text="Delete", font=("goudy old style", 11), bg="red", fg="white", cursor="hand2").place(x=500, y=175, width=100)
-    # creating title
     def title_label(self):
+        """creating title"""
         title = Label(self.main_window, text="Product Category", font=("goudy old style", 30), bg="#0f4d7d", fg="white")
         title.place(x=50, y=25, width=1050)
 
     def name_label(self):
-        name_label = Label(self.main_window, text="Enter Category Name Here", font=("goudy old style", 25), bg="white", fg="black")
+        name_label = Label(
+            self.main_window, text="Enter Category Name Here", font=("goudy old style", 25), bg="white", fg="black")
         name_label.place(x=50, y=100, width=600)
 
     def category_frame(self):
@@ -54,10 +63,11 @@ class ProductCategory:
         scrolly2.config(command=bill_list.yview)
         bill_list.pack(fill=BOTH, expand=1)
 
-# test for later change
-    #def fill_label(self):
-     #   fill_label = Label(self.main_window, textvariable=self.var_name, font=("goudy old style", 40), bg="#0f4d7d", fg="white")
-      #  fill_label.place(x=50, y=300, width=1050)
+    """def fill_label(self):
+        # test for later change
+        fill_label = Label(self.main_window, textvariable=self.var_name, font=("goudy old style", 40), bg="#0f4d7d", 
+        fg="white")
+        fill_label.place(x=50, y=300, width=1050)"""
 
     def add_category(self):
         # Get the text from the entry and add it to the Text widget
