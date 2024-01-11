@@ -4,6 +4,7 @@ from PIL import Image, ImageTk
 from employee import Employee
 from sales import Sales
 from product import Product
+from product_category import ProductCategory
 
 
 class StockIT:
@@ -136,8 +137,12 @@ class StockIT:
     def supplier(self) -> None:
         pass
 
-    def category(self) -> None:
-        pass
+    def category(self):
+        self.destroy_all_windows()
+        self.opened_windows["category"] = Toplevel(self.main_window)
+        self.opened_windows["category"].overrideredirect(True)
+        self.attach_window(self.opened_windows["category"], self.adjust_window_position)
+        self.category_instance = ProductCategory(self.opened_windows["category"])
 
     def product(self):
         self.destroy_all_windows()

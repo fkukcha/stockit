@@ -30,7 +30,7 @@ class ProductCategory:
         #self.label_image_left.place(x=50, y=200)
 
         entry_txt = Entry(self.main_window,textvariable=self.var_name, font=("goudy old style", 18), bg="#F5F5DC", fg="black").place(x=50, y=175, width=275)
-        button_add = Button(self.main_window,text="ADD", font=("goudy old style", 11), bg="green", fg="white", cursor="hand2").place(x=350, y=175, width=100)
+        button_add = Button(self.main_window,text="ADD", font=("goudy old style", 11), bg="green", fg="white", cursor="hand2", command=self.add_category).place(x=350, y=175, width=100)
         button_delete = Button(self.main_window, text="Delete", font=("goudy old style", 11), bg="red", fg="white", cursor="hand2").place(x=500, y=175, width=100)
     # creating title
     def title_label(self):
@@ -45,7 +45,7 @@ class ProductCategory:
         category_frame = Frame(self.main_window, bd=3, relief=RIDGE)
         category_frame.place(x=680, y=140, width=410, height=330)
 
-        title2 = Label(category_frame, text="ID Here", font=("goudy old style", 20), bg="orange")
+        title2 = Label(category_frame, text="Product Category", font=("goudy old style", 20), bg="orange")
         title2.pack(side=TOP, fill=X)
 
         scrolly2 = Scrollbar(category_frame, orient=VERTICAL)
@@ -58,6 +58,13 @@ class ProductCategory:
     #def fill_label(self):
      #   fill_label = Label(self.main_window, textvariable=self.var_name, font=("goudy old style", 40), bg="#0f4d7d", fg="white")
       #  fill_label.place(x=50, y=300, width=1050)
+
+    def add_category(self):
+        # Get the text from the entry and add it to the Text widget
+        category_text = self.var_name.get()
+        category_text += '\n'  # Add a newline for separation
+        self.main_window.nametowidget('.!frame.!text').insert('end', category_text)
+
 
 if __name__ == '__main__':
     app = Tk()
