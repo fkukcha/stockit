@@ -5,6 +5,7 @@ from employee import Employee
 from sales import Sales
 from product import Product
 from product_category import ProductCategory
+from supplier import Supplier
 
 
 class StockIT:
@@ -136,7 +137,11 @@ class StockIT:
         window.lift()
 
     def supplier(self) -> None:
-        pass
+        self.destroy_all_windows()
+        self.opened_windows["supplier"] = Toplevel(self.main_window)
+        self.opened_windows["supplier"].overrideredirect(True)
+        self.attach_window(self.opened_windows["supplier"], self.adjust_window_position)
+        self.supplier_instance = Supplier(self.opened_windows["supplier"])
 
     def category(self):
         self.destroy_all_windows()
