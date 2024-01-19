@@ -24,7 +24,7 @@ class ProductCategory:
 
         self.category_frame()
 
-        self.image_left = Image.open('../images/category.jpg')
+        self.image_left = Image.open('../../images/category.jpg')
         self.image_left = self.image_left.resize((500, 200), Image.LANCZOS)
         self.image_left = ImageTk.PhotoImage(self.image_left)
         self.label_image_left = Label(self.main_window, image=self.image_left)

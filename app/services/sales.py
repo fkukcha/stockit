@@ -76,7 +76,8 @@ class Sales:
 
     def right_image(self):
         current_dir = os.path.dirname(os.path.realpath(__file__))
-        menu_image_path = self.get_image_path(current_dir, 'cat2.jpg')
+        parent_dir = os.path.dirname(current_dir)
+        menu_image_path = self.get_image_path(parent_dir, 'cat2.jpg')
         original_image = Image.open(menu_image_path)
 
         # Resize the image as needed (replace 'new_width' and 'new_height' with your desired dimensions)
@@ -92,7 +93,7 @@ class Sales:
         del self.bill_list[:]
         self.sales_list.delete(0, END)
         # print(os.listdir('../stockit'))
-        for i in os.listdir('../bills'):
+        for i in os.listdir('../../bills'):
             # print(i.split('.'), i.split('.')[-1])
             if i.split('.')[-1] == 'txt':
                 self.sales_list.insert(END, i)
@@ -103,7 +104,7 @@ class Sales:
         file_name = self.sales_list.get(index_)
         print(file_name)
         self.bill_area.delete('1.0', END)
-        fp = open(f'../bills/{file_name}', 'r')
+        fp = open(f'../../bills/{file_name}', 'r')
         for i in fp:
             self.bill_area.insert(END, i)
         fp.close()

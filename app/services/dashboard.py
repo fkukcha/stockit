@@ -18,9 +18,10 @@ class StockIT:
 
         # Get the current directory of the script
         current_dir = os.path.dirname(os.path.realpath(__file__))
+        parent_dir = os.path.dirname(current_dir)
 
         # Title
-        title_image_path = self.get_image_path(current_dir, 'logo1.png')
+        title_image_path = self.get_image_path(parent_dir, 'logo1.png')
         self.icon_title = PhotoImage(file=title_image_path)
         title = Label(self.main_window, text="StockIT", image=self.icon_title, compound=LEFT,
                       font=("times new roman", 40, "bold"), bg="#010c48", fg="white", anchor="w", padx=20)
@@ -42,7 +43,7 @@ class StockIT:
         menu_frame.place(x=0, y=102, width=200, height=580)
 
         # Menu image
-        menu_image_path = self.get_image_path(current_dir, 'menu_im.png')
+        menu_image_path = self.get_image_path(parent_dir, 'menu_im.png')
         menu_image = Image.open(menu_image_path)
         resized_menu_image = menu_image.resize((200, 200), Image.LANCZOS)
         self.menu_image_photo = ImageTk.PhotoImage(resized_menu_image)
@@ -55,7 +56,7 @@ class StockIT:
         menu_label.pack(side=TOP, fill=X)
 
         # Menu options' image
-        side_image_path = self.get_image_path(current_dir, 'side.png')
+        side_image_path = self.get_image_path(parent_dir, 'side.png')
         self.icon_side = PhotoImage(file=side_image_path)
 
         # Menu options

@@ -169,7 +169,7 @@ class Employee:
         self.employee_address_text.place(x=150, y=270, width=300, height=60)
 
     def add_employee(self):
-        db_connection = sqlite3.connect(database=r"../db/stockit.db")
+        db_connection = sqlite3.connect(database=r"../../db/stockit.db")
         cursor = db_connection.cursor()
 
         try:
@@ -194,7 +194,7 @@ class Employee:
             messagebox.showerror("Error", f"Error: {str(e)}", parent=self.main_window)
 
     def show_employees(self):
-        db_connection = sqlite3.connect(database=r"../db/stockit.db")
+        db_connection = sqlite3.connect(database=r"../../db/stockit.db")
         cursor = db_connection.cursor()
 
         try:
@@ -226,7 +226,7 @@ class Employee:
         self.employee_address_text.insert(END, row[9])
 
     def update_employee(self):
-        db_connection = sqlite3.connect(database=r"../db/stockit.db")
+        db_connection = sqlite3.connect(database=r"../../db/stockit.db")
         cursor = db_connection.cursor()
 
         try:
@@ -252,7 +252,7 @@ class Employee:
             messagebox.showerror("Error", f"Error: {str(e)}", parent=self.main_window)
 
     def delete_employee(self):
-        db_connection = sqlite3.connect(database=r"../db/stockit.db")
+        db_connection = sqlite3.connect(database=r"../../db/stockit.db")
         cursor = db_connection.cursor()
 
         try:
@@ -296,7 +296,7 @@ class Employee:
         self.show_employees()
 
     def search_employee(self):
-        db_connection = sqlite3.connect(database=r"../db/stockit.db")
+        db_connection = sqlite3.connect(database=r"../../db/stockit.db")
         cursor = db_connection.cursor()
 
         try:
