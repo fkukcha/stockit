@@ -119,7 +119,7 @@ class Product:
 
         # Product database columns
         self.product_table = ttk.Treeview(p_frame, columns=(
-            "P ID", "Category", "Supplier", "Name", "Price", "Qty", "Status"),
+            "PID", "Category", "Supplier", "Name", "Price", "Qty", "Status"),
                                           yscrollcommand=product_scroll_y.set, xscrollcommand=product_scroll_x.set)
         self.product_table.pack(fill=BOTH, expand=1)
 
@@ -128,7 +128,7 @@ class Product:
         product_scroll_x.config(command=self.product_table.xview)
         product_scroll_y.config(command=self.product_table.yview)
 
-        headings = ("P ID", "Category", "Supplier", "Name", "Price", "Qty", "Status")
+        headings = ("PID", "Category", "Supplier", "Name", "Price", "Qty", "Status")
 
         for heading in headings:
             self.product_table.heading(heading, text=heading)
