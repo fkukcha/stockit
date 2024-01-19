@@ -48,7 +48,7 @@ class Employee:
 
     def create_labels(self):
         labels_info = [
-            ("Employee ID", 50, 150), ("Contact", 350, 150), ("Birthdate", 750, 150),
+            ("EmployeeID", 50, 150), ("Contact", 350, 150), ("Birthdate", 750, 150),
             ("Name", 50, 190), ("Date of Join", 350, 190), ("Salary", 750, 190),
             ("Email", 50, 230), ("Password", 350, 230), ("User Type", 750, 230),
             ("Address", 50, 270)
