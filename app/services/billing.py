@@ -42,12 +42,13 @@ class BillClass:
         # Product Frame
         self.var_search = StringVar()
         product_frame1 = Frame(self.main_window, bd=4, relief=RIDGE, bg="white")
-        product_frame1.place(x=10, y=110, width=410, height=550)
+        product_frame1.place(x=6, y=110, width=410, height=550)
 
         product_title1 = Label(product_frame1, text="All Products", font=("goudy old style", 20, "bold"),
                                bg="#262626", fg="white")
         product_title1.pack(side=TOP, fill=X)
 
+        # Product Search Frame
         product_frame2 = Frame(product_frame1, bd=2, relief=RIDGE, bg="white")
         product_frame2.place(x=2, y=42, width=398, height=90)
 
@@ -59,7 +60,7 @@ class BillClass:
         label_search.place(x=2, y=45)
 
         text_search = Entry(product_frame2, textvariable=self.var_search,
-                            font=("times new roman", 15), bg="lightyellow")
+                            font=("times new roman", 13), bg="lightyellow")
         text_search.place(x=128, y=47, width=150, height=22)
 
         button_search = Button(product_frame2, text="Search", font=("goudy old style", 15), bg="#2196f3", fg="white",
@@ -70,6 +71,7 @@ class BillClass:
                                  fg="white", cursor="hand2")
         button_show_all.place(x=285, y=10, width=100, height=25)
 
+        # Product Details Frame
         product_frame3 = Frame(product_frame1, bd=3, relief=RIDGE)
         product_frame3.place(x=2, y=140, width=398, height=375)
 
@@ -100,10 +102,242 @@ class BillClass:
                            font=("goudy old style", 12), anchor='w', bg="white", fg="red")
         label_note.pack(side=BOTTOM, fill=X)
 
+        # Customer Frame
+        self.var_cname = StringVar()
+        self.var_contact = StringVar()
+        customer_frame = Frame(self.main_window, bd=4, relief=RIDGE, bg="white")
+        customer_frame.place(x=420, y=110, width=530, height=70)
+
+        customer_title = Label(customer_frame, text="Customer Details", font=("goudy old style", 15), bg="lightgray")
+        customer_title.pack(side=TOP, fill=X)
+
+        label_name = Label(customer_frame, text="Name", font=("times new roman", 15), bg="white")
+        label_name.place(x=5, y=35)
+
+        text_name = Entry(customer_frame, textvariable=self.var_cname, font=("times new roman", 13), bg="lightyellow")
+        text_name.place(x=80, y=35, width=180)
+
+        label_contact = Label(customer_frame, text="Contact No.", font=("times new roman", 15), bg="white")
+        label_contact.place(x=270, y=35)
+
+        text_contact = Entry(customer_frame, textvariable=self.var_contact, font=("times new roman", 13),
+                             bg="lightyellow")
+        text_contact.place(x=380, y=35, width=140)
+
+        # Calc Cart Frame
+        calc_cart_frame = Frame(self.main_window, bd=2, relief=RIDGE, bg="white")
+        calc_cart_frame.place(x=420, y=190, width=530, height=360)
+
+        # Calculator Frame
+        self.var_calc_input = StringVar()
+
+        calc_frame = Frame(calc_cart_frame, bd=9, relief=RIDGE, bg="white")
+        calc_frame.place(x=5, y=10, width=268, height=340)
+
+        txt_cal_input = Entry(calc_frame, textvariable=self.var_calc_input, font=('arial', 15, 'bold'), width=21,
+                              bd=10, relief=GROOVE, state='readonly', justify=RIGHT)
+        txt_cal_input.grid(row=0, columnspan=4)
+
+        button_7 = Button(calc_frame, text='7', font=("arial", 15, 'bold'), command=lambda: self.get_input(7), bd=5,
+                          width=4, pady=10, cursor="hand2")
+        button_7.grid(row=1, column=0)
+        button_8 = Button(calc_frame, text='8', font=("arial", 15, 'bold'), command=lambda: self.get_input(8), bd=5,
+                          width=4, pady=10, cursor="hand2")
+        button_8.grid(row=1, column=1)
+        button_9 = Button(calc_frame, text='9', font=("arial", 15, 'bold'), command=lambda: self.get_input(9), bd=5,
+                          width=4, pady=10, cursor="hand2")
+        button_9.grid(row=1, column=2)
+        button_sum = Button(calc_frame, text='+', font=("arial", 15, 'bold'), command=lambda: self.get_input('+'),
+                            bd=5, width=4, pady=10, cursor="hand2")
+        button_sum.grid(row=1, column=3)
+
+        button_4 = Button(calc_frame, text='4', font=("arial", 15, 'bold'), command=lambda: self.get_input(4), bd=5,
+                          width=4, pady=10, cursor="hand2")
+        button_4.grid(row=2, column=0)
+        button_5 = Button(calc_frame, text='5', font=("arial", 15, 'bold'), command=lambda: self.get_input(5), bd=5,
+                          width=4, pady=10, cursor="hand2")
+        button_5.grid(row=2, column=1)
+        button_6 = Button(calc_frame, text='6', font=("arial", 15, 'bold'), command=lambda: self.get_input(6), bd=5,
+                          width=4, pady=10, cursor="hand2")
+        button_6.grid(row=2, column=2)
+        button_sub = Button(calc_frame, text='-', font=("arial", 15, 'bold'), command=lambda: self.get_input('-'),
+                            bd=5, width=4, pady=10, cursor="hand2")
+        button_sub.grid(row=2, column=3)
+
+        button_1 = Button(calc_frame, text='1', font=("arial", 15, 'bold'), command=lambda: self.get_input(1), bd=5,
+                          width=4, pady=10, cursor="hand2")
+        button_1.grid(row=3, column=0)
+        button_2 = Button(calc_frame, text='2', font=("arial", 15, 'bold'), command=lambda: self.get_input(2), bd=5,
+                          width=4, pady=10, cursor="hand2")
+        button_2.grid(row=3, column=1)
+        button_3 = Button(calc_frame, text='3', font=("arial", 15, 'bold'), command=lambda: self.get_input(3), bd=5,
+                          width=4, pady=10, cursor="hand2")
+        button_3.grid(row=3, column=2)
+        button_mul = Button(calc_frame, text='*', font=("arial", 15, 'bold'), command=lambda: self.get_input('*'),
+                            bd=5, width=4, pady=10, cursor="hand2")
+        button_mul.grid(row=3, column=3)
+
+        button_0 = Button(calc_frame, text='0', font=("arial", 15, 'bold'), command=lambda: self.get_input(0), bd=5,
+                          width=4, pady=15, cursor="hand2")
+        button_0.grid(row=4, column=0)
+        button_c = Button(calc_frame, text='c', font=("arial", 15, 'bold'), command=self.clear_cal, bd=5, width=4,
+                          pady=15, cursor="hand2")
+        button_c.grid(row=4, column=1)
+        button_eq = Button(calc_frame, text='=', font=("arial", 15, 'bold'), command=self.perform_cal, bd=5, width=4,
+                           pady=15, cursor="hand2")
+        button_eq.grid(row=4, column=2)
+        button_div = Button(calc_frame, text='/', font=("arial", 15, 'bold'), command=lambda: self.get_input('/'),
+                            bd=5, width=4, pady=15, cursor="hand2")
+        button_div.grid(row=4, column=3)
+
+        # Cart Frame
+        cart_frame = Frame(calc_cart_frame, bd=3, relief=RIDGE)
+        cart_frame.place(x=280, y=8, width=245, height=342)
+        cart_title = Label(cart_frame, text="Cart \t Total Product: [0]", font=("goudy old style", 15), bg="lightgray")
+        cart_title.pack(side=TOP, fill=X)
+
+        scrolly = Scrollbar(cart_frame, orient=VERTICAL)
+        scrollx = Scrollbar(cart_frame, orient=HORIZONTAL)
+
+        self.cart_table = ttk.Treeview(cart_frame, columns=("pid", "name", "price", "qty", "status"),
+                                       yscrollcommand=scrolly.set, xscrollcommand=scrollx.set)
+        scrollx.pack(side=BOTTOM, fill=X)
+        scrolly.pack(side=RIGHT, fill=Y)
+        scrollx.config(command=self.cart_table.xview)
+        scrolly.config(command=self.cart_table.yview)
+
+        self.cart_table.heading("pid", text="PID")
+        self.cart_table.heading("name", text="Name")
+        self.cart_table.heading("price", text="Price")
+        self.cart_table.heading("qty", text="QTY")
+        self.cart_table.heading("status", text="Status")
+        self.cart_table["show"] = "headings"
+        self.cart_table.column("pid", width=40)
+        self.cart_table.column("name", width=100)
+        self.cart_table.column("price", width=90)
+        self.cart_table.column("qty", width=40)
+        self.cart_table.column("status", width=90)
+        self.cart_table.pack(fill=BOTH, expand=1)
+        # self.cart_table.bind("<ButtonRelease-1>", self.get_data)
+
+        # Add Cart Widgets Frame
+        self.var_pid = StringVar()
+        self.var_pname = StringVar()
+        self.var_price = StringVar()
+        self.var_qty = StringVar()
+        self.var_stock = StringVar()
+
+        add_cart_widgets_frame = Frame(self.main_window, bd=2, relief=RIDGE, bg="white")
+        add_cart_widgets_frame.place(x=420, y=550, width=530, height=110)
+
+        # Label 1
+        label_product_name = Label(add_cart_widgets_frame, text="Product Name", font=("times new roman", 15),
+                                   bg="white")
+        label_product_name.place(x=5, y=5)
+        text_product_name = Entry(add_cart_widgets_frame, textvariable=self.var_pname, font=("times new roman", 15),
+                                  bg="lightyellow", state='readonly')
+        text_product_name.place(x=5, y=35, width=190, height=25)
+
+        # Label 2
+        label_product_price = Label(add_cart_widgets_frame, text="Price Per Qty", font=("times new roman", 15),
+                                    bg="white")
+        label_product_price.place(x=230, y=5)
+        text_product_price = Entry(add_cart_widgets_frame, textvariable=self.var_price, font=("times new roman", 15),
+                                   bg="lightyellow", state='readonly')
+        text_product_price.place(x=230, y=35, width=150, height=25)
+
+        # Label 3
+        label_product_qty = Label(add_cart_widgets_frame, text="Quantity", font=("times new roman", 15),
+                                  bg="white")
+        label_product_qty.place(x=390, y=5)
+        text_product_qty = Entry(add_cart_widgets_frame, textvariable=self.var_qty, font=("times new roman", 15),
+                                 bg="lightyellow")
+        text_product_qty.place(x=390, y=35, width=120, height=25)
+
+        # Label 4
+        self.label_inStock = Label(add_cart_widgets_frame, text="In Stock [9999]", font=("times new roman", 15),
+                                   bg="white")
+        self.label_inStock.place(x=5, y=70)
+
+        # Buttons
+        btn_clear_cart = Button(add_cart_widgets_frame, text="Clear", font=("times new roman", 15, "bold"),
+                                bg="lightgray", cursor="hand2")
+        btn_clear_cart.place(x=180, y=70, width=150, height=30)
+
+        btn_add_cart = Button(add_cart_widgets_frame, text="Add | Update Cart", font=("times new roman", 15, "bold"),
+                              bg="orange", cursor="hand2")
+        btn_add_cart.place(x=340, y=70, width=180, height=30)
+
+        # Billing Area
+        bill_frame = Frame(self.main_window, bd=2, relief=RIDGE, bg="white")
+        bill_frame.place(x=953, y=110, width=410, height=410)
+
+        bill_title = Label(bill_frame, text="Customer Bill Area", font=("goudy old style", 20, "bold"),
+                           bg="#262626", fg="white")
+        bill_title.pack(side=TOP, fill=X)
+
+        scrolly = Scrollbar(bill_frame, orient=VERTICAL)
+        scrolly.pack(side=RIGHT, fill=Y)
+
+        self.txt_bill_area = Text(bill_frame, yscrollcommand=scrolly.set)
+        self.txt_bill_area.pack(fill=BOTH, expand=1)
+        scrolly.config(command=self.txt_bill_area.yview)
+
+        # Billing Buttons
+        bill_menu_frame = Frame(self.main_window, bd=2, relief=RIDGE, bg="white")
+        bill_menu_frame.place(x=953, y=520, width=410, height=140)
+
+        # Amount Button
+        self.label_amount = Label(bill_menu_frame, text="Bill Amount\n[0]", font=("goudy old style", 15, "bold"),
+                                  bg='#3f51b5', fg="white")
+        self.label_amount.place(x=2, y=5, width=120, height=70)
+
+        # Discount Button
+        self.label_discount = Label(bill_menu_frame, text="Discount\n[5%]", font=("goudy old style", 15, "bold"),
+                                    bg='#8bc34a', fg="white")
+        self.label_discount.place(x=124, y=5, width=120, height=70)
+
+        # Net Pay Button
+        self.label_net_pay = Label(bill_menu_frame, text="Net Pay\n[0]", font=("goudy old style", 15, "bold"),
+                                   bg='#607d8b', fg="white")
+        self.label_net_pay.place(x=246, y=5, width=160, height=70)
+
+        # Print Button
+        button_print = Button(bill_menu_frame, text="Print", cursor="hand2", font=("goudy old style", 15, "bold"),
+                                  bg='lightgreen', fg="white")
+        button_print.place(x=2, y=80, width=120, height=50)
+
+        # Clear All Button
+        button_clear_all = Button(bill_menu_frame, text="Clear All", cursor="hand2", font=("goudy old style", 15, "bold"),
+                                    bg='gray', fg="white")
+        button_clear_all.place(x=124, y=80, width=120, height=50)
+
+        # Generate Button
+        button_generate = Button(bill_menu_frame, text="Generate Bill", cursor="hand2", font=("goudy old style", 15, "bold"),
+                                   bg='#009688', fg="white")
+        button_generate.place(x=246, y=80, width=160, height=50)
+
+        # Footer
+        # footer = Label(self.main_window, bg="#4d636d", text="")
+        # footer.pack(side=BOTTOM, fill=X)
+
+        # ===================Functions============
+
     @staticmethod
     def get_image_path(current_dir, image_name):
         parent_dir = os.path.dirname(current_dir)
         return os.path.join(parent_dir, 'images', image_name)
+
+    def get_input(self, num):
+        xnum = self.var_calc_input.get() + str(num)
+        self.var_calc_input.set(xnum)
+
+    def clear_cal(self):
+        self.var_calc_input.set('')
+
+    def perform_cal(self):
+        result = self.var_calc_input.get()
+        self.var_calc_input.set(eval(result))
 
 
 if __name__ == '__main__':
