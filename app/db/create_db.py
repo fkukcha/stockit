@@ -18,5 +18,13 @@ def create_db():
                    "Supplier text, Name text, Price text, Qty text, Status text)")
     db_connection.commit()
 
+    cursor.execute("CREATE TABLE IF NOT EXISTS Product(PID INTEGER PRIMARY KEY AUTOINCREMENT, Category text, "
+                   "Supplier text, Name text, Price text, Qty text, Status text)")
+    db_connection.commit()
 
-create_db()
+    cursor.execute("CREATE TABLE IF NOT EXISTS Category(ID INTEGER PRIMARY KEY AUTOINCREMENT, Name text)")
+    db_connection.commit()
+
+
+if __name__ == '__main__':
+    create_db()
