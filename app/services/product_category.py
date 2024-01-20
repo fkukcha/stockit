@@ -27,10 +27,16 @@ class ProductCategory:
 
 
         self.image_left = Image.open('../../images/category.jpg')
-        self.image_left = self.image_left.resize((500, 200), Image.LANCZOS)
+        self.image_left = self.image_left.resize((500, 275), Image.LANCZOS)
         self.image_left = ImageTk.PhotoImage(self.image_left)
         self.label_image_left = Label(self.main_window, image=self.image_left)
         self.label_image_left.place(x=50, y=220)
+
+        self.image_right = Image.open('../../images/cat.jpg')
+        self.image_right = self.image_right.resize((500, 275), Image.LANCZOS)
+        self.image_right = ImageTk.PhotoImage(self.image_right)
+        self.label_image_right = Label(self.main_window, image=self.image_right)
+        self.label_image_right.place(x=600, y=220)
 
         entry_txt = Entry(
             self.main_window,textvariable=self.var_name, font=("goudy old style", 18), bg="#F5F5DC", fg="black")
@@ -69,7 +75,7 @@ class ProductCategory:
 
     def create_category_table(self):
         category_frame = Frame(self.main_window, bd=3, relief=RIDGE)
-        category_frame.place(x=680, y=140, width=410, height=330)
+        category_frame.place(x=680, y=100, width=410, height=100)
 
         scrolly = Scrollbar(category_frame, orient=VERTICAL)
         scrollx = Scrollbar(category_frame, orient=HORIZONTAL)
