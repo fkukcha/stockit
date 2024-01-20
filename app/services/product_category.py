@@ -1,6 +1,6 @@
 import os
 from tkinter import *
-from tkinter import ttk
+from tkinter import ttk, messagebox
 
 from PIL import Image, ImageTk
 from employee import Employee
@@ -19,6 +19,7 @@ class ProductCategory:
         self.title_label()
         self.name_label()
         #self.category_frame()
+        self.category_frame = self.create_category_table()
 
         # calling variables
         self.var_cat_id = StringVar()
@@ -91,6 +92,8 @@ class ProductCategory:
         scrollx.config(command=self.category_table.xview)
         scrolly.config(command=self.category_table.yview)
 
+        self.category_table.config(yscrollcommand=scrolly.set, xscrollcommand=scrollx.set)
+
         self.category_table.heading("ID", text="ID")
         self.category_table.heading("Name", text="Name")
         self.category_table["show"] = "headings"
@@ -98,11 +101,66 @@ class ProductCategory:
         self.category_table.column("Name", width=100)
         self.category_table.pack(fill=BOTH, expand=1)
 
+        return category_frame
+
+        # Function
+
     def add_category(self):
-        # Get the text from the entry and add it to the Text widget
-        category_text = self.var_name.get()
-        category_text += '\n'  # Add a newline for separation
-        self.main_window.nametowidget('.!frame.!text').insert('end', category_text)
+        db_connection = sqlite3.connect(database=r"../../db/stockit.db")
+        cursor = db_connection.cursor()
+
+        try:
+            if self.var_name.get() == "":
+                messagebox.showerror("Error", "Category name is required!", parent=self.main_window)
+            else:
+                cursor.execute("Select * from category where name=?", (self.var_name.get(),))
+                row = cursor.fetchone()
+                if row is not None:
+                    messagebox.showerror("Error", "This category name is already taken", parent=self.main_window)
+                else:
+                    cursor.execute("Insert into category (Name) VALUES (?)", (self.var_name.get(),))
+                    db_connection.commit()
+                    messagebox.showinfo("Success", "Category added successfully.", parent=self.main_window)
+                    # Refresh the category table after adding a new category
+                    self.show_categories()
+        except Exception as e:
+            messagebox.showerror("Error", f"Error: {str(e)}", parent=self.main_window)
+
+    def show_categories(self):
+        db_connection = sqlite3.connect(database=r"../../db/stockit.db")
+        cursor = db_connection.cursor()
+
+        try:
+            cursor.execute("Select * from category")
+            rows = cursor.fetchall()
+            self.category_table.delete(*self.category_table.get_children())
+
+            for row in rows:
+                self.category_table.insert('', END, values=row)
+        except Exception as e:
+            messagebox.showerror("Error", f"Error: {str(e)}", parent=self.main_window)
+
+    def delete_category(self):
+        focus_category_table = self.category_table.focus()
+        if not focus_category_table:
+            messagebox.showerror("Error", "Please select a category to delete.", parent=self.main_window)
+            return
+
+        confirm = messagebox.askyesno("Confirm", "Do you really want to delete this category?",
+                                      parent=self.main_window)
+        if confirm:
+            # Get the ID of the selected category
+            category_id = self.category_table.item(focus_category_table, "values")[0]
+
+            # Add your code to delete the category using the category_id (Delete category from the database)
+
+            # After deleting --> update the category table
+            self.show_categories()
+
+    def get_data_category(self, event):
+        focus_category_table = self.category_table.focus()
+        content = self.category_table.item(focus_category_table)
+        row = content["values"]
 
 
 if __name__ == '__main__':
