@@ -3,6 +3,7 @@ from PIL import ImageTk
 from tkinter import messagebox
 import sqlite3
 import os
+import sys
 
 
 class Login:
@@ -56,8 +57,9 @@ class Login:
         or_horizontal_line.place(x=150, y=355)
 
         # Forget password button
-        forget_password_button = Button(login_frame, text="Forgot Password?", font=("times new roman", 13), bg="white",
-                                        fg="#00759E", bd=0, activebackground="white", activeforeground="#00759E")
+        forget_password_button = Button(
+            login_frame, text="Forgot Password?", command=self.forget_password_form, font=("times new roman", 13),
+            bg="white", fg="#00759E", bd=0, activebackground="white", activeforeground="#00759E")
         forget_password_button.place(x=100, y=390)
 
         # Register frame
@@ -68,13 +70,6 @@ class Login:
         register_label = Label(
             register_frame, text="SUBSCRIBE | LIKE | SHARE", font=("times new roman", 13), bg="white")
         register_label.place(x=0, y=20, relwidth=1)
-
-        # Sign up button
-        """
-        sign_up_button = Button(register_frame, text="Sign Up", font=("times new roman", 13, "bold"), bg="white",
-                                fg="#00759E", bd=0, activebackground="white", activeforeground="#00759E")
-        sign_up_button.place(x=200, y=17) 
-        """
 
         # Login images animation
         self.image_1 = ImageTk.PhotoImage(file="../../images/im1.png")
@@ -104,18 +99,100 @@ class Login:
             if self.employee_id.get() == "" or self.password.get() == "":
                 messagebox.showerror("Error", "All fields are required!", parent=self.main_window)
             else:
-                cursor.execute("select * from Employee where EmployeeID=? AND Password=?",
+                cursor.execute("select UserType from Employee where EmployeeID=? AND Password=?",
                                (self.employee_id.get(), self.password.get()))
-                employee = cursor.fetchone()
-                if employee is None:
+                user = cursor.fetchone()
+                if user is None:
                     messagebox.showerror("Error", "Invalid Employee ID or Password", parent=self.main_window)
                 else:
-                    self.main_window.destroy()
-                    current_dir = os.path.dirname(os.path.realpath(__file__))
-                    parent_dir = os.path.dirname(current_dir)
-                    dashboard_path = os.path.join(parent_dir, "services/dashboard.py")
-                    # os.system("python {}".format(dashboard_path))
-                    os.system(f"python {dashboard_path}")
+                    if user[0] == "Admin":
+                        print(user)
+                        self.main_window.destroy()
+                        current_dir = os.path.dirname(os.path.realpath(__file__))
+                        parent_dir = os.path.dirname(current_dir)
+                        dashboard_path = os.path.join(parent_dir, "services/dashboard.py")
+                        os.system(f"{sys.executable} {dashboard_path}")
+                    else:
+                        self.main_window.destroy()
+                        # current_dir = os.path.dirname(os.path.realpath(__file__))
+                        # parent_dir = os.path.dirname(current_dir)
+                        # dashboard_path = os.path.join(parent_dir, "services/billing.py")
+                        # os.system(f"{sys.executable} {dashboard_path}")
+        except Exception as e:
+            messagebox.showerror("Error", f"Error: {str(e)}", parent=self.main_window)
+
+    def forget_password_form(self):
+        db_connection = sqlite3.connect(database=r"../../db/stockit.db")
+        cursor = db_connection.cursor()
+        try:
+            if self.employee_id.get() == "":
+                messagebox.showerror("Error", "Employee ID is required", parent=self.main_window)
+            else:
+                cursor.execute("select Email from Employee where EmployeeID=?", (self.employee_id.get(),))
+                email = cursor.fetchone()
+
+                if email is None:
+                    messagebox.showerror("Error", "Invalid Employee ID, please try again", parent=self.main_window)
+                else:
+                    self.reset_password = StringVar()
+                    self.new_password = StringVar()
+                    self.confirm_password = StringVar()
+
+                    self.forget_password_window = Toplevel(self.main_window)
+                    self.forget_password_window.title("RESET PASSWORD")
+                    self.forget_password_window.geometry("400x350+500+100")
+                    self.forget_password_window.focus_force()
+
+                    title = Label(
+                        self.forget_password_window, text="Reset Password", font=("goudy old style", 15, "bold"),
+                        bg="#3f51b5", fg="white")
+                    title.pack(side=TOP, fill=X)
+
+                    reset_label = Label(
+                        self.forget_password_window, text="Password reset email sent.", font=("times new roman", 15),
+                        bg="#3f51b5", fg="white"
+                    )
+                    reset_label.place(x=20, y=60)
+
+                    reset_text = Entry(
+                        self.forget_password_window, textvariable=self.reset_password, font=("times new roman", 15),
+                        bg="lightyellow"
+                    )
+                    reset_text.place(x=20, y=100, width=250, height=30)
+
+                    self.reset_button = Button(
+                        self.forget_password_window, text="SUBMIT", font=("times new roman", 15), bg="lightblue")
+                    self.reset_button.place(x=280, y=100, width=100, height=30)
+
+                    new_pwd = Label(
+                        self.forget_password_window, text="New Password", font=("times new roman", 15), bg="#3f51b5",
+                        fg="white"
+                    )
+                    new_pwd.place(x=20, y=160)
+
+                    new_pwd_text = Entry(
+                        self.forget_password_window, textvariable=self.new_password, font=("times new roman", 15),
+                        bg="lightyellow"
+                    )
+                    new_pwd_text.place(x=20, y=190, width=250, height=30)
+
+                    confirm_pwd = Label(
+                        self.forget_password_window, text="Confirm Password", font=("times new roman", 15),
+                        bg="#3f51b5", fg="white"
+                    )
+                    confirm_pwd.place(x=20, y=225)
+
+                    confirm_pwd_text = Entry(
+                        self.forget_password_window, textvariable=self.confirm_password, font=("times new roman", 15),
+                        bg="lightyellow"
+                    )
+                    confirm_pwd_text.place(x=20, y=255, width=250, height=30)
+
+                    self.update_button = Button(
+                        self.forget_password_window, text="Update", state=DISABLED, font=("times new roman", 15),
+                        bg="lightblue"
+                    )
+                    self.update_button.place(x=150, y=300, width=100, height=30)
         except Exception as e:
             messagebox.showerror("Error", f"Error: {str(e)}", parent=self.main_window)
 

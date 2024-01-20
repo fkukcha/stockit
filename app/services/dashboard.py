@@ -1,4 +1,5 @@
 import os
+import sys
 from tkinter import *
 from PIL import Image, ImageTk
 from employee import Employee
@@ -29,7 +30,7 @@ class StockIT:
 
         # Logout button
         logout_button = Button(
-            self.main_window, text="Logout", font=("times new roman", 15, "bold"), bg="red", cursor="hand2"
+            self.main_window, text="Logout", command=self.logout, font=("times new roman", 15, "bold"), bg="red", cursor="hand2"
         )
         logout_button.place(x=1150, y=10, height=50, width=150)
 
@@ -168,6 +169,13 @@ class StockIT:
     def exit(self) -> None:
         # self.main_window.destroy()
         pass
+
+    def logout(self):
+        self.main_window.destroy()
+        current_dir = os.path.dirname(os.path.realpath(__file__))
+        parent_dir = os.path.dirname(current_dir)
+        login_path = os.path.join(parent_dir, "authentication/login.py")
+        os.system(f"{sys.executable} {login_path}")
 
 
 if __name__ == '__main__':
