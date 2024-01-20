@@ -76,20 +76,20 @@ class Product:
         combo_box_status.current(0)
 
         # Add, update, delete, clear buttons
-        add_button = Button(product_Frame, text="Add", command=self.add_product, font=("goudy old style", 15),
+        add_button = Button(product_Frame, text="Add", command=self.add_product, font=("goody old style", 15),
                             bg="#2196f3", fg="black",
                             cursor="hand2")
         add_button.place(x=10, y=400, width=100, height=40)
 
-        update_button = Button(product_Frame, text="Update", font=("goudy old style", 15), bg="#4caf50", fg="black",
+        update_button = Button(product_Frame, text="Update", command=self.update_products, font=("goody old style", 15), bg="#4caf50", fg="black",
                                cursor="hand2")
         update_button.place(x=120, y=400, width=100, height=40)
 
-        delete_button = Button(product_Frame, text="Delete", font=("goudy old style", 15), bg="#f44336", fg="black",
+        delete_button = Button(product_Frame, text="Delete", command=self.delete_product, font=("goody old style", 15), bg="#f44336", fg="black",
                                cursor="hand2")
         delete_button.place(x=230, y=400, width=100, height=40)
 
-        clear_button = Button(product_Frame, text="Clear", font=("goudy old style", 15), bg="#607d8b", fg="black",
+        clear_button = Button(product_Frame, text="Clear", command=self.clear_product_data, font=("goody old style", 15), bg="#607d8b", fg="black",
                               cursor="hand2")
         clear_button.place(x=340, y=400, width=100, height=40)
 
@@ -111,9 +111,9 @@ class Product:
         # Search button
 
         style = ttk.Style()
-        style.configure("Search.TButton", background="green", foreground="white")
-        search_button = ttk.Button(search_label_frame, text="Search", style="Search.TButton", cursor="hand2")
-        search_button.place(x=420, y=10, width=150, height=31)
+        style.configure("Search.TButton", background="black", foreground="black")
+        search_button = ttk.Button(search_label_frame, text="Search", command=self.search_product, style="Search.TButton", cursor="hand2")
+        search_button.place(x=435, y=10, width=150, height=31)
 
         # Product Texttable
 
@@ -205,7 +205,7 @@ class Product:
         self.var_status.set(row[6])
 
     def update_products(self):
-        db_connection = sqlite3.connect(database=r"../../db/stockit.db")
+        db_connection = sqlite3.connect(database=r"app/db/stockit.db")
         cursor = db_connection.cursor()
 
         try:
@@ -242,8 +242,8 @@ class Product:
         except Exception as e:
             messagebox.showerror("Error", f"Error: {str(e)}", parent=self.main_window)
 
-    def delete_employee(self):
-        db_connection = sqlite3.connect(database=r"../../db/stockit.db")
+    def delete_product(self):
+        db_connection = sqlite3.connect(database=r"app/db/stockit.db")
         cursor = db_connection.cursor()
 
         try:
@@ -278,7 +278,7 @@ class Product:
         self.show_products()
 
     def search_product(self):
-        db_connection = sqlite3.connect(database=r"../../db/stockit.db")
+        db_connection = sqlite3.connect(database=r"app/db/stockit.db")
         cursor = db_connection.cursor()
 
         try:
