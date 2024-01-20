@@ -44,6 +44,9 @@ class ProductCategory:
         # category table
         self.create_category_table()
 
+        # show categories
+        self.show_categories()
+
     def title_label(self):
         """creates title"""
         title = Label(self.main_window, text="Product Category", font=("goudy old style", 30), bg="#0f4d7d", fg="white")
@@ -67,7 +70,7 @@ class ProductCategory:
                             cursor="hand2", command=self.add_category)
         button_add.place(x=350, y=175, width=100)
         button_delete = Button(
-            self.main_window, text="Delete", font=("goudy old style", 11), bg="red", fg="white", cursor="hand2")
+            self.main_window, text="Delete", command=self.delete_category, font=("goudy old style", 11), bg="red", fg="white", cursor="hand2")
         button_delete.place(x=500, y=175, width=100)
 
     def create_category_table(self):
@@ -111,12 +114,12 @@ class ProductCategory:
             if self.var_name.get() == "":
                 messagebox.showerror("Error", "Category name is required!", parent=self.main_window)
             else:
-                cursor.execute("Select * from category where name=?", (self.var_name.get(),))
+                cursor.execute("Select * from Category where Name=?", (self.var_name.get(),))
                 row = cursor.fetchone()
                 if row is not None:
                     messagebox.showerror("Error", "This category name is already taken", parent=self.main_window)
                 else:
-                    cursor.execute("Insert into category (Name) VALUES (?)", (self.var_name.get(),))
+                    cursor.execute("Insert into Category (Name) VALUES (?)", (self.var_name.get(),))
                     db_connection.commit()
                     messagebox.showinfo("Success", "Category added successfully.", parent=self.main_window)
                     # Refresh the category table after adding a new category
@@ -129,7 +132,7 @@ class ProductCategory:
         cursor = db_connection.cursor()
 
         try:
-            cursor.execute("Select * from category")
+            cursor.execute("Select * from Category")
             rows = cursor.fetchall()
             self.category_table.delete(*self.category_table.get_children())
 
@@ -140,21 +143,37 @@ class ProductCategory:
 
     def delete_category(self):
         """deleteing categories"""
+        db_connection = sqlite3.connect(database=r"../../db/stockit.db")
+        cursor = db_connection.cursor()
+
         focus_category_table = self.category_table.focus()
         if not focus_category_table:
             messagebox.showerror("Error", "Please select a category to delete.", parent=self.main_window)
             return
 
-        confirm = messagebox.askyesno("Confirm", "Do you really want to delete this category?",
-                                      parent=self.main_window)
-        if confirm:
-            # Get the ID of the selected category
-            category_id = self.category_table.item(focus_category_table, "values")[0]
+        # Get the ID of the selected category
+        category_id = self.category_table.item(focus_category_table, "values")[0]
 
-            # Add your code to delete the category using the category_id (Delete category from the database)
+        cursor.execute("Select * from Category where Name=?", (self.var_name.get(),))
+        row = cursor.fetchone()
 
-            # After deleting --> update the category table
-            self.show_categories()
+        if row is None:
+            messagebox.showerror("Error", "Category ID is required!", parent=self.main_window)
+        else:
+            cursor.execute("Select * from Category where Name=?", (self.var_name.get(),))
+            row = cursor.fetchone()
+
+            if row is None:
+                messagebox.showerror("Error", "Invalid Category ID!", parent=self.main_window)
+            else:
+                confirm = messagebox.askyesno("Confirm", "Do you really want to delete?", parent=self.main_window)
+                if confirm:
+                    cursor.execute("delete from Category where Name=?", (self.var_name.get(),))
+                    db_connection.commit()
+                    messagebox.showinfo("Delete", "Category deleted successfully", parent=self.main_window)
+
+        # After deleting --> update the category table
+        self.show_categories()
 
     def get_data_category(self, event):
         focus_category_table = self.category_table.focus()
