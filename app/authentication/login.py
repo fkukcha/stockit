@@ -114,10 +114,10 @@ class Login:
                         os.system(f"{sys.executable} {dashboard_path}")
                     else:
                         self.main_window.destroy()
-                        # current_dir = os.path.dirname(os.path.realpath(__file__))
-                        # parent_dir = os.path.dirname(current_dir)
-                        # dashboard_path = os.path.join(parent_dir, "services/billing.py")
-                        # os.system(f"{sys.executable} {dashboard_path}")
+                        current_dir = os.path.dirname(os.path.realpath(__file__))
+                        parent_dir = os.path.dirname(current_dir)
+                        dashboard_path = os.path.join(parent_dir, "services/billing.py")
+                        os.system(f"{sys.executable} {dashboard_path}")
         except Exception as e:
             messagebox.showerror("Error", f"Error: {str(e)}", parent=self.main_window)
 

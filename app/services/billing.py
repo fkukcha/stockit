@@ -1,4 +1,5 @@
 import os
+import sys
 from tkinter import *
 from tkinter import ttk
 from PIL import Image, ImageTk
@@ -30,7 +31,8 @@ class BillClass:
 
         # Logout button
         logout_button = Button(
-            self.main_window, text="Logout", font=("times new roman", 15, "bold"), bg="red", cursor="hand2"
+            self.main_window, text="Logout", command=self.logout, font=("times new roman", 15, "bold"), bg="red",
+            cursor="hand2"
         )
         logout_button.place(x=1150, y=10, height=50, width=150)
 
@@ -308,13 +310,17 @@ class BillClass:
         button_print.place(x=2, y=80, width=120, height=50)
 
         # Clear All Button
-        button_clear_all = Button(bill_menu_frame, text="Clear All", cursor="hand2", font=("goudy old style", 15, "bold"),
-                                    bg='gray', fg="white")
+        button_clear_all = Button(
+            bill_menu_frame, text="Clear All", cursor="hand2", font=("goudy old style", 15, "bold"), bg='gray',
+            fg="white"
+        )
         button_clear_all.place(x=124, y=80, width=120, height=50)
 
         # Generate Button
-        button_generate = Button(bill_menu_frame, text="Generate Bill", cursor="hand2", font=("goudy old style", 15, "bold"),
-                                   bg='#009688', fg="white")
+        button_generate = Button(
+            bill_menu_frame, text="Generate Bill", cursor="hand2", font=("goudy old style", 15, "bold"), bg='#009688',
+            fg="white"
+        )
         button_generate.place(x=246, y=80, width=160, height=50)
 
         # Footer
@@ -338,6 +344,13 @@ class BillClass:
     def perform_cal(self):
         result = self.var_calc_input.get()
         self.var_calc_input.set(eval(result))
+
+    def logout(self):
+        self.main_window.destroy()
+        current_dir = os.path.dirname(os.path.realpath(__file__))
+        parent_dir = os.path.dirname(current_dir)
+        login_path = os.path.join(parent_dir, "authentication/login.py")
+        os.system(f"{sys.executable} {login_path}")
 
 
 if __name__ == '__main__':
