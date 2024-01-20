@@ -81,16 +81,22 @@ class Product:
                             cursor="hand2")
         add_button.place(x=10, y=400, width=100, height=40)
 
-        update_button = Button(product_Frame, text="Update", command=self.update_products, font=("goody old style", 15), bg="#4caf50", fg="black",
-                               cursor="hand2")
+        update_button = Button(
+            product_Frame, text="Update", command=self.update_products, font=("goody old style", 15), bg="#4caf50",
+            fg="black", cursor="hand2"
+        )
         update_button.place(x=120, y=400, width=100, height=40)
 
-        delete_button = Button(product_Frame, text="Delete", command=self.delete_product, font=("goody old style", 15), bg="#f44336", fg="black",
-                               cursor="hand2")
+        delete_button = Button(
+            product_Frame, text="Delete", command=self.delete_product, font=("goody old style", 15), bg="#f44336",
+            fg="black", cursor="hand2"
+        )
         delete_button.place(x=230, y=400, width=100, height=40)
 
-        clear_button = Button(product_Frame, text="Clear", command=self.clear_product_data, font=("goody old style", 15), bg="#607d8b", fg="black",
-                              cursor="hand2")
+        clear_button = Button(
+            product_Frame, text="Clear", command=self.clear_product_data, font=("goody old style", 15), bg="#607d8b",
+            fg="black", cursor="hand2"
+        )
         clear_button.place(x=340, y=400, width=100, height=40)
 
         search_label_frame = LabelFrame(self.main_window, text="Search Product", font=("goudy old style", 12, "bold"),
@@ -112,7 +118,9 @@ class Product:
 
         style = ttk.Style()
         style.configure("Search.TButton", background="black", foreground="black")
-        search_button = ttk.Button(search_label_frame, text="Search", command=self.search_product, style="Search.TButton", cursor="hand2")
+        search_button = ttk.Button(
+            search_label_frame, text="Search", command=self.search_product, style="Search.TButton", cursor="hand2"
+        )
         search_button.place(x=435, y=10, width=150, height=31)
 
         # Product Texttable
@@ -146,7 +154,7 @@ class Product:
     def fetch_cat_sup(self):
         self.cat_list.append("Empty")
         self.sup_list.append("Empty")
-        db_connection = sqlite3.connect(database=r"app/db/stockit.db")
+        db_connection = sqlite3.connect(database=r"../../db/stockit.db")
         cursor = db_connection.cursor()
         try:
             cursor.execute("Select Name from Category")
@@ -173,7 +181,8 @@ class Product:
         cursor = db_connection.cursor()
 
         try:
-            if self.var_cat.get() == "Select" or self.var_cat.get() == "Empty" or self.var_sup.get() == "Select" or self.var_name.get() == "":
+            if (self.var_cat.get() == "Select" or self.var_cat.get() == "Empty" or self.var_sup.get() == "Select" or
+                    self.var_name.get() == ""):
                 messagebox.showerror("Error", "All fields are required", parent=self.main_window)
             else:
                 cursor.execute("Select * from Product where Name=?", (self.var_name.get(),))
