@@ -3,7 +3,6 @@ from tkinter import *
 from tkinter import ttk, messagebox
 
 from PIL import Image, ImageTk
-from employee import Employee
 import sqlite3
 
 
@@ -26,23 +25,47 @@ class ProductCategory:
         self.var_name = StringVar()
 
 
-
+        # creates image on the left
         self.image_left = Image.open('../../images/category.jpg')
         self.image_left = self.image_left.resize((500, 275), Image.LANCZOS)
         self.image_left = ImageTk.PhotoImage(self.image_left)
         self.label_image_left = Label(self.main_window, image=self.image_left)
         self.label_image_left.place(x=50, y=220)
 
+        # creates image on the right
         self.image_right = Image.open('../../images/cat.jpg')
         self.image_right = self.image_right.resize((500, 275), Image.LANCZOS)
         self.image_right = ImageTk.PhotoImage(self.image_right)
         self.label_image_right = Label(self.main_window, image=self.image_right)
         self.label_image_right.place(x=600, y=220)
 
-        entry_txt = Entry(
-            self.main_window,textvariable=self.var_name, font=("goudy old style", 18), bg="#F5F5DC", fg="black")
+        # entry and buttons
+        self.create_entry_and_buttons()
+
+        # category table
+        self.create_category_table()
+
+
+    def title_label(self):
+        """creates title"""
+        title = Label(self.main_window, text="Product Category", font=("goudy old style", 30), bg="#0f4d7d", fg="white")
+        title.place(x=50, y=25, width=1050)
+
+    def name_label(self):
+        """creates label"""
+        name_label = Label(
+            self.main_window, text="Enter Category Name Here", font=("goudy old style", 25), bg="white", fg="black")
+        name_label.place(x=50, y=100, width=600)
+
+    def create_entry_and_buttons(self):
+        """creates entry text + buttons"""
+        entry_txt = Entry(self.main_window, textvariable=self.var_name, font=("goudy old style", 18), bg="#F5F5DC",
+                          fg="black")
         entry_txt.place(x=50, y=175, width=275)
-        button_add = Button(self.main_window,text="ADD", font=("goudy old style", 11), bg="green", fg="white",
+        entry_txt = Entry(
+            self.main_window, textvariable=self.var_name, font=("goudy old style", 18), bg="#F5F5DC", fg="black")
+        entry_txt.place(x=50, y=175, width=275)
+        button_add = Button(self.main_window, text="ADD", font=("goudy old style", 11), bg="green", fg="white",
                             cursor="hand2", command=self.add_category)
         button_add.place(x=350, y=175, width=100)
         button_delete = Button(
@@ -50,31 +73,9 @@ class ProductCategory:
         button_delete.place(x=500, y=175, width=100)
 
 
-        # Entry and Buttons
-        self.create_entry_and_buttons()
-
-        # Category Table
-        self.create_category_table()
-
-
-    def title_label(self):
-        """creating title"""
-        title = Label(self.main_window, text="Product Category", font=("goudy old style", 30), bg="#0f4d7d", fg="white")
-        title.place(x=50, y=25, width=1050)
-
-    def name_label(self):
-        name_label = Label(
-            self.main_window, text="Enter Category Name Here", font=("goudy old style", 25), bg="white", fg="black")
-        name_label.place(x=50, y=100, width=600)
-
-    def create_entry_and_buttons(self):
-        entry_txt = Entry(self.main_window, textvariable=self.var_name, font=("goudy old style", 18), bg="#F5F5DC",
-                          fg="black")
-        entry_txt.place(x=50, y=175, width=275)
-
-
 
     def create_category_table(self):
+        """creates + heading"""
         category_frame = Frame(self.main_window, bd=3, relief=RIDGE)
         category_frame.place(x=680, y=100, width=410, height=100)
 
@@ -103,9 +104,10 @@ class ProductCategory:
 
         return category_frame
 
-        # Function
+        # functions for database
 
     def add_category(self):
+        """adding categories"""
         db_connection = sqlite3.connect(database=r"../../db/stockit.db")
         cursor = db_connection.cursor()
 
@@ -141,6 +143,7 @@ class ProductCategory:
             messagebox.showerror("Error", f"Error: {str(e)}", parent=self.main_window)
 
     def delete_category(self):
+        """deleteing categories"""
         focus_category_table = self.category_table.focus()
         if not focus_category_table:
             messagebox.showerror("Error", "Please select a category to delete.", parent=self.main_window)
@@ -161,6 +164,8 @@ class ProductCategory:
         focus_category_table = self.category_table.focus()
         content = self.category_table.item(focus_category_table)
         row = content["values"]
+        self.var_cat_id.set(row[0])
+        self.var_name.set(row[1])
 
 
 if __name__ == '__main__':
