@@ -17,13 +17,12 @@ class ProductCategory:
         # calling title / name / fill / frame
         self.title_label()
         self.name_label()
-        #self.category_frame()
+        # self.category_frame()
         self.category_frame = self.create_category_table()
 
         # calling variables
         self.var_cat_id = StringVar()
         self.var_name = StringVar()
-
 
         # creates image on the left
         self.image_left = Image.open('../../images/category.jpg')
@@ -44,7 +43,6 @@ class ProductCategory:
 
         # category table
         self.create_category_table()
-
 
     def title_label(self):
         """creates title"""
@@ -72,8 +70,6 @@ class ProductCategory:
             self.main_window, text="Delete", font=("goudy old style", 11), bg="red", fg="white", cursor="hand2")
         button_delete.place(x=500, y=175, width=100)
 
-
-
     def create_category_table(self):
         """creates + heading"""
         category_frame = Frame(self.main_window, bd=3, relief=RIDGE)
@@ -86,7 +82,7 @@ class ProductCategory:
                                            xscrollcommand=scrollx.set)
 
         self.category_table.pack(fill=BOTH, expand=1)
-        #self.category_table.bind("<ButtonRelease-1>", self.get_data)
+        # self.category_table.bind("<ButtonRelease-1>", self.get_data)
 
         scrollx.pack(side=BOTTOM, fill=X)
         scrolly.pack(side=RIGHT, fill=Y)
