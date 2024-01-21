@@ -8,6 +8,10 @@
   - [Setting up the Virtual Environment](#setting-up-the-virtual-environment)
 - [Usage](#usage)
 - [Contributing](#contributing)
+- [Moscow Requirements](#moscow-requirements)
+  - [Muss-Kriterien (Must-Have Criteria)](#muss-kriterien-must-have-criteria)
+  - [Soll-Kriterien (Should-Have Criteria)](#soll-kriterien-should-have-criteria)
+  - [Kann-Kriterien (Can-Have Criteria)](#kann-kriterien-can-have-criteria)
 
 ## Getting Started
 
@@ -119,3 +123,43 @@ If you'd like to contribute to this project, please follow these guidelines:
 3. Commit your changes (`git commit -m 'Add some feature'`).
 4. Push to the branch (`git push origin feature/your-feature-name`).
 5. Open a pull request.
+
+## Moscow Requirements
+
+### Muss-Kriterien (Must-Have Criteria)
+
+* Das System muss ein Menü mit den Optionen Dashboard, Mitarbeiter, Lieferant, Kategorie und Produkte bereitstellen.
+* Das System muss die Möglichkeit bieten, einen Mitarbeiter hinzuzufügen, zu aktualisieren und zu löschen.
+* Das System muss die Möglichkeit bieten, nach einem Mitarbeiter nach Name, Kontakt oder E-Mail zu suchen.
+* Das System muss die Möglichkeit bieten, einen Lieferanten hinzuzufügen, zu aktualisieren und zu löschen.
+* Das System muss die Möglichkeit bieten, nach einem Lieferanten anhand der Rechnungsnummer zu suchen.
+* Das System muss die Möglichkeit bieten, eine Kategorie hinzuzufügen und zu löschen.
+* Das System muss die Möglichkeit bieten, ein Produkt hinzuzufügen, zu aktualisieren und zu löschen.
+* Das System muss die Möglichkeit bieten, ein Produkt einer Kategorie und einem Lieferanten zuzuordnen.
+* Das System muss die Möglichkeit bieten, den Status eines Produkts als aktiv oder inaktiv festzulegen.
+* Das System muss die Möglichkeit bieten, nach einem Produkt nach Name, Kategorie oder Lieferant zu suchen.
+* Das System kann die Möglichkeit bieten, einen Mitarbeiter mit dem Benutzertyp "Admin" oder "Mitarbeiter" hinzuzufügen.
+* Das System sollte den Benutzern die Möglichkeit bieten, sich mit Benutzername und Passwort anzumelden.
+* Das System sollte den Benutzern die Möglichkeit bieten, sich abzumelden.
+
+### Soll-Kriterien (Should-Have Criteria)
+
+* Das System sollte die Möglichkeit bieten, die aktuelle Uhrzeit und das aktuelle Datum beim Betreten der Startseite anzuzeigen.
+* Das System muss eine Übersicht mit der Gesamtanzahl der Mitarbeiter, Lieferanten, Kategorien und Produkte anzeigen.
+* Das System sollte eine Sales Option im Menü der Übersicht anzeigen.
+* Das System sollte den Gesamtumsatz in der Übersicht anzeigen.
+* Das System sollte ein Abrechnungssystem bereitstellen, in dem alle Produkte, ein Taschenrechner und die Kundenrechnungen abgebildet werden.
+* Das System sollte den Rechnungsbetrag und den Zahlungsbetrag unter Berücksichtigung des Rabatts berechnen.
+* Das System sollte eine Rechnung generieren.
+* Das System sollte dem Benutzer die Möglichkeit bieten, die bevorzugte Menge der Produkte zum Warenkorb hinzuzufügen und zu aktualisieren.
+
+### Kann-Kriterien (Can-Have Criteria)
+
+* Das System kann dem Benutzer die Möglichkeit bieten, den Rechnungsbetrag auszudrucken.
+* Das System kann dem Benutzer die Möglichkeit bieten, die Anzahl der aktiven Produkte im Lager zu sehen.
+* Das System kann dem Benutzer die Möglichkeit bieten, ein Produkt aus dem Warenkorb zu entfernen.
+* Das System kann dem Benutzer die Möglichkeit bieten, alle aktiven Produkte im Abrechnungssystem anzuzeigen.
+* Das System kann dem Benutzer die Möglichkeit bieten, nach einem aktiven Produkt im Abrechnungssystem zu suchen.
+* Das System kann dem Benutzer die Möglichkeit bieten, Kundenrechnungen einzusehen.
+* Das System kann dem Benutzer die Möglichkeit bieten, nach Kundenrechnungen anhand der Rechnungsnummer zu suchen.
+
