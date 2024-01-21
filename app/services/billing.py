@@ -223,7 +223,7 @@ class BillClass:
         self.cart_table.column("qty", width=40)
         self.cart_table.column("status", width=90)
         self.cart_table.pack(fill=BOTH, expand=1)
-        # self.cart_table.bind("<ButtonRelease-1>", self.get_data)
+        self.cart_table.bind("<ButtonRelease-1>", self.get_data)
 
         # Add Cart Widgets Frame
         self.var_pid = StringVar()
@@ -439,6 +439,7 @@ class BillClass:
         self.label_amount.config(text=f'Bill Amount\n{str(bill_amount)}')
         self.label_net_pay.config(text=f'Net Pay\n{str(net_pay)}')
         self.cart_title.config(text=f"Cart \t Total Product: [{str(len(self.cart_list))}]")
+
     def show_cart(self):
         try:
             self.cart_table.delete(*self.cart_table.get_children())
