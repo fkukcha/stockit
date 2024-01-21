@@ -48,15 +48,17 @@ class Product:
         Label(product_Frame, text="Status", font=("goody old style", 18), bg="white").place(x=30, y=310)
 
         # Column2
-        combo_box_cat = ttk.Combobox(product_Frame, textvariable=self.var_cat,
-                                     values=self.cat_list, state="readonly", justify=CENTER,
-                                     font=("goody old style", 15))
+        combo_box_cat = ttk.Combobox(
+            product_Frame, textvariable=self.var_cat, values=self.cat_list, state="readonly", justify=CENTER,
+            font=("goody old style", 15)
+        )
         combo_box_cat.place(x=150, y=60, width=200)
         combo_box_cat.current(0)
 
-        combo_box_sup = ttk.Combobox(product_Frame, textvariable=self.var_sup,
-                                     values=self.sup_list, state="readonly", justify=CENTER,
-                                     font=("goody old style", 15))
+        combo_box_sup = ttk.Combobox(
+            product_Frame, textvariable=self.var_sup, values=self.sup_list, state="readonly", justify=CENTER,
+            font=("goody old style", 15)
+        )
         combo_box_sup.place(x=150, y=110, width=200)
         combo_box_sup.current(0)
 
@@ -69,16 +71,16 @@ class Product:
         Entry(product_Frame, textvariable=self.var_qty,
               font=("goody old style", 15), bg="light yellow").place(x=150, y=260, width=200)
 
-        combo_box_status = ttk.Combobox(product_Frame, textvariable=self.var_status,
-                                        values=("Active", "Inactive"), state="readonly", justify=CENTER,
-                                        font=("goody old style", 15))
+        combo_box_status = ttk.Combobox(
+            product_Frame, textvariable=self.var_status, values=("Active", "Inactive"), state="readonly",
+            justify=CENTER, font=("goody old style", 15)
+        )
         combo_box_status.place(x=150, y=310, width=200)
         combo_box_status.current(0)
 
         # Add, update, delete, clear buttons
         add_button = Button(product_Frame, text="Add", command=self.add_product, font=("goody old style", 15),
-                            bg="#2196f3", fg="black",
-                            cursor="hand2")
+                            bg="#2196f3", fg="black", cursor="hand2")
         add_button.place(x=10, y=400, width=100, height=40)
 
         update_button = Button(
@@ -115,7 +117,6 @@ class Product:
         search_text.place(x=200, y=10)
 
         # Search button
-
         style = ttk.Style()
         style.configure("Search.TButton", background="black", foreground="black")
         search_button = ttk.Button(
@@ -124,7 +125,6 @@ class Product:
         search_button.place(x=435, y=10, width=150, height=31)
 
         # Product Texttable
-
         p_frame = Frame(self.main_window, bd=3, relief=RIDGE)
         p_frame.place(x=480, y=100, width=600, height=390)
         product_scroll_x = Scrollbar(p_frame, orient=HORIZONTAL)
@@ -177,7 +177,7 @@ class Product:
             messagebox.showerror("Error", f"Error: {str(e)}", parent=self.main_window)
 
     def add_product(self):
-        db_connection = sqlite3.connect(database=r"app/db/stockit.db")
+        db_connection = sqlite3.connect(database=r"../../db/stockit.db")
         cursor = db_connection.cursor()
 
         try:
@@ -192,9 +192,8 @@ class Product:
                 else:
                     cursor.execute(
                         "Insert into Product (Category, Supplier, Name, Price, Qty, Status) values(?, ?, ?, ?, ?, ?) ",
-                        (self.var_cat.get(), self.var_sup.get(), self.var_name.get(),
-                         self.var_price.get(), self.var_qty.get(),
-                         self.var_status.get()))
+                        (self.var_cat.get(), self.var_sup.get(), self.var_name.get(), self.var_price.get(),
+                         self.var_qty.get(), self.var_status.get()))
                     db_connection.commit()
                     messagebox.showinfo("Success", "Product added successfully.", parent=self.main_window)
                     self.show_products()
@@ -214,7 +213,7 @@ class Product:
         self.var_status.set(row[6])
 
     def update_products(self):
-        db_connection = sqlite3.connect(database=r"app/db/stockit.db")
+        db_connection = sqlite3.connect(database=r"../../db/stockit.db")
         cursor = db_connection.cursor()
 
         try:
@@ -228,9 +227,8 @@ class Product:
                 else:
                     cursor.execute(
                         'Update Product set Category=?, Supplier=?, Name=?, Price=?, Qty=?, Status=? where pid=?',
-                        (self.var_cat.get(), self.var_sup.get(), self.var_name.get(),
-                         self.var_price.get(), self.var_qty.get(),
-                         self.var_status.get(), self.var_pid.get()))
+                        (self.var_cat.get(), self.var_sup.get(), self.var_name.get(), self.var_price.get(),
+                         self.var_qty.get(), self.var_status.get(), self.var_pid.get()))
                     db_connection.commit()
                     messagebox.showinfo("Success", "Product updated successfully.", parent=self.main_window)
                     self.show_products()
@@ -238,7 +236,7 @@ class Product:
             messagebox.showerror("Error", f"Error: {str(e)}", parent=self.main_window)
 
     def show_products(self):
-        db_connection = sqlite3.connect(database=r"app/db/stockit.db")
+        db_connection = sqlite3.connect(database=r"../../db/stockit.db")
         cursor = db_connection.cursor()
 
         try:
@@ -252,7 +250,7 @@ class Product:
             messagebox.showerror("Error", f"Error: {str(e)}", parent=self.main_window)
 
     def delete_product(self):
-        db_connection = sqlite3.connect(database=r"app/db/stockit.db")
+        db_connection = sqlite3.connect(database=r"../../db/stockit.db")
         cursor = db_connection.cursor()
 
         try:
@@ -287,7 +285,7 @@ class Product:
         self.show_products()
 
     def search_product(self):
-        db_connection = sqlite3.connect(database=r"app/db/stockit.db")
+        db_connection = sqlite3.connect(database=r"../../db/stockit.db")
         cursor = db_connection.cursor()
 
         try:
