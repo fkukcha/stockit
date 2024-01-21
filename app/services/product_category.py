@@ -17,6 +17,7 @@ class ProductCategory:
         # calling title / name / fill / frame
         self.title_label()
         self.name_label()
+
         # self.category_frame()
         self.category_frame = self.create_category_table()
 
@@ -85,7 +86,7 @@ class ProductCategory:
                                            xscrollcommand=scrollx.set)
 
         self.category_table.pack(fill=BOTH, expand=1)
-        # self.category_table.bind("<ButtonRelease-1>", self.get_data)
+        self.category_table.bind("<ButtonRelease-1>", self.get_data_category)
 
         scrollx.pack(side=BOTTOM, fill=X)
         scrolly.pack(side=RIGHT, fill=Y)
@@ -103,8 +104,6 @@ class ProductCategory:
 
         return category_frame
 
-        # functions for database
-
     def add_category(self):
         """adding categories"""
         db_connection = sqlite3.connect(database=r"../../db/stockit.db")
@@ -119,10 +118,11 @@ class ProductCategory:
                 if row is not None:
                     messagebox.showerror("Error", "This category name is already taken", parent=self.main_window)
                 else:
-                    cursor.execute("Insert into Category (Name) VALUES (?)", (self.var_name.get(),))
+                    cursor.execute("Insert into Category (Name) values(?) ", (self.var_name.get(),))
                     db_connection.commit()
                     messagebox.showinfo("Success", "Category added successfully.", parent=self.main_window)
-                    # Refresh the category table after adding a new category
+
+                    self.clear_category_data()
                     self.show_categories()
         except Exception as e:
             messagebox.showerror("Error", f"Error: {str(e)}", parent=self.main_window)
@@ -171,6 +171,7 @@ class ProductCategory:
                     cursor.execute("delete from Category where Name=?", (self.var_name.get(),))
                     db_connection.commit()
                     messagebox.showinfo("Delete", "Category deleted successfully", parent=self.main_window)
+                self.clear_category_data()
 
         # After deleting --> update the category table
         self.show_categories()
@@ -179,8 +180,15 @@ class ProductCategory:
         focus_category_table = self.category_table.focus()
         content = self.category_table.item(focus_category_table)
         row = content["values"]
-        self.var_cat_id.set(row[0])
+
+        # Show data if clicked on a category
         self.var_name.set(row[1])
+
+    def clear_category_data(self):
+        # Show data of category once clicked on a category.
+        self.var_name.set("")
+
+        self.show_categories()
 
 
 if __name__ == '__main__':
