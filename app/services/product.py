@@ -27,8 +27,8 @@ class Product:
         self.fetch_cat_sup()
 
         self.category_product_frame()
-        self.search_by = StringVar()
-        self.search_text = StringVar()
+
+        self.show_products()
 
     def category_product_frame(self):
         product_Frame = Frame(self.main_window, bd=3, relief=RIDGE)
@@ -135,6 +135,7 @@ class Product:
             "PID", "Category", "Supplier", "Name", "Price", "Qty", "Status"),
                                           yscrollcommand=product_scroll_y.set, xscrollcommand=product_scroll_x.set)
         self.product_table.pack(fill=BOTH, expand=1)
+        self.product_table.bind("<ButtonRelease-1>", self.get_data)
 
         product_scroll_x.pack(side=BOTTOM, fill=X)
         product_scroll_y.pack(side=RIGHT, fill=Y)
@@ -200,7 +201,7 @@ class Product:
         except Exception as e:
             messagebox.showerror("Error", f"Error: {str(e)}", parent=self.main_window)
 
-    def get_data(self):
+    def get_data(self, event):
         f = self.product_table.focus()
         content = (self.product_table.item(f))
         row = content['values']
@@ -226,7 +227,7 @@ class Product:
                     messagebox.showerror("Error", "Invalid Product!", parent=self.main_window)
                 else:
                     cursor.execute(
-                        'Update Product set Category=?, Supplier=?, Name=?, Price=?, Qty=?, Status=? where pid=?',
+                        'Update Product set Category=?, Supplier=?, Name=?, Price=?, Qty=?, Status=? where PID=?',
                         (self.var_cat.get(), self.var_sup.get(), self.var_name.get(), self.var_price.get(),
                          self.var_qty.get(), self.var_status.get(), self.var_pid.get()))
                     db_connection.commit()
