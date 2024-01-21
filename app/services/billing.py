@@ -17,6 +17,7 @@ class BillClass:
         self.main_window.geometry("1350x700+0+0")
         self.main_window.title("StockIt")
         self.main_window.config(bg="white")
+        self.cart_list = []
         self.opened_windows = {}  # Dictionary to store opened windows
 
         # Get the current directory of the script
@@ -268,7 +269,7 @@ class BillClass:
                                 bg="lightgray", cursor="hand2")
         btn_clear_cart.place(x=180, y=70, width=150, height=30)
 
-        btn_add_cart = Button(add_cart_widgets_frame, text="Add | Update Cart", font=("times new roman", 15, "bold"),
+        btn_add_cart = Button(add_cart_widgets_frame, text="Add | Update Cart", command=self.add_update_cart, font=("times new roman", 15, "bold"),
                               bg="orange", cursor="hand2")
         btn_add_cart.place(x=340, y=70, width=180, height=30)
 
@@ -393,6 +394,18 @@ class BillClass:
         self.var_pname.set(row[1])
         self.var_price.set(row[2])
         self.label_inStock.config(text=f"In Stock [{str(row[3])}]")
+
+    def add_update_cart(self):
+        if self.var_pid.get() == '':
+            messagebox.showerror('Error', "Please select a product from the list", parent=self.main_window)
+        elif self.var_qty.get() == '':
+            messagebox.showerror('Error', "Quantity is required", parent=self.main_window)
+        else:
+            price_calc = int(self.var_qty.get()) * float(self.var_price.get())
+            price_calc = float(price_calc)
+            cart_data = [self.var_pid.get(), self.var_pname.get(), price_calc, self.var_qty.get()]
+            self.cart_list.append(cart_data)
+
 
 if __name__ == '__main__':
     app = Tk()
