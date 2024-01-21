@@ -1,18 +1,9 @@
 import os
-import sqlite3
-import sys
 from tkinter import *
 from tkinter import ttk, messagebox
 import sys
 import sqlite3
 import time
-
-from PIL import Image, ImageTk
-from employee import Employee
-from sales import Sales
-from product import Product
-from product_category import ProductCategory
-from supplier import Supplier
 
 
 class BillClass:
@@ -331,13 +322,11 @@ class BillClass:
         button_generate.place(x=246, y=80, width=160, height=50)
 
         # Footer
-        # footer = Label(self.main_window, bg="#4d636d", text="")
-        # footer.pack(side=BOTTOM, fill=X)
+        footer = Label(self.main_window, bg="#4d636d", text="")
+        footer.pack(side=BOTTOM, fill=X)
 
         self.show()
         self.update_date_time()
-
-        # ===================Functions============
 
     @staticmethod
     def get_image_path(current_dir, image_name):
@@ -431,7 +420,7 @@ class BillClass:
                 op = messagebox.askyesno('Confirm',
                                          "Product already present\nDo you want to Update or Remove from the Cart List",
                                          parent=self.main_window)
-                if op == True:
+                if op:
                     if self.var_qty.get() == "0":
                         self.cart_list.pop(index_)
                     else:
@@ -447,9 +436,9 @@ class BillClass:
         self.net_pay = 0
         self.discount = 0
         for row in self.cart_list:
-            self.bill_amount = self.bill_amount + float(row[2])*int(row[3])
-        self.discount = (self.bill_amount*5)/100
-        net_pay = self.bill_amount - ((self.bill_amount * 5) / 100)
+            self.bill_amount = self.bill_amount + float(row[2]) * int(row[3])
+        self.discount = (self.bill_amount * 5) / 100
+        self.net_pay = self.bill_amount - ((self.bill_amount * 5) / 100)
         self.label_amount.config(text=f'Bill Amount\n{str(self.bill_amount)}')
         self.label_net_pay.config(text=f'Net Pay\n{str(self.net_pay)}')
         self.cart_title.config(text=f"Cart \t Total Product: [{str(len(self.cart_list))}]")
@@ -485,24 +474,24 @@ class BillClass:
         bill_top_temp = f'''
         \t\tXYZ-Inventory
         \t Phone No. 123456, Wien
-        {str("="*47)}
+        {str("=" * 47)}
          Customer Name: {self.var_cname.get()}
          Ph no. :{self.var_contact.get()}
          Bill No. {str(self.invoice)}\t\t\tDate: {str(time.strftime("%d%m%Y"))}
-        {str("="*47)}
+        {str("=" * 47)}
          Product Name \t\t\tQTY\tPrice
-        {str("="*47)}
+        {str("=" * 47)}
         '''
         self.txt_bill_area.delete('1.0', END)
         self.txt_bill_area.insert('1.0', bill_top_temp)
 
     def bill_bottom(self):
         bill_bottom_temp = f'''
-        {str("="*47)}
-         Bill Amount\t\t\t\tRs.{self.bill_amount}
-         Discount\t\t\t\tRs.{self.discount}
-         Net Pay\t\t\t\tRs.{self.net_pay}
-        {str("="*47)}\n
+        {str("=" * 47)}
+         Bill Amount\t\t\t\t€{self.bill_amount}
+         Discount\t\t\t\t€{self.discount}
+         Net Pay\t\t\t\t€{self.net_pay}
+        {str("=" * 47)}\n
         '''
         self.txt_bill_area.insert(END, bill_bottom_temp)
 
@@ -510,7 +499,7 @@ class BillClass:
         con = sqlite3.connect(database=r"../../db/stockit.db")
         cur = con.cursor()
         try:
-            for row in self.cart.list:
+            for row in self.cart_list:
                 pid = row[0]
                 name = row[1]
                 qty = int(row[4]) - int(row[3])
@@ -519,21 +508,18 @@ class BillClass:
                 if int(row[3]) != int(row[4]):
                     status = 'Active'
 
-                price = float(row[2])*int(row[3])
+                price = float(row[2]) * int(row[3])
                 price = str(price)
-                self.txt_bill_area.insert(END, "\n" + name + "\t\t\t" + row[3] + "\tRs." + price)
+                self.txt_bill_area.insert(END, "\n" + name + "\t\t\t" + row[3] + "\t€" + price)
                 # Update qty in product table
-                cur.execute('Update product set qty=?,status=? where pid=?', (
-                    qty,
-                    status,
-                    pid
+                cur.execute('Update Product set Qty=?,Status=? where PID=?', (
+                    qty, status, pid
                 ))
                 con.commit()
             con.close()
             self.show()
         except Exception as ex:
             messagebox.showerror("Error", f"Error due to : {str(ex)}", parent=self.main_window)
-
 
     def clear_cart(self):
         self.var_pid.set('')
