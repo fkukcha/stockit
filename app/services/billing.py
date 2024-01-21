@@ -475,7 +475,7 @@ class BillClass:
             # Bill Bottom
             self.bill_bottom()
 
-            fp = open(f'../..bills/{str(self.invoice)}.txt', 'w')
+            fp = open(f'../../bills/{str(self.invoice)}.txt', 'w')
             fp.write(self.txt_bill_area.get('1.0', END))
             fp.close()
             messagebox.showinfo('Saved', "Bill has been saved in Backend", parent=self.main_window)
