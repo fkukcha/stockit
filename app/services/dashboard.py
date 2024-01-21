@@ -62,12 +62,12 @@ class StockIT:
 
         # Menu options
         option_to_method = {
+            "Dashboard": self.dashboard,
             "Employee": self.employee,
             "Supplier": self.supplier,
             "Category": self.category,
             "Product": self.product,
             "Sales": self.sales,
-            "Exit": self.exit,
         }
 
         for option in option_to_method:
@@ -166,9 +166,8 @@ class StockIT:
         self.attach_window(self.opened_windows["sales"], self.adjust_window_position)
         self.sales_instance = Sales(self.opened_windows["sales"])
 
-    def exit(self) -> None:
-        # self.main_window.destroy()
-        pass
+    def dashboard(self) -> None:
+        self.destroy_all_windows()
 
     def logout(self):
         self.main_window.destroy()
