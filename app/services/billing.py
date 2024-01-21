@@ -89,6 +89,9 @@ class BillClass:
 
         self.product_table = ttk.Treeview(product_frame3, columns=("PID", "Name", "Price", "Qty", "Status"),
                                           yscrollcommand=scrolly.set, xscrollcommand=scrollx.set)
+        self.product_table.pack(fill=BOTH, expand=1)
+        self.product_table.bind("<ButtonRelease-1>", self.get_data_cart)
+
         scrollx.pack(side=BOTTOM, fill=X)
         scrolly.pack(side=RIGHT, fill=Y)
         scrollx.config(command=self.product_table.xview)
@@ -98,13 +101,14 @@ class BillClass:
         self.product_table.heading("Name", text="Name")
         self.product_table.heading("Price", text="Price")
         self.product_table.heading("Qty", text="QTY")
+        self.product_table.heading("Status", text="Status")
         self.product_table["show"] = "headings"
         self.product_table.column("PID", width=50)
         self.product_table.column("Name", width=90)
         self.product_table.column("Price", width=90)
         self.product_table.column("Qty", width=50)
         self.product_table.pack(fill=BOTH, expand=1)
-        self.product_table.bind("<ButtonRelease-1>", self.get_data_cart)
+
         label_note = Label(product_frame1, text="Note: Enter 0 quantity to remove product from the cart",
                            font=("goudy old style", 12), anchor='w', bg="white", fg="red")
         label_note.pack(side=BOTTOM, fill=X)
@@ -207,7 +211,7 @@ class BillClass:
         scrolly = Scrollbar(cart_frame, orient=VERTICAL)
         scrollx = Scrollbar(cart_frame, orient=HORIZONTAL)
 
-        self.cart_table = ttk.Treeview(cart_frame, columns=("PID", "Name", "Price", "Qty", "Status"),
+        self.cart_table = ttk.Treeview(cart_frame, columns=("PID", "Name", "Price", "Qty"),
                                        yscrollcommand=scrolly.set, xscrollcommand=scrollx.set)
         self.cart_table.pack(fill=BOTH, expand=1)
         self.cart_table.bind("<ButtonRelease-1>", self.get_data_cart)
@@ -221,13 +225,11 @@ class BillClass:
         self.cart_table.heading("Name", text="Name")
         self.cart_table.heading("Price", text="Price")
         self.cart_table.heading("Qty", text="QTY")
-        self.cart_table.heading("Status", text="Status")
         self.cart_table["show"] = "headings"
         self.cart_table.column("PID", width=40)
         self.cart_table.column("Name", width=100)
         self.cart_table.column("Price", width=90)
         self.cart_table.column("Qty", width=40)
-        self.cart_table.column("Status", width=90)
 
         # Add Cart Widgets Frame
         self.var_pid = StringVar()
@@ -401,15 +403,15 @@ class BillClass:
         self.var_price.set(row[2])
         self.var_qty.set(row[3])
         self.label_inStock.config(text=f"In Stock [{str(row[3])}]")
-        self.var_stock.set(row[4])
+        self.var_stock.set(row[3])
 
     def add_update_cart(self):
         if self.var_pid.get() == '':
             messagebox.showerror('Error', "Please select a product from the list", parent=self.main_window)
         elif self.var_qty.get() == '':
             messagebox.showerror('Error', "Quantity is required", parent=self.main_window)
-        # elif int(self.var_qty.get()) > int(self.var_stock.get()):
-        #     messagebox.showerror('Error', "Invalid Quantity", parent=self.main_window)
+        elif int(self.var_qty.get()) > int(self.var_stock.get()):
+            messagebox.showerror('Error', "Invalid Quantity", parent=self.main_window)
         else:
             # price_calc = int(self.var_qty.get()) * float(self.var_price.get())
             # price_calc = float(price_calc)
