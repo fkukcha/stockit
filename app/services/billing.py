@@ -1,7 +1,8 @@
 import os
+import sqlite3
 import sys
 from tkinter import *
-from tkinter import ttk
+from tkinter import ttk, messagebox
 from PIL import Image, ImageTk
 from employee import Employee
 from sales import Sales
@@ -16,6 +17,7 @@ class BillClass:
         self.main_window.geometry("1350x700+0+0")
         self.main_window.title("StockIt")
         self.main_window.config(bg="white")
+        self.cart_list = []
         self.opened_windows = {}  # Dictionary to store opened windows
 
         # Get the current directory of the script
@@ -42,7 +44,6 @@ class BillClass:
         self.clock_label.place(x=0, y=70, relwidth=1, height=30)
 
         # Product Frame
-        self.var_search = StringVar()
         product_frame1 = Frame(self.main_window, bd=4, relief=RIDGE, bg="white")
         product_frame1.place(x=6, y=110, width=410, height=550)
 
@@ -51,6 +52,7 @@ class BillClass:
         product_title1.pack(side=TOP, fill=X)
 
         # Product Search Frame
+        self.var_search = StringVar()
         product_frame2 = Frame(product_frame1, bd=2, relief=RIDGE, bg="white")
         product_frame2.place(x=2, y=42, width=398, height=90)
 
@@ -65,11 +67,12 @@ class BillClass:
                             font=("times new roman", 13), bg="lightyellow")
         text_search.place(x=128, y=47, width=150, height=22)
 
+        # add command=self.search(), to search button for error message
         button_search = Button(product_frame2, text="Search", font=("goudy old style", 15), bg="#2196f3", fg="white",
                                cursor="hand2")
         button_search.place(x=285, y=45, width=100, height=25)
 
-        button_show_all = Button(product_frame2, text="Show All", font=("goudy old style", 15), bg="#083531",
+        button_show_all = Button(product_frame2, text="Show All", command=self.show, font=("goudy old style", 15), bg="#083531",
                                  fg="white", cursor="hand2")
         button_show_all.place(x=285, y=10, width=100, height=25)
 
@@ -93,11 +96,11 @@ class BillClass:
         self.product_table.heading("qty", text="QTY")
         self.product_table.heading("status", text="Status")
         self.product_table["show"] = "headings"
-        self.product_table.column("pid", width=90)
-        self.product_table.column("name", width=100)
-        self.product_table.column("price", width=100)
-        self.product_table.column("qty", width=100)
-        self.product_table.column("status", width=100)
+        self.product_table.column("pid", width=50)
+        self.product_table.column("name", width=90)
+        self.product_table.column("price", width=90)
+        self.product_table.column("qty", width=50)
+        self.product_table.column("status", width=90)
         self.product_table.pack(fill=BOTH, expand=1)
         # self.product_table.bind("<ButtonRelease-1>", self.get_data)
         label_note = Label(product_frame1, text="Note: Enter 0 quantity to remove product from the cart",
@@ -257,7 +260,7 @@ class BillClass:
         text_product_qty.place(x=390, y=35, width=120, height=25)
 
         # Label 4
-        self.label_inStock = Label(add_cart_widgets_frame, text="In Stock [9999]", font=("times new roman", 15),
+        self.label_inStock = Label(add_cart_widgets_frame, text="In Stock", font=("times new roman", 15),
                                    bg="white")
         self.label_inStock.place(x=5, y=70)
 
@@ -266,7 +269,7 @@ class BillClass:
                                 bg="lightgray", cursor="hand2")
         btn_clear_cart.place(x=180, y=70, width=150, height=30)
 
-        btn_add_cart = Button(add_cart_widgets_frame, text="Add | Update Cart", font=("times new roman", 15, "bold"),
+        btn_add_cart = Button(add_cart_widgets_frame, text="Add | Update Cart", command=self.add_update_cart, font=("times new roman", 15, "bold"),
                               bg="orange", cursor="hand2")
         btn_add_cart.place(x=340, y=70, width=180, height=30)
 
@@ -351,6 +354,57 @@ class BillClass:
         parent_dir = os.path.dirname(current_dir)
         login_path = os.path.join(parent_dir, "authentication/login.py")
         os.system(f"{sys.executable} {login_path}")
+
+    def show(self):
+        con = sqlite3.connect(database=r"../../db/stockit.db")
+        cur = con.cursor()
+        try:
+            cur.execute("select pid, name, price, qty, status from product")
+            rows = cur.fetchall()
+            self.product_table.delete(*self.product_table.get_children())
+            for row in rows:
+                self.product_table.insert('', END, values=row)
+        except Exception as ex:
+            messagebox.showerror("Error", f"Error due to : {str(ex)}", parent=self.main_window)
+
+    def search(self):
+        con = sqlite3.connect(database=r"../../db/stockit.db")
+        cur = con.cursor()
+        try:
+            if self.var_search.get() == "":
+                messagebox.showerror("Error", "Search input is required", parent=self.main_window)
+            else:
+                cur.execute("select pid, name, price, qty, status from product where name LIKE '%" +
+                            self.var_search.get()+"%'")
+                rows = cur.fetchall()
+                if len(rows) != 0:
+                    self.product_table.delete(*self.product_table.get_children())
+                    for row in rows:
+                        self.product_table.insert('', END, values=row)
+                else:
+                    messagebox.showerror("Error", "No record found!", parent=self.main_window)
+        except Exception as ex:
+            messagebox.showerror("Error", f"Error: {str(ex)}", parent=self.main_window)
+
+    def get_data(self, ev):
+        f = self.product_table.focus()
+        content = (self.product_table.item(f))
+        row = content['values']
+        self.var_pid.set(row[0])
+        self.var_pname.set(row[1])
+        self.var_price.set(row[2])
+        self.label_inStock.config(text=f"In Stock [{str(row[3])}]")
+
+    def add_update_cart(self):
+        if self.var_pid.get() == '':
+            messagebox.showerror('Error', "Please select a product from the list", parent=self.main_window)
+        elif self.var_qty.get() == '':
+            messagebox.showerror('Error', "Quantity is required", parent=self.main_window)
+        else:
+            price_calc = int(self.var_qty.get()) * float(self.var_price.get())
+            price_calc = float(price_calc)
+            cart_data = [self.var_pid.get(), self.var_pname.get(), price_calc, self.var_qty.get()]
+            self.cart_list.append(cart_data)
 
 
 if __name__ == '__main__':
