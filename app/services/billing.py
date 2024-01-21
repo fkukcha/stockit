@@ -104,9 +104,10 @@ class BillClass:
         self.product_table.heading("Status", text="Status")
         self.product_table["show"] = "headings"
         self.product_table.column("PID", width=50)
-        self.product_table.column("Name", width=90)
-        self.product_table.column("Price", width=90)
+        self.product_table.column("Name", width=100)
+        self.product_table.column("Price", width=40)
         self.product_table.column("Qty", width=50)
+        self.product_table.column("Status", width=70)
         self.product_table.pack(fill=BOTH, expand=1)
 
         label_note = Label(product_frame1, text="Note: Enter 0 quantity to remove product from the cart",
@@ -474,8 +475,8 @@ class BillClass:
             # Bill Bottom
             self.bill_bottom()
 
-            fp = open(f'bills/{str(self.invoice)}.txt', 'w')
-            fp.write(END, self.txt_bill_area.get('1.0', END))
+            fp = open(f'../..bills/{str(self.invoice)}.txt', 'w')
+            fp.write(self.txt_bill_area.get('1.0', END))
             fp.close()
             messagebox.showinfo('Saved', "Bill has been saved in Backend", parent=self.main_window)
 
