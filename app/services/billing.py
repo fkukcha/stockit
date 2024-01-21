@@ -1,9 +1,12 @@
 import os
+import sqlite3
+import sys
 from tkinter import *
 from tkinter import ttk, messagebox
 import sys
 import sqlite3
 import time
+
 from PIL import Image, ImageTk
 from employee import Employee
 from sales import Sales
@@ -18,6 +21,7 @@ class BillClass:
         self.main_window.geometry("1350x700+0+0")
         self.main_window.title("StockIt")
         self.main_window.config(bg="white")
+        self.cart_list = []
         self.opened_windows = {}  # Dictionary to store opened windows
 
         # Get the current directory of the script
@@ -33,7 +37,8 @@ class BillClass:
 
         # Logout button
         logout_button = Button(
-            self.main_window, text="Logout", font=("times new roman", 15, "bold"), bg="red", cursor="hand2"
+            self.main_window, text="Logout", command=self.logout, font=("times new roman", 15, "bold"), bg="red",
+            cursor="hand2"
         )
         logout_button.place(x=1150, y=10, height=50, width=150)
 
@@ -43,7 +48,6 @@ class BillClass:
         self.clock_label.place(x=0, y=70, relwidth=1, height=30)
 
         # Product Frame
-        self.var_search = StringVar()
         product_frame1 = Frame(self.main_window, bd=4, relief=RIDGE, bg="white")
         product_frame1.place(x=6, y=110, width=410, height=550)
 
@@ -52,6 +56,7 @@ class BillClass:
         product_title1.pack(side=TOP, fill=X)
 
         # Product Search Frame
+        self.var_search = StringVar()
         product_frame2 = Frame(product_frame1, bd=2, relief=RIDGE, bg="white")
         product_frame2.place(x=2, y=42, width=398, height=90)
 
@@ -66,11 +71,12 @@ class BillClass:
                             font=("times new roman", 13), bg="lightyellow")
         text_search.place(x=128, y=47, width=150, height=22)
 
-        button_search = Button(product_frame2, text="Search", font=("goudy old style", 15), bg="#2196f3", fg="white",
-                               cursor="hand2")
+        button_search = Button(product_frame2, text="Search", command=self.search, font=("goudy old style", 15)
+                               , bg="#2196f3", fg="white", cursor="hand2")
         button_search.place(x=285, y=45, width=100, height=25)
 
-        button_show_all = Button(product_frame2, text="Show All", font=("goudy old style", 15), bg="#083531",
+        button_show_all = Button(product_frame2, text="Show All", command=self.show, font=("goudy old style", 15),
+                                 bg="#083531",
                                  fg="white", cursor="hand2")
         button_show_all.place(x=285, y=10, width=100, height=25)
 
@@ -94,11 +100,11 @@ class BillClass:
         self.product_table.heading("qty", text="QTY")
         self.product_table.heading("status", text="Status")
         self.product_table["show"] = "headings"
-        self.product_table.column("pid", width=90)
-        self.product_table.column("name", width=100)
-        self.product_table.column("price", width=100)
-        self.product_table.column("qty", width=100)
-        self.product_table.column("status", width=100)
+        self.product_table.column("pid", width=50)
+        self.product_table.column("name", width=90)
+        self.product_table.column("price", width=90)
+        self.product_table.column("qty", width=50)
+        self.product_table.column("status", width=90)
         self.product_table.pack(fill=BOTH, expand=1)
         # self.product_table.bind("<ButtonRelease-1>", self.get_data)
         label_note = Label(product_frame1, text="Note: Enter 0 quantity to remove product from the cart",
@@ -196,8 +202,9 @@ class BillClass:
         # Cart Frame
         cart_frame = Frame(calc_cart_frame, bd=3, relief=RIDGE)
         cart_frame.place(x=280, y=8, width=245, height=342)
-        cart_title = Label(cart_frame, text="Cart \t Total Product: [0]", font=("goudy old style", 15), bg="lightgray")
-        cart_title.pack(side=TOP, fill=X)
+        self.cart_title = Label(cart_frame, text="Cart \t Total Product: [0]", font=("goudy old style", 15),
+                                bg="lightgray")
+        self.cart_title.pack(side=TOP, fill=X)
 
         scrolly = Scrollbar(cart_frame, orient=VERTICAL)
         scrollx = Scrollbar(cart_frame, orient=HORIZONTAL)
@@ -219,6 +226,7 @@ class BillClass:
         self.cart_table.column("price", width=90)
         self.cart_table.column("qty", width=40)
         self.cart_table.pack(fill=BOTH, expand=1)
+
         self.cart_table.bind("<ButtonRelease-1>", self.get_data_cart)
 
         # Add Cart Widgets Frame
@@ -256,7 +264,7 @@ class BillClass:
         text_product_qty.place(x=390, y=35, width=120, height=25)
 
         # Label 4
-        self.label_inStock = Label(add_cart_widgets_frame, text="In Stock [9999]", font=("times new roman", 15),
+        self.label_inStock = Label(add_cart_widgets_frame, text="In Stock", font=("times new roman", 15),
                                    bg="white")
         self.label_inStock.place(x=5, y=70)
 
@@ -267,6 +275,7 @@ class BillClass:
 
         btn_add_cart = Button(add_cart_widgets_frame, text="Add | Update Cart", command=self.add_update_cart,
                               font=("times new roman", 15, "bold"), bg="orange", cursor="hand2")
+
         btn_add_cart.place(x=340, y=70, width=180, height=30)
 
         # Billing Area
@@ -354,7 +363,7 @@ class BillClass:
         con = sqlite3.connect(database=r"../../db/stockit.db")
         cur = con.cursor()
         try:
-            cur.execute("select pid, name, price, qty, status from product where status='Active'")
+            cur.execute("select PID, Name, Price, Qty, Status from Product where Status='Active'")
             rows = cur.fetchall()
             self.product_table.delete(*self.product_table.get_children())
             for row in rows:
@@ -369,8 +378,8 @@ class BillClass:
             if self.var_search.get() == "":
                 messagebox.showerror("Error", "Search input is required", parent=self.main_window)
             else:
-                cur.execute("select pid, name, price, qty, status from product where name LIKE '%" +
-                            self.var_search.get() + "%' and status='Active'")
+                cur.execute("select PID, Name, Price, Qty, Status from Product where Name LIKE '%" +
+                            self.var_search.get() + "%' and Status='Active'")
                 rows = cur.fetchall()
                 if len(rows) != 0:
                     self.product_table.delete(*self.product_table.get_children())
@@ -382,15 +391,16 @@ class BillClass:
             messagebox.showerror("Error", f"Error: {str(ex)}", parent=self.main_window)
 
     def get_data_cart(self, ev):
-        f = self.cart_table.focus()
-        content = (self.cart_table.item(f))
+        f = self.product_table.focus()
+        content = (self.product_table.item(f))
+
         row = content['values']
         self.var_pid.set(row[0])
         self.var_pname.set(row[1])
         self.var_price.set(row[2])
         self.var_qty.set(row[3])
         self.label_inStock.config(text=f"In Stock [{str(row[3])}]")
-        self.var_stock.set(row[3])
+        self.var_stock.set(row[4])
 
     def add_update_cart(self):
         if self.var_pid.get() == '':
@@ -404,6 +414,7 @@ class BillClass:
             # price_calc = float(price_calc)
             price_calc = self.var_price.get()
             cart_data = [self.var_pid.get(), self.var_pname.get(), price_calc, self.var_qty.get(), self.var_stock.get()]
+
             # update cart
             present = 'no'
             index_ = 0

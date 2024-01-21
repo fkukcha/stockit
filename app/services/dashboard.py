@@ -1,4 +1,5 @@
 import os
+import sys
 from tkinter import *
 from PIL import Image, ImageTk
 from employee import Employee
@@ -29,7 +30,7 @@ class StockIT:
 
         # Logout button
         logout_button = Button(
-            self.main_window, text="Logout", font=("times new roman", 15, "bold"), bg="red", cursor="hand2"
+            self.main_window, text="Logout", command=self.logout, font=("times new roman", 15, "bold"), bg="red", cursor="hand2"
         )
         logout_button.place(x=1150, y=10, height=50, width=150)
 
@@ -61,12 +62,12 @@ class StockIT:
 
         # Menu options
         option_to_method = {
+            "Dashboard": self.dashboard,
             "Employee": self.employee,
             "Supplier": self.supplier,
             "Category": self.category,
             "Product": self.product,
             "Sales": self.sales,
-            "Exit": self.exit,
         }
 
         for option in option_to_method:
@@ -165,9 +166,15 @@ class StockIT:
         self.attach_window(self.opened_windows["sales"], self.adjust_window_position)
         self.sales_instance = Sales(self.opened_windows["sales"])
 
-    def exit(self) -> None:
-        # self.main_window.destroy()
-        pass
+    def dashboard(self) -> None:
+        self.destroy_all_windows()
+
+    def logout(self):
+        self.main_window.destroy()
+        current_dir = os.path.dirname(os.path.realpath(__file__))
+        parent_dir = os.path.dirname(current_dir)
+        login_path = os.path.join(parent_dir, "authentication/login.py")
+        os.system(f"{sys.executable} {login_path}")
 
 
 if __name__ == '__main__':

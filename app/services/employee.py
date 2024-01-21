@@ -48,7 +48,7 @@ class Employee:
 
     def create_labels(self):
         labels_info = [
-            ("Employee ID", 50, 150), ("Contact", 350, 150), ("Birthdate", 750, 150),
+            ("EmployeeID", 50, 150), ("Contact", 350, 150), ("Birthdate", 750, 150),
             ("Name", 50, 190), ("Date of Join", 350, 190), ("Salary", 750, 190),
             ("Email", 50, 230), ("Password", 350, 230), ("User Type", 750, 230),
             ("Address", 50, 270)
@@ -105,11 +105,6 @@ class Employee:
         search_button = Button(frame, text="Search", command=self.search_employee, font=("goudy old style", 15),
                                bg="#4caf50", fg="white", cursor="hand2")
         search_button.place(x=420, y=10, width=150, height=31)
-
-        """style = ttk.Style()
-        style.configure("Search.TButton", background="green", foreground="white")
-        search_button = ttk.Button(frame, text="Search", style="Search.TButton", cursor="hand2")
-        search_button.place(x=420, y=10, width=150, height=31)"""
 
     def create_employee_details_frame(self):
         # Employee frame
@@ -271,9 +266,10 @@ class Employee:
                     else:
                         confirm = messagebox.askyesno("Confirm", "Do you really want to delete?",
                                                       parent=self.main_window)
-                        cursor.execute("delete from Employee where EmployeeID=?", (self.employee_id.get(),))
-                        db_connection.commit()
-                        messagebox.showinfo("Delete", "Employee deleted successfully", parent=self.main_window)
+                        if confirm:
+                            cursor.execute("delete from Employee where EmployeeID=?", (self.employee_id.get(),))
+                            db_connection.commit()
+                            messagebox.showinfo("Delete", "Employee deleted successfully", parent=self.main_window)
                         self.clear_employee_data()
         except Exception as e:
             messagebox.showerror("Error", f"Error: {str(e)}", parent=self.main_window)
