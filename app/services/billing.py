@@ -1,6 +1,8 @@
 import os
 from tkinter import *
 from tkinter import ttk, messagebox
+import sys
+import sqlite3
 import time
 from PIL import Image, ImageTk
 from employee import Employee
@@ -211,15 +213,13 @@ class BillClass:
         self.cart_table.heading("name", text="Name")
         self.cart_table.heading("price", text="Price")
         self.cart_table.heading("qty", text="QTY")
-        self.cart_table.heading("status", text="Status")
         self.cart_table["show"] = "headings"
         self.cart_table.column("pid", width=40)
         self.cart_table.column("name", width=100)
         self.cart_table.column("price", width=90)
         self.cart_table.column("qty", width=40)
-        self.cart_table.column("status", width=90)
         self.cart_table.pack(fill=BOTH, expand=1)
-        # self.cart_table.bind("<ButtonRelease-1>", self.get_data)
+        self.cart_table.bind("<ButtonRelease-1>", self.get_data_cart)
 
         # Add Cart Widgets Frame
         self.var_pid = StringVar()
@@ -261,12 +261,12 @@ class BillClass:
         self.label_inStock.place(x=5, y=70)
 
         # Buttons
-        btn_clear_cart = Button(add_cart_widgets_frame, text="Clear", font=("times new roman", 15, "bold"),
-                                bg="lightgray", cursor="hand2")
+        btn_clear_cart = Button(add_cart_widgets_frame, text="Clear", command=self.clear_cart,
+                                font=("times new roman", 15, "bold"), bg="lightgray", cursor="hand2")
         btn_clear_cart.place(x=180, y=70, width=150, height=30)
 
-        btn_add_cart = Button(add_cart_widgets_frame, text="Add | Update Cart", font=("times new roman", 15, "bold"),
-                              bg="orange", cursor="hand2")
+        btn_add_cart = Button(add_cart_widgets_frame, text="Add | Update Cart", command=self.add_update_cart,
+                              font=("times new roman", 15, "bold"), bg="orange", cursor="hand2")
         btn_add_cart.place(x=340, y=70, width=180, height=30)
 
         # Billing Area
@@ -309,20 +309,21 @@ class BillClass:
         button_print.place(x=2, y=80, width=120, height=50)
 
         # Clear All Button
-        button_clear_all = Button(bill_menu_frame, text="Clear All", cursor="hand2",
-                                  font=("goudy old style", 15, "bold"),
-                                  bg='gray', fg="white")
+        button_clear_all = Button(bill_menu_frame, text="Clear All", command=self.clear_all, cursor="hand2",
+                                  font=("goudy old style", 15, "bold"), bg='gray', fg="white")
         button_clear_all.place(x=124, y=80, width=120, height=50)
 
         # Generate Button
-        button_generate = Button(bill_menu_frame, text="Generate Bill", cursor="hand2",
-                                 font=("goudy old style", 15, "bold"),
-                                 bg='#009688', fg="white")
+        button_generate = Button(bill_menu_frame, text="Generate Bill", command=self.generate_bill, cursor="hand2",
+                                 font=("goudy old style", 15, "bold"), bg='#009688', fg="white")
         button_generate.place(x=246, y=80, width=160, height=50)
 
         # Footer
         # footer = Label(self.main_window, bg="#4d636d", text="")
         # footer.pack(side=BOTTOM, fill=X)
+
+        self.show()
+        self.update_date_time()
 
         # ===================Functions============
 
@@ -342,18 +343,207 @@ class BillClass:
         result = self.var_calc_input.get()
         self.var_calc_input.set(eval(result))
 
+    def logout(self):
+        self.main_window.destroy()
+        current_dir = os.path.dirname(os.path.realpath(__file__))
+        parent_dir = os.path.dirname(current_dir)
+        login_path = os.path.join(parent_dir, "authentication/login.py")
+        os.system(f"{sys.executable} {login_path}")
+
+    def show(self):
+        con = sqlite3.connect(database=r"../../db/stockit.db")
+        cur = con.cursor()
+        try:
+            cur.execute("select pid, name, price, qty, status from product where status='Active'")
+            rows = cur.fetchall()
+            self.product_table.delete(*self.product_table.get_children())
+            for row in rows:
+                self.product_table.insert('', END, values=row)
+        except Exception as ex:
+            messagebox.showerror("Error", f"Error due to : {str(ex)}", parent=self.main_window)
+
+    def search(self):
+        con = sqlite3.connect(database=r"../../db/stockit.db")
+        cur = con.cursor()
+        try:
+            if self.var_search.get() == "":
+                messagebox.showerror("Error", "Search input is required", parent=self.main_window)
+            else:
+                cur.execute("select pid, name, price, qty, status from product where name LIKE '%" +
+                            self.var_search.get() + "%' and status='Active'")
+                rows = cur.fetchall()
+                if len(rows) != 0:
+                    self.product_table.delete(*self.product_table.get_children())
+                    for row in rows:
+                        self.product_table.insert('', END, values=row)
+                else:
+                    messagebox.showerror("Error", "No record found!", parent=self.main_window)
+        except Exception as ex:
+            messagebox.showerror("Error", f"Error: {str(ex)}", parent=self.main_window)
+
+    def get_data_cart(self, ev):
+        f = self.cart_table.focus()
+        content = (self.cart_table.item(f))
+        row = content['values']
+        self.var_pid.set(row[0])
+        self.var_pname.set(row[1])
+        self.var_price.set(row[2])
+        self.var_qty.set(row[3])
+        self.label_inStock.config(text=f"In Stock [{str(row[3])}]")
+        self.var_stock.set(row[3])
+
+    def add_update_cart(self):
+        if self.var_pid.get() == '':
+            messagebox.showerror('Error', "Please select a product from the list", parent=self.main_window)
+        elif self.var_qty.get() == '':
+            messagebox.showerror('Error', "Quantity is required", parent=self.main_window)
+        elif int(self.var_qty.get()) > int(self.var_stock.get()):
+            messagebox.showerror('Error', "Invalid Quantity", parent=self.main_window)
+        else:
+            # price_calc = int(self.var_qty.get()) * float(self.var_price.get())
+            # price_calc = float(price_calc)
+            price_calc = self.var_price.get()
+            cart_data = [self.var_pid.get(), self.var_pname.get(), price_calc, self.var_qty.get(), self.var_stock.get()]
+            # update cart
+            present = 'no'
+            index_ = 0
+            for row in self.cart_list:
+                if self.var_pid.get() == row[0]:
+                    present = 'yes'
+                    break
+                index_ += 1
+            if present == 'yes':
+                op = messagebox.askyesno('Confirm',
+                                         "Product already present\nDo you want to Update or Remove from the Cart List",
+                                         parent=self.main_window)
+                if op == True:
+                    if self.var_qty.get() == "0":
+                        self.cart_list.pop(index_)
+                    else:
+                        # self.cart_list[index_][2] = price_calc  # price
+                        self.cart_list[index_][3] = self.var_qty.get()  # quantity
+            else:
+                self.cart_list.append(cart_data)
+            self.show_cart()
+            self.bill_updates()
+
+    def bill_updates(self):
+        self.bill_amount = 0
+        self.net_pay = 0
+        self.discount = 0
+        for row in self.cart_list:
+            self.bill_amount = self.bill_amount + float(row[2])*int(row[3])
+        self.discount = (self.bill_amount*5)/100
+        net_pay = self.bill_amount - ((self.bill_amount * 5) / 100)
+        self.label_amount.config(text=f'Bill Amount\n{str(self.bill_amount)}')
+        self.label_net_pay.config(text=f'Net Pay\n{str(self.net_pay)}')
+        self.cart_title.config(text=f"Cart \t Total Product: [{str(len(self.cart_list))}]")
+
+    def show_cart(self):
+        try:
+            self.cart_table.delete(*self.cart_table.get_children())
+            for row in self.cart_list:
+                self.cart_table.insert('', END, values=row)
+        except Exception as ex:
+            messagebox.showerror("Error", f"Error due to : {str(ex)}", parent=self.main_window)
+
     def generate_bill(self):
         if self.var_cname.get() == '' or self.var_contact.get() == '':
             messagebox.showerror("Error", f"Customer Details are required", parent=self.main_window)
+        elif len(self.cart_list) == 0:
+            messagebox.showerror("Error", f"Please Add Product to the Cart!", parent=self.main_window)
         else:
             # Bill Top
+            self.bill_top()
             # Bill Mid
+            self.bill_middle()
             # Bill Bottom
-            pass
+            self.bill_bottom()
+
+            fp = open(f'bill/{str(self.invoice)}.txt', 'w')
+            fp.write(END, self.txt_bill_area.get('1.0', END))
+            fp.close()
+            messagebox.showinfo('Saved', "Bill has been saved in Backend", parent=self.main_window)
 
     def bill_top(self):
-        invoice = int(time.strftime("%H%M%S")) + int(time.strftime("%d%m%Y"))
-        print(invoice)
+        self.invoice = int(time.strftime("%H%M%S")) + int(time.strftime("%d%m%Y"))
+        bill_top_temp = f'''
+        \t\tXYZ-Inventory
+        \t Phone No. 123456, Wien
+        {str("="*47)}
+         Customer Name: {self.var_cname.get()}
+         Ph no. :{self.var_contact.get()}
+         Bill No. {str(self.invoice)}\t\t\tDate: {str(time.strftime("%d%m%Y"))}
+        {str("="*47)}
+         Product Name \t\t\tQTY\tPrice
+        {str("="*47)}
+        '''
+        self.txt_bill_area.delete('1.0', END)
+        self.txt_bill_area.insert('1.0', bill_top_temp)
+
+    def bill_bottom(self):
+        bill_bottom_temp = f'''
+        {str("="*47)}
+         Bill Amount\t\t\t\tRs.{self.bill_amount}
+         Discount\t\t\t\tRs.{self.discount}
+         Net Pay\t\t\t\tRs.{self.net_pay}
+        {str("="*47)}\n
+        '''
+        self.txt_bill_area.insert(END, bill_bottom_temp)
+
+    def bill_middle(self):
+        con = sqlite3.connect(database=r"../../db/stockit.db")
+        cur = con.cursor()
+        try:
+            for row in self.cart.list:
+                pid = row[0]
+                name = row[1]
+                qty = int(row[4]) - int(row[3])
+                if int(row[3]) == int(row[4]):
+                    status = 'Inactive'
+                if int(row[3]) != int(row[4]):
+                    status = 'Active'
+
+                price = float(row[2])*int(row[3])
+                price = str(price)
+                self.txt_bill_area.insert(END, "\n" + name + "\t\t\t" + row[3] + "\tRs." + price)
+                # Update qty in product table
+                cur.execute('Update product set qty=?,status=? where pid=?', (
+                    qty,
+                    status,
+                    pid
+                ))
+                con.commit()
+            con.close()
+            self.show()
+        except Exception as ex:
+            messagebox.showerror("Error", f"Error due to : {str(ex)}", parent=self.main_window)
+
+
+    def clear_cart(self):
+        self.var_pid.set('')
+        self.var_pname.set('')
+        self.var_price.set('')
+        self.var_qty.set('')
+        self.label_inStock.config(text=f"In Stock")
+        self.var_stock.set('')
+
+    def clear_all(self):
+        del self.cart_list[:]
+        self.var_cname.set('')
+        self.var_contact.set('')
+        self.txt_bill_area.delete('1.0', END)
+        self.cart_title.config(text=f"Cart \t Total Product: [0]")
+        self.var_search.set('')
+        self.clear_cart()
+        self.show()
+        self.show_cart()
+
+    def update_date_time(self):
+        time_ = time.strftime("%H:%M:%S")
+        date_ = time.strftime("%d-%m-%Y")
+        self.clock_label.config = Label(text=f"Welcome to StockIT\t\t Date: {str(date_)}\t\t Time: {str(time_)}")
+        self.clock_label.after(200, self.update_date_time)
 
 
 if __name__ == '__main__':
