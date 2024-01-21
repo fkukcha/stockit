@@ -1,6 +1,7 @@
 import os
 from tkinter import *
-from tkinter import ttk
+from tkinter import ttk, messagebox
+import time
 from PIL import Image, ImageTk
 from employee import Employee
 from sales import Sales
@@ -304,17 +305,19 @@ class BillClass:
 
         # Print Button
         button_print = Button(bill_menu_frame, text="Print", cursor="hand2", font=("goudy old style", 15, "bold"),
-                                  bg='lightgreen', fg="white")
+                              bg='lightgreen', fg="white")
         button_print.place(x=2, y=80, width=120, height=50)
 
         # Clear All Button
-        button_clear_all = Button(bill_menu_frame, text="Clear All", cursor="hand2", font=("goudy old style", 15, "bold"),
-                                    bg='gray', fg="white")
+        button_clear_all = Button(bill_menu_frame, text="Clear All", cursor="hand2",
+                                  font=("goudy old style", 15, "bold"),
+                                  bg='gray', fg="white")
         button_clear_all.place(x=124, y=80, width=120, height=50)
 
         # Generate Button
-        button_generate = Button(bill_menu_frame, text="Generate Bill", cursor="hand2", font=("goudy old style", 15, "bold"),
-                                   bg='#009688', fg="white")
+        button_generate = Button(bill_menu_frame, text="Generate Bill", cursor="hand2",
+                                 font=("goudy old style", 15, "bold"),
+                                 bg='#009688', fg="white")
         button_generate.place(x=246, y=80, width=160, height=50)
 
         # Footer
@@ -338,6 +341,19 @@ class BillClass:
     def perform_cal(self):
         result = self.var_calc_input.get()
         self.var_calc_input.set(eval(result))
+
+    def generate_bill(self):
+        if self.var_cname.get() == '' or self.var_contact.get() == '':
+            messagebox.showerror("Error", f"Customer Details are required", parent=self.main_window)
+        else:
+            # Bill Top
+            # Bill Mid
+            # Bill Bottom
+            pass
+
+    def bill_top(self):
+        invoice = int(time.strftime("%H%M%S")) + int(time.strftime("%d%m%Y"))
+        print(invoice)
 
 
 if __name__ == '__main__':
