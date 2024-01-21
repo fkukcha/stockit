@@ -198,7 +198,8 @@ class BillClass:
         # Cart Frame
         cart_frame = Frame(calc_cart_frame, bd=3, relief=RIDGE)
         cart_frame.place(x=280, y=8, width=245, height=342)
-        self.cart_title = Label(cart_frame, text="Cart \t Total Product: [0]", font=("goudy old style", 15), bg="lightgray")
+        self.cart_title = Label(cart_frame, text="Cart \t Total Product: [0]", font=("goudy old style", 15),
+                                bg="lightgray")
         self.cart_title.pack(side=TOP, fill=X)
 
         scrolly = Scrollbar(cart_frame, orient=VERTICAL)
@@ -362,7 +363,7 @@ class BillClass:
         con = sqlite3.connect(database=r"../../db/stockit.db")
         cur = con.cursor()
         try:
-            cur.execute("select pid, name, price, qty, status from product where status='Active'")
+            cur.execute("select PID, Name, Price, Qty, Status from Product where Status='Active'")
             rows = cur.fetchall()
             self.product_table.delete(*self.product_table.get_children())
             for row in rows:
@@ -377,8 +378,8 @@ class BillClass:
             if self.var_search.get() == "":
                 messagebox.showerror("Error", "Search input is required", parent=self.main_window)
             else:
-                cur.execute("select pid, name, price, qty, status from product where name LIKE '%" +
-                            self.var_search.get() + "%' and status='Active'")
+                cur.execute("select PID, Name, Price, Qty, Status from Product where Name LIKE '%" +
+                            self.var_search.get() + "%' and Status='Active'")
                 rows = cur.fetchall()
                 if len(rows) != 0:
                     self.product_table.delete(*self.product_table.get_children())
@@ -414,13 +415,13 @@ class BillClass:
                 if self.var_pid.get() == row[0]:
                     present = 'yes'
                     break
-                index_+=1
-            if present=='yes':
-                op=messagebox.askyesno('Confirm',
-                                    "Product already present\nDo you want to Update or Remove from the Cart List",
-                                    parent=self.main_window)
-                if op==True:
-                    if self.var_qty.get()=="0":
+                index_ += 1
+            if present == 'yes':
+                op = messagebox.askyesno('Confirm',
+                                         "Product already present\nDo you want to Update or Remove from the Cart List",
+                                         parent=self.main_window)
+                if op == True:
+                    if self.var_qty.get() == "0":
                         self.cart_list.pop(index_)
                     else:
                         self.cart_list[index_][2] = price_calc  # price
@@ -435,7 +436,7 @@ class BillClass:
         net_pay = 0
         for row in self.cart_list:
             bill_amount = bill_amount + float(row[2])
-        net_pay = bill_amount - ((bill_amount*5)/100)
+        net_pay = bill_amount - ((bill_amount * 5) / 100)
         self.label_amount.config(text=f'Bill Amount\n{str(bill_amount)}')
         self.label_net_pay.config(text=f'Net Pay\n{str(net_pay)}')
         self.cart_title.config(text=f"Cart \t Total Product: [{str(len(self.cart_list))}]")
