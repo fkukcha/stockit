@@ -26,26 +26,26 @@ class BillClass:
         title_image_path = self.get_image_path(parent_dir, 'logo1.png')
         self.icon_title = PhotoImage(file=title_image_path)
         title = Label(self.main_window, text="StockIT", image=self.icon_title, compound=LEFT,
-                      font=("times new roman", 40, "bold"), bg="#010c48", fg="white", anchor="w", padx=20)
+                      font=("helvetica", 40, "bold"), bg="#010c48", fg="white", anchor="w", padx=20)
         title.place(x=0, y=0, relwidth=1, height=70)
 
         # Logout button
         logout_button = Button(
-            self.main_window, text="Logout", command=self.logout, font=("times new roman", 15, "bold"), bg="red",
+            self.main_window, text="Logout", command=self.logout, font=("helvetica", 15, "bold"), bg="red",
             cursor="hand2"
         )
         logout_button.place(x=1150, y=10, height=50, width=150)
 
         # Clock
         self.clock_label = Label(self.main_window, text="Welcome to StockIT\t\t Date: DD-MM-YYYY\t\t Time: HH:MM:SS",
-                                 font=("times new roman", 15), bg="#4d636d", fg="white")
+                                 font=("helvetica", 15), bg="#4d636d", fg="white")
         self.clock_label.place(x=0, y=70, relwidth=1, height=30)
 
         # Product Frame
         product_frame1 = Frame(self.main_window, bd=4, relief=RIDGE, bg="white")
         product_frame1.place(x=6, y=110, width=410, height=550)
 
-        product_title1 = Label(product_frame1, text="All Products", font=("goudy old style", 20, "bold"),
+        product_title1 = Label(product_frame1, text="All Products", font=("helvetica", 20, "bold"),
                                bg="#262626", fg="white")
         product_title1.pack(side=TOP, fill=X)
 
@@ -54,22 +54,22 @@ class BillClass:
         product_frame2 = Frame(product_frame1, bd=2, relief=RIDGE, bg="white")
         product_frame2.place(x=2, y=42, width=398, height=90)
 
-        label_search = Label(product_frame2, text="Search Product | By Name", font=("times new roman", 15, "bold"),
+        label_search = Label(product_frame2, text="Search Product | By Name", font=("helvetica", 15, "bold"),
                              bg="white", fg="green")
         label_search.place(x=2, y=5)
 
-        label_search = Label(product_frame2, text="Product Name", font=("times new roman", 15, "bold"), bg="white")
+        label_search = Label(product_frame2, text="Product Name", font=("helvetica", 15, "bold"), bg="white")
         label_search.place(x=2, y=45)
 
         text_search = Entry(product_frame2, textvariable=self.var_search,
                             font=("times new roman", 13), bg="lightyellow")
-        text_search.place(x=128, y=47, width=150, height=22)
+        text_search.place(x=145, y=47, width=130, height=22)
 
-        button_search = Button(product_frame2, text="Search", command=self.search, font=("goudy old style", 15)
+        button_search = Button(product_frame2, text="Search", command=self.search, font=("helvetica", 15)
                                , bg="#2196f3", fg="white", cursor="hand2")
         button_search.place(x=285, y=45, width=100, height=25)
 
-        button_show_all = Button(product_frame2, text="Show All", command=self.show, font=("goudy old style", 15),
+        button_show_all = Button(product_frame2, text="Show All", command=self.show, font=("helvetica", 15),
                                  bg="#083531",
                                  fg="white", cursor="hand2")
         button_show_all.place(x=285, y=10, width=100, height=25)
@@ -105,7 +105,7 @@ class BillClass:
         self.product_table.pack(fill=BOTH, expand=1)
 
         label_note = Label(product_frame1, text="Note: Enter 0 quantity to remove product from the cart",
-                           font=("goudy old style", 12), anchor='w', bg="white", fg="red")
+                           font=("helvetica", 12), anchor='w', bg="white", fg="red")
         label_note.pack(side=BOTTOM, fill=X)
 
         # Customer Frame
@@ -114,19 +114,19 @@ class BillClass:
         customer_frame = Frame(self.main_window, bd=4, relief=RIDGE, bg="white")
         customer_frame.place(x=420, y=110, width=530, height=70)
 
-        customer_title = Label(customer_frame, text="Customer Details", font=("goudy old style", 15), bg="lightgray")
+        customer_title = Label(customer_frame, text="Customer Details", font=("helvetica", 15), bg="lightgray")
         customer_title.pack(side=TOP, fill=X)
 
-        label_name = Label(customer_frame, text="Name", font=("times new roman", 15), bg="white")
+        label_name = Label(customer_frame, text="Name", font=("helvetica", 15), bg="white")
         label_name.place(x=5, y=35)
 
-        text_name = Entry(customer_frame, textvariable=self.var_cname, font=("times new roman", 13), bg="lightyellow")
+        text_name = Entry(customer_frame, textvariable=self.var_cname, font=("helvetica", 13), bg="lightyellow")
         text_name.place(x=80, y=35, width=180)
 
-        label_contact = Label(customer_frame, text="Contact No.", font=("times new roman", 15), bg="white")
+        label_contact = Label(customer_frame, text="Contact No.", font=("helvetica", 15), bg="white")
         label_contact.place(x=270, y=35)
 
-        text_contact = Entry(customer_frame, textvariable=self.var_contact, font=("times new roman", 13),
+        text_contact = Entry(customer_frame, textvariable=self.var_contact, font=("helvetica", 13),
                              bg="lightyellow")
         text_contact.place(x=380, y=35, width=140)
 
@@ -199,7 +199,7 @@ class BillClass:
         # Cart Frame
         cart_frame = Frame(calc_cart_frame, bd=3, relief=RIDGE)
         cart_frame.place(x=280, y=8, width=245, height=342)
-        self.cart_title = Label(cart_frame, text="Cart \t Total Product: [0]", font=("goudy old style", 15),
+        self.cart_title = Label(cart_frame, text="Cart \t Total Product: [0]", font=("times new roman", 15),
                                 bg="lightgray")
         self.cart_title.pack(side=TOP, fill=X)
 
@@ -237,41 +237,41 @@ class BillClass:
         add_cart_widgets_frame.place(x=420, y=550, width=530, height=110)
 
         # Label 1
-        label_product_name = Label(add_cart_widgets_frame, text="Product Name", font=("times new roman", 15),
+        label_product_name = Label(add_cart_widgets_frame, text="Product Name", font=("helvetica", 15),
                                    bg="white")
         label_product_name.place(x=5, y=5)
-        text_product_name = Entry(add_cart_widgets_frame, textvariable=self.var_pname, font=("times new roman", 15),
+        text_product_name = Entry(add_cart_widgets_frame, textvariable=self.var_pname, font=("helvetica", 15),
                                   bg="lightyellow", state='readonly')
         text_product_name.place(x=5, y=35, width=190, height=25)
 
         # Label 2
-        label_product_price = Label(add_cart_widgets_frame, text="Price Per Qty", font=("times new roman", 15),
+        label_product_price = Label(add_cart_widgets_frame, text="Price Per Qty", font=("helvetica", 15),
                                     bg="white")
         label_product_price.place(x=230, y=5)
-        text_product_price = Entry(add_cart_widgets_frame, textvariable=self.var_price, font=("times new roman", 15),
+        text_product_price = Entry(add_cart_widgets_frame, textvariable=self.var_price, font=("helvetica", 15),
                                    bg="lightyellow", state='readonly')
         text_product_price.place(x=230, y=35, width=150, height=25)
 
         # Label 3
-        label_product_qty = Label(add_cart_widgets_frame, text="Quantity", font=("times new roman", 15),
+        label_product_qty = Label(add_cart_widgets_frame, text="Quantity", font=("helvetica", 15),
                                   bg="white")
         label_product_qty.place(x=390, y=5)
-        text_product_qty = Entry(add_cart_widgets_frame, textvariable=self.var_qty, font=("times new roman", 15),
+        text_product_qty = Entry(add_cart_widgets_frame, textvariable=self.var_qty, font=("helvetica", 15),
                                  bg="lightyellow")
         text_product_qty.place(x=390, y=35, width=120, height=25)
 
         # Label 4
-        self.label_inStock = Label(add_cart_widgets_frame, text="In Stock", font=("times new roman", 15),
+        self.label_inStock = Label(add_cart_widgets_frame, text="In Stock", font=("helvetica", 15),
                                    bg="white")
         self.label_inStock.place(x=5, y=70)
 
         # Buttons
         btn_clear_cart = Button(add_cart_widgets_frame, text="Clear", command=self.clear_cart,
-                                font=("times new roman", 15, "bold"), bg="lightgray", cursor="hand2")
+                                font=("helvetica", 15, "bold"), bg="lightgray", cursor="hand2")
         btn_clear_cart.place(x=180, y=70, width=150, height=30)
 
         btn_add_cart = Button(add_cart_widgets_frame, text="Add | Update Cart", command=self.add_update_cart,
-                              font=("times new roman", 15, "bold"), bg="orange", cursor="hand2")
+                              font=("helvetica", 15, "bold"), bg="orange", cursor="hand2")
 
         btn_add_cart.place(x=340, y=70, width=180, height=30)
 
@@ -279,7 +279,7 @@ class BillClass:
         bill_frame = Frame(self.main_window, bd=2, relief=RIDGE, bg="white")
         bill_frame.place(x=953, y=110, width=410, height=410)
 
-        bill_title = Label(bill_frame, text="Customer Bill Area", font=("goudy old style", 20, "bold"),
+        bill_title = Label(bill_frame, text="Customer Bill Area", font=("helvetica", 20, "bold"),
                            bg="#262626", fg="white")
         bill_title.pack(side=TOP, fill=X)
 
@@ -295,33 +295,33 @@ class BillClass:
         bill_menu_frame.place(x=953, y=520, width=410, height=140)
 
         # Amount Button
-        self.label_amount = Label(bill_menu_frame, text="Bill Amount\n[0]", font=("goudy old style", 15, "bold"),
+        self.label_amount = Label(bill_menu_frame, text="Bill Amount\n[0]", font=("helvetica", 15, "bold"),
                                   bg='#3f51b5', fg="white")
         self.label_amount.place(x=2, y=5, width=120, height=70)
 
         # Discount Button
-        self.label_discount = Label(bill_menu_frame, text="Discount\n[5%]", font=("goudy old style", 15, "bold"),
+        self.label_discount = Label(bill_menu_frame, text="Discount\n[5%]", font=("helvetica", 15, "bold"),
                                     bg='#8bc34a', fg="white")
         self.label_discount.place(x=124, y=5, width=120, height=70)
 
         # Net Pay Button
-        self.label_net_pay = Label(bill_menu_frame, text="Net Pay\n[0]", font=("goudy old style", 15, "bold"),
+        self.label_net_pay = Label(bill_menu_frame, text="Net Pay\n[0]", font=("helvetica", 15, "bold"),
                                    bg='#607d8b', fg="white")
         self.label_net_pay.place(x=246, y=5, width=160, height=70)
 
         # Print Button
         button_print = Button(bill_menu_frame, command=self.print_bill, text="Print", cursor="hand2",
-                              font=("goudy old style", 15, "bold"), bg='lightgreen', fg="white")
+                              font=("helvetica", 15, "bold"), bg='lightgreen', fg="white")
         button_print.place(x=2, y=80, width=120, height=50)
 
         # Clear All Button
         button_clear_all = Button(bill_menu_frame, text="Clear All", command=self.clear_all, cursor="hand2",
-                                  font=("goudy old style", 15, "bold"), bg='gray', fg="white")
+                                  font=("helvetica", 15, "bold"), bg='gray', fg="white")
         button_clear_all.place(x=124, y=80, width=120, height=50)
 
         # Generate Button
         button_generate = Button(bill_menu_frame, text="Generate Bill", command=self.generate_bill, cursor="hand2",
-                                 font=("goudy old style", 15, "bold"), bg='#009688', fg="white")
+                                 font=("helvetica", 15, "bold"), bg='#009688', fg="white")
         button_generate.place(x=246, y=80, width=160, height=50)
 
         # Footer
