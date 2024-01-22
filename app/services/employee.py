@@ -150,9 +150,12 @@ class Employee:
         headings = ("EmployeeID", "Name", "Email", "Password", "UserType", "Contact", "Birthdate", "Salary",
                     "DateOfJoin", "Address")
 
+        column_widths = {"EmployeeID": 25, "Name": 60, "Email": 90, "Password": 50, "UserType": 40, "Contact": 60,
+                         "Birthdate": 30, "Salary": 20, "DateOfJoin": 30, "Address": 65}
+
         for heading in headings:
             self.employee_table.heading(heading, text=heading)
-            self.employee_table.column(heading, width=100)
+            self.employee_table.column(heading, width=column_widths.get(heading, 50))
 
         self.employee_table["show"] = "headings"
 
