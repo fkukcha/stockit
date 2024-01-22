@@ -202,15 +202,15 @@ class StockIT:
         try:
             cur.execute("select * from Employee")
             employee = cur.fetchall()
-            self.dashboard_menu_labels[0].config(text=f'Total Product\n[ {str(len(employee))} ]')
+            self.dashboard_menu_labels[0].config(text=f'Total Employee\n[ {str(len(employee))} ]')
 
             cur.execute("select * from Supplier")
             supplier = cur.fetchall()
-            self.dashboard_menu_labels[1].config(text=f'Total Product\n[ {str(len(supplier))} ]')
+            self.dashboard_menu_labels[1].config(text=f'Total Supplier\n[ {str(len(supplier))} ]')
 
             cur.execute("select * from Category")
             category = cur.fetchall()
-            self.dashboard_menu_labels[2].config(text=f'Total Product\n[ {str(len(category))} ]')
+            self.dashboard_menu_labels[2].config(text=f'Total Category\n[ {str(len(category))} ]')
 
             cur.execute("select * from Product")
             product = cur.fetchall()
