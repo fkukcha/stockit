@@ -34,7 +34,8 @@ class StockIT:
 
         # Logout button
         logout_button = Button(
-            self.main_window, text="Logout", command=self.logout, font=("times new roman", 15, "bold"), bg="red", cursor="hand2"
+            self.main_window, text="Logout", command=self.logout, font=("times new roman", 15, "bold"), bg="red",
+            cursor="hand2"
         )
         logout_button.place(x=1150, y=10, height=50, width=150)
 
@@ -87,10 +88,14 @@ class StockIT:
         dashboard_icons_colors = ["#33bbf9", "#ff5722", "#009688", "#607d8b", "#ffc107"]
         dashboard_icons_labels = ["Total Employees\n[ 0 ]", "Total Suppliers\n[ 0 ]", "Total Categories\n[ 0 ]",
                                   "Total Products\n[ 0 ]", "Total Sales\n[ 0 ]"]
+        self.dashboard_menu_labels = ["employee_label", "supplier", "category_label", "product_label", "sales_label"]
+
         for i in range(5):
-            label = Label(self.main_window, text=dashboard_icons_labels[i], bd=5, relief=RIDGE,
-                          bg=dashboard_icons_colors[i], fg="white", font=("goudy old style", 20, "bold"))
-            label.place(x=dashboard_icons_positions[i][0], y=dashboard_icons_positions[i][1], height=150, width=300)
+            self.dashboard_menu_labels[i] = Label(self.main_window, text=dashboard_icons_labels[i], bd=5, relief=RIDGE,
+                                                  bg=dashboard_icons_colors[i], fg="white",
+                                                  font=("goudy old style", 20, "bold"))
+            self.dashboard_menu_labels[i].place(x=dashboard_icons_positions[i][0], y=dashboard_icons_positions[i][1],
+                                                height=150, width=300)
 
         # Footer
         footer_label = Label(self.main_window, text="StockIT", font=("times new roman", 12), bg="#4d636d", fg="white")
@@ -195,33 +200,32 @@ class StockIT:
         con = sqlite3.connect(database=r"../../db/stockit.db")
         cur = con.cursor()
         try:
-            cur.execute("select * from Product")
-            product = cur.fetchall()
-            self.label_product.config(text=f'Total Product\n[ {str(len(product))} ]')
+            cur.execute("select * from Employee")
+            employee = cur.fetchall()
+            self.dashboard_menu_labels[0].config(text=f'Total Product\n[ {str(len(employee))} ]')
 
             cur.execute("select * from Supplier")
             supplier = cur.fetchall()
-            self.label_supplier.config(text=f'Total Product\n[ {str(len(supplier))} ]')
+            self.dashboard_menu_labels[1].config(text=f'Total Product\n[ {str(len(supplier))} ]')
 
             cur.execute("select * from Category")
             category = cur.fetchall()
-            self.label_category.config(text=f'Total Product\n[ {str(len(category))} ]')
+            self.dashboard_menu_labels[2].config(text=f'Total Product\n[ {str(len(category))} ]')
 
-            cur.execute("select * from Employee")
-            employee = cur.fetchall()
-            self.label_employee.config(text=f'Total Product\n[ {str(len(employee))} ]')
+            cur.execute("select * from Product")
+            product = cur.fetchall()
+            self.dashboard_menu_labels[3].config(text=f'Total Product\n[ {str(len(product))} ]')
 
             bill = len(os.listdir('../../bills'))
-            self.label_sales.config(text=f'Total Sales [{str(bill)}')
+            self.dashboard_menu_labels[4].config(text=f'Total Sales\n[{str(bill)}]')
 
-            time_ = time.strftime("%d-%m-%Y")
+            time_ = time.strftime("%H:%M:%S")
             date_ = time.strftime("%d-%m-%Y")
             self.clock_label.config(text=f'Welcome to stockIT\t\t Date: {str(date_)}\t\t Time: {str(time_)}')
             self.clock_label.after(200, self.update_content)
 
         except Exception as ex:
             messagebox.showerror("Error", f"Error due to : {str(ex)}", parent=self.main_window)
-
 
 
 if __name__ == '__main__':

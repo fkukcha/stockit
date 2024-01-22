@@ -556,7 +556,7 @@ class BillClass:
     def update_date_time(self):
         time_ = time.strftime("%H:%M:%S")
         date_ = time.strftime("%d-%m-%Y")
-        self.clock_label.config = Label(text=f"Welcome to StockIT\t\t Date: {str(date_)}\t\t Time: {str(time_)}")
+        self.clock_label.config(text=f"Welcome to StockIT\t\t Date: {str(date_)}\t\t Time: {str(time_)}")
         self.clock_label.after(200, self.update_date_time)
 
     def print_bill(self):
