@@ -23,7 +23,7 @@ class Login:
         login_frame.place(x=650, y=90, width=350, height=460)
 
         # Title
-        title = Label(login_frame, text="Login to StockIT", font=("Elephant", 30, "bold"), bg="white")
+        title = Label(login_frame, text="StockIT Login", font=("Elephant", 30, "bold"), bg="white")
         title.place(x=0, y=30, relwidth=1)
 
         # Username
@@ -61,15 +61,6 @@ class Login:
             login_frame, text="Forgot Password?", command=self.forget_password_form, font=("times new roman", 13),
             bg="white", fg="#00759E", bd=0, activebackground="white", activeforeground="#00759E")
         forget_password_button.place(x=100, y=390)
-
-        # Register frame
-        register_frame = Frame(self.main_window, bd=2, relief=RIDGE, bg="white")
-        register_frame.place(x=650, y=570, width=350, height=60)
-
-        # Register label
-        register_label = Label(
-            register_frame, text="SUBSCRIBE | LIKE | SHARE", font=("times new roman", 13), bg="white")
-        register_label.place(x=0, y=20, relwidth=1)
 
         # Login images animation
         self.image_1 = ImageTk.PhotoImage(file="../../images/im1.png")
