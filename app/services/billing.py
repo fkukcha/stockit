@@ -219,8 +219,8 @@ class BillClass:
         self.cart_table.heading("Qty", text="QTY")
         self.cart_table["show"] = "headings"
         self.cart_table.column("PID", width=40)
-        self.cart_table.column("Name", width=100)
-        self.cart_table.column("Price", width=90)
+        self.cart_table.column("Name", width=80)
+        self.cart_table.column("Price", width=50)
         self.cart_table.column("Qty", width=40)
 
         # Add Cart Widgets Frame
@@ -439,8 +439,14 @@ class BillClass:
             self.bill_amount = self.bill_amount + float(row[2]) * int(row[3])
         self.discount = (self.bill_amount * 5) / 100
         self.net_pay = self.bill_amount - ((self.bill_amount * 5) / 100)
-        self.label_amount.config(text=f'Bill Amount\n{str(self.bill_amount)}')
-        self.label_net_pay.config(text=f'Net Pay\n{str(self.net_pay)}')
+
+        bill_amount_formatted = "{:.2f}".format(self.bill_amount)
+        discount_formatted = "{:.2f}".format(self.discount)
+        net_pay_formatted = "{:.2f}".format(self.net_pay)
+
+        self.label_amount.config(text=f'Bill Amount\n€{bill_amount_formatted}')
+        self.label_discount.config(text=f'Discount\n€{discount_formatted}')
+        self.label_net_pay.config(text=f'Net Pay\n€{net_pay_formatted}')
         self.cart_title.config(text=f"Cart \t Total Product: [{str(len(self.cart_list))}]")
 
     def show_cart(self):
@@ -472,26 +478,28 @@ class BillClass:
     def bill_top(self):
         self.invoice = int(time.strftime("%H%M%S")) + int(time.strftime("%d%m%Y"))
         bill_top_temp = f'''
-        \t\tXYZ-Inventory
-        \t Phone No. 123456, Wien
-        {str("=" * 47)}
-         Customer Name: {self.var_cname.get()}
-         Ph no. :{self.var_contact.get()}
-         Bill No. {str(self.invoice)}\t\t\tDate: {str(time.strftime("%d%m%Y"))}
-        {str("=" * 47)}
-         Product Name \t\t\tQTY\tPrice
-        {str("=" * 47)}
+\t\tXYZ-Inventory
+\t Phone No. 123456, Wien
+{str("=" * 47)}
+ Customer Name: {self.var_cname.get()}
+ Ph no. :{self.var_contact.get()}
+ Bill No. {str(self.invoice)}\t\t\tDate: {str(time.strftime("%d%m%Y"))}
+{str("=" * 47)}
+ Product Name \t\t\tQTY\tPrice
+{str("=" * 47)}
         '''
         self.txt_bill_area.delete('1.0', END)
         self.txt_bill_area.insert('1.0', bill_top_temp)
 
     def bill_bottom(self):
+        self.discount = round(self.discount, 2)
+        self.net_pay = round(self.net_pay, 2)
         bill_bottom_temp = f'''
-        {str("=" * 47)}
-         Bill Amount\t\t\t\t€{self.bill_amount}
-         Discount\t\t\t\t€{self.discount}
-         Net Pay\t\t\t\t€{self.net_pay}
-        {str("=" * 47)}\n
+{str("=" * 47)}
+ Bill Amount\t\t\t\t€{round(self.bill_amount, 2)}
+ Discount\t\t\t\t€{self.discount}
+ Net Pay\t\t\t\t€{self.net_pay}
+{str("=" * 47)}\n
         '''
         self.txt_bill_area.insert(END, bill_bottom_temp)
 
@@ -509,8 +517,8 @@ class BillClass:
                     status = 'Active'
 
                 price = float(row[2]) * int(row[3])
-                price = str(price)
-                self.txt_bill_area.insert(END, "\n" + name + "\t\t\t" + row[3] + "\t€" + price)
+                price = round(price, 2)
+                self.txt_bill_area.insert(END, "\n" + name + "\t\t\t" + row[3] + "\t€" + "{:.2f}".format(price))
                 # Update qty in product table
                 cur.execute('Update Product set Qty=?,Status=? where PID=?', (
                     qty, status, pid

@@ -72,7 +72,7 @@ class ProductCategory:
         button_add.place(x=350, y=175, width=100)
         button_delete = Button(
             self.main_window, text="Delete", command=self.delete_category, font=("goudy old style", 11), bg="red", fg="white", cursor="hand2")
-        button_delete.place(x=500, y=175, width=100)
+        button_delete.place(x=460, y=175, width=100)
 
     def create_category_table(self):
         """creates + heading"""
