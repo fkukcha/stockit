@@ -2,6 +2,8 @@ import os
 import sys
 from tkinter import *
 from PIL import Image, ImageTk
+
+from billing import BillClass
 from employee import Employee
 from sales import Sales
 from product import Product
@@ -68,6 +70,7 @@ class StockIT:
             "Category": self.category,
             "Product": self.product,
             "Sales": self.sales,
+            "Billing": self.billing
         }
 
         for option in option_to_method:
@@ -165,6 +168,14 @@ class StockIT:
         self.opened_windows["sales"].overrideredirect(True)
         self.attach_window(self.opened_windows["sales"], self.adjust_window_position)
         self.sales_instance = Sales(self.opened_windows["sales"])
+
+    def billing(self):
+        self.destroy_all_windows()
+        self.opened_windows["billing"] = Toplevel(self.main_window)
+        self.opened_windows["billing"].overrideredirect(True)
+        # self.attach_window(self.opened_windows["billing"], self.adjust_window_position)
+        self.billing_instance = BillClass(self.opened_windows["billing"])
+        self.billing_instance.main_window.geometry("1350x700+0+0")
 
     def dashboard(self) -> None:
         self.destroy_all_windows()
