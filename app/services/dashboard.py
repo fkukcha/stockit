@@ -14,7 +14,7 @@ from supplier import Supplier
 class StockIT:
     def __init__(self, main_window):
         self.main_window = main_window
-        self.main_window.geometry("1350x700+0+0")
+        self.main_window.geometry("1350x750+0+0")
         self.main_window.title("StockIt")
         self.main_window.config(bg="white")
         self.opened_windows = {}  # Dictionary to store opened windows
@@ -43,7 +43,7 @@ class StockIT:
 
         # Menu frame
         menu_frame = Frame(self.main_window, bd=2, relief=RIDGE, bg="white")
-        menu_frame.place(x=0, y=102, width=200, height=580)
+        menu_frame.place(x=0, y=102, width=200, height=680)
 
         # Menu image
         menu_image_path = self.get_image_path(parent_dir, 'menu_im.png')
