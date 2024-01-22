@@ -96,7 +96,7 @@ class StockIT:
         footer_label = Label(self.main_window, text="StockIT", font=("times new roman", 12), bg="#4d636d", fg="white")
         footer_label.pack(side=BOTTOM, fill=X)
 
-        # self.update_content()
+        self.update_content()
 
     @staticmethod
     def get_image_path(current_dir, image_name):
@@ -191,7 +191,7 @@ class StockIT:
         login_path = os.path.join(parent_dir, "authentication/login.py")
         os.system(f"{sys.executable} {login_path}")
 
-    '''def update_content(self):
+    def update_content(self):
         con = sqlite3.connect(database=r"../../db/stockit.db")
         cur = con.cursor()
         try:
@@ -221,7 +221,8 @@ class StockIT:
 
         except Exception as ex:
             messagebox.showerror("Error", f"Error due to : {str(ex)}", parent=self.main_window)
-        '''
+
+
 
 if __name__ == '__main__':
     app = Tk()
