@@ -4,6 +4,8 @@ from tkinter import ttk, messagebox
 import sys
 import sqlite3
 import time
+import os
+import tempfile
 
 
 class BillClass:
@@ -14,6 +16,7 @@ class BillClass:
         self.main_window.config(bg="white")
         self.cart_list = []
         self.opened_windows = {}  # Dictionary to store opened windows
+        self.chk_print = 0
 
         # Get the current directory of the script
         current_dir = os.path.dirname(os.path.realpath(__file__))
@@ -307,8 +310,8 @@ class BillClass:
         self.label_net_pay.place(x=246, y=5, width=160, height=70)
 
         # Print Button
-        button_print = Button(bill_menu_frame, text="Print", cursor="hand2", font=("goudy old style", 15, "bold"),
-                              bg='lightgreen', fg="white")
+        button_print = Button(bill_menu_frame, command=self.print_bill, text="Print", cursor="hand2",
+                              font=("goudy old style", 15, "bold"), bg='lightgreen', fg="white")
         button_print.place(x=2, y=80, width=120, height=50)
 
         # Clear All Button
@@ -473,7 +476,8 @@ class BillClass:
             fp = open(f'../../bills/{str(self.invoice)}.txt', 'w')
             fp.write(self.txt_bill_area.get('1.0', END))
             fp.close()
-            messagebox.showinfo('Saved', "Bill has been saved in Backend", parent=self.main_window)
+            messagebox.showinfo('Saved', "Bill has been saved", parent=self.main_window)
+            self.chk_print = 1
 
     def bill_top(self):
         self.invoice = int(time.strftime("%H%M%S")) + int(time.strftime("%d%m%Y"))
@@ -496,9 +500,9 @@ class BillClass:
         self.net_pay = round(self.net_pay, 2)
         bill_bottom_temp = f'''
 {str("=" * 47)}
- Bill Amount\t\t\t\t€{round(self.bill_amount, 2)}
- Discount\t\t\t\t€{self.discount}
- Net Pay\t\t\t\t€{self.net_pay}
+ Bill Amount\t\t\t\t€{self.bill_amount:.2f}
+ Discount\t\t\t\t€{self.discount:.2f}
+ Net Pay\t\t\t\t€{self.net_pay:.2f}
 {str("=" * 47)}\n
         '''
         self.txt_bill_area.insert(END, bill_bottom_temp)
@@ -547,12 +551,22 @@ class BillClass:
         self.clear_cart()
         self.show()
         self.show_cart()
+        self.chk_print = 0
 
     def update_date_time(self):
         time_ = time.strftime("%H:%M:%S")
         date_ = time.strftime("%d-%m-%Y")
         self.clock_label.config = Label(text=f"Welcome to StockIT\t\t Date: {str(date_)}\t\t Time: {str(time_)}")
         self.clock_label.after(200, self.update_date_time)
+
+    def print_bill(self):
+        if self.chk_print == 1:
+            messagebox.showinfo('Print', "Please wait while printing", parent=self.main_window)
+            new_file = tempfile.mktemp('.txt')
+            open(new_file, 'w').write(self.txt_bill_area.get('1.0', END))
+            os.startfile(new_file, 'print')
+        else:
+            messagebox.showinfo('Print', "Please generate bill to print the receipt", parent=self.main_window)
 
 
 if __name__ == '__main__':
