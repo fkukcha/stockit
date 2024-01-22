@@ -1,14 +1,16 @@
 import os
 import sys
 from tkinter import *
+from tkinter import messagebox
 from PIL import Image, ImageTk
-
+import sqlite3
 from billing import BillClass
 from employee import Employee
 from sales import Sales
 from product import Product
 from product_category import ProductCategory
 from supplier import Supplier
+import time
 
 
 class StockIT:
@@ -93,6 +95,8 @@ class StockIT:
         # Footer
         footer_label = Label(self.main_window, text="StockIT", font=("times new roman", 12), bg="#4d636d", fg="white")
         footer_label.pack(side=BOTTOM, fill=X)
+
+        # self.update_content()
 
     @staticmethod
     def get_image_path(current_dir, image_name):
@@ -187,6 +191,37 @@ class StockIT:
         login_path = os.path.join(parent_dir, "authentication/login.py")
         os.system(f"{sys.executable} {login_path}")
 
+    '''def update_content(self):
+        con = sqlite3.connect(database=r"../../db/stockit.db")
+        cur = con.cursor()
+        try:
+            cur.execute("select * from Product")
+            product = cur.fetchall()
+            self.label_product.config(text=f'Total Product\n[ {str(len(product))} ]')
+
+            cur.execute("select * from Supplier")
+            supplier = cur.fetchall()
+            self.label_supplier.config(text=f'Total Product\n[ {str(len(supplier))} ]')
+
+            cur.execute("select * from Category")
+            category = cur.fetchall()
+            self.label_category.config(text=f'Total Product\n[ {str(len(category))} ]')
+
+            cur.execute("select * from Employee")
+            employee = cur.fetchall()
+            self.label_employee.config(text=f'Total Product\n[ {str(len(employee))} ]')
+
+            bill = len(os.listdir('../../bills'))
+            self.label_sales.config(text=f'Total Sales [{str(bill)}')
+
+            time_ = time.strftime("%d-%m-%Y")
+            date_ = time.strftime("%d-%m-%Y")
+            self.clock_label.config(text=f'Welcome to stockIT\t\t Date: {str(date_)}\t\t Time: {str(time_)}')
+            self.clock_label.after(200, self.update_content)
+
+        except Exception as ex:
+            messagebox.showerror("Error", f"Error due to : {str(ex)}", parent=self.main_window)
+        '''
 
 if __name__ == '__main__':
     app = Tk()
