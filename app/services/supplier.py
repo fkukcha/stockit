@@ -52,8 +52,8 @@ class Supplier:
 
     def create_entries(self):
         entries_info = [
-            (self.supplier_invoice_num, 180, 80, 180), (self.supplier_contact, 180, 160, 180),
-            (self.supplier_name, 180, 120, 180)
+            (self.supplier_invoice_num, 180, 80, 180), (self.supplier_name, 180, 120, 180),
+            (self.supplier_contact, 180, 160, 180)
         ]
 
         for variable, x, y, width in entries_info:
@@ -110,7 +110,7 @@ class Supplier:
         supplier_scroll_y = Scrollbar(frame, orient=VERTICAL)
 
         # Supplier database columns
-        self.supplier_table = ttk.Treeview(frame, columns=("SupplierInvoiceNum", "Name", "Contact", "Description"),
+        self.supplier_table = ttk.Treeview(frame, columns=("Invoice Nr.", "Name", "Contact", "Description"),
                                            yscrollcommand=supplier_scroll_y.set,  xscrollcommand=supplier_scroll_x.set)
         self.supplier_table.pack(fill=BOTH, expand=1)
         self.supplier_table.bind("<ButtonRelease-1>", self.get_data)
@@ -120,11 +120,12 @@ class Supplier:
         supplier_scroll_x.config(command=self.supplier_table.xview)
         supplier_scroll_y.config(command=self.supplier_table.yview)
 
-        headings = ("SupplierInvoiceNum", "Name", "Contact", "Description")
+        headings = ("Invoice Nr.", "Name", "Contact", "Description")
+        column_widths = {"Invoice Nr.": 25, "Name": 75, "Contact": 40, "Description": 60}
 
         for heading in headings:
             self.supplier_table.heading(heading, text=heading)
-            self.supplier_table.column(heading, width=100)
+            self.supplier_table.column(heading, width=column_widths.get(heading, 20))
 
         self.supplier_table["show"] = "headings"
 

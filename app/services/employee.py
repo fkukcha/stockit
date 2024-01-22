@@ -48,10 +48,10 @@ class Employee:
 
     def create_labels(self):
         labels_info = [
-            ("EmployeeID", 50, 150), ("Contact", 350, 150), ("Birthdate", 750, 150),
-            ("Name", 50, 190), ("Date of Join", 350, 190), ("Salary", 750, 190),
-            ("Email", 50, 230), ("Password", 350, 230), ("User Type", 750, 230),
-            ("Address", 50, 270)
+            ("EmployeeID", 45, 150), ("Contact", 385, 150), ("Birthdate", 750, 150),
+            ("Name", 45, 190), ("Date of Join", 385, 190), ("Salary", 750, 190),
+            ("Email", 45, 230), ("Password", 385, 230), ("User Type", 750, 230),
+            ("Address", 45, 270)
         ]
 
         for text, x, y in labels_info:
@@ -150,9 +150,12 @@ class Employee:
         headings = ("EmployeeID", "Name", "Email", "Password", "UserType", "Contact", "Birthdate", "Salary",
                     "DateOfJoin", "Address")
 
+        column_widths = {"EmployeeID": 5, "Name": 60, "Email": 90, "Password": 50, "UserType": 35, "Contact": 60,
+                         "Birthdate": 30, "Salary": 20, "DateOfJoin": 30, "Address": 100}
+
         for heading in headings:
             self.employee_table.heading(heading, text=heading)
-            self.employee_table.column(heading, width=100)
+            self.employee_table.column(heading, width=column_widths.get(heading, 10))
 
         self.employee_table["show"] = "headings"
 

@@ -143,10 +143,11 @@ class Product:
         product_scroll_y.config(command=self.product_table.yview)
 
         headings = ("PID", "Category", "Supplier", "Name", "Price", "Qty", "Status")
+        column_width = {"PID": 10, "Category": 60, "Supplier": 60, "Name": 35, "Price": 20, "Qty": 10, "Status": 25}
 
         for heading in headings:
             self.product_table.heading(heading, text=heading)
-            self.product_table.column(heading, width=100)
+            self.product_table.column(heading, width=column_width.get(heading, 50))
 
         self.product_table["show"] = "headings"
 
