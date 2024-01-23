@@ -26,11 +26,11 @@ class ProductCategory:
         self.var_name = StringVar()
 
         # creates image on the left
-        self.image_left = Image.open('../../images/category.jpg')
-        self.image_left = self.image_left.resize((500, 275), Image.LANCZOS)
+        self.image_left = Image.open('../../images/shop2.jpg')
+        self.image_left = self.image_left.resize((510, 320), Image.LANCZOS)
         self.image_left = ImageTk.PhotoImage(self.image_left)
-        self.label_image_left = Label(self.main_window, image=self.image_left)
-        self.label_image_left.place(x=50, y=220)
+        self.label_image_left = Label(self.main_window, image=self.image_left, borderwidth=0)
+        self.label_image_left.place(x=50, y=210)
 
         # creates image on the right
         self.image_right = Image.open('../../images/cat.jpg')
