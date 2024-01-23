@@ -43,19 +43,19 @@ class Employee:
         self.main_window.focus_force()
 
     def create_title_label(self):
-        title = Label(self.main_window, text="Employee Details", font=("goudy old style", 15), bg="#0f4d7d", fg="white")
+        title = Label(self.main_window, text="Employee Details", font=("helvetica", 15), bg="#0f4d7d", fg="white")
         title.place(x=50, y=100, width=1050)
 
     def create_labels(self):
         labels_info = [
-            ("EmployeeID", 45, 150), ("Contact", 385, 150), ("Birthdate", 750, 150),
-            ("Name", 45, 190), ("Date of Join", 385, 190), ("Salary", 750, 190),
-            ("Email", 45, 230), ("Password", 385, 230), ("User Type", 750, 230),
-            ("Address", 45, 270)
+            ("EmployeeID", 38, 150), ("Contact", 385, 150), ("Birthdate", 750, 150),
+            ("Name", 38, 190), ("Date of Join", 385, 190), ("Salary", 750, 190),
+            ("Email", 38, 230), ("Password", 385, 230), ("User Type", 750, 230),
+            ("Address", 38, 270)
         ]
 
         for text, x, y in labels_info:
-            label = Label(self.main_window, text=text, font=("goudy old style", 15), bg="white", fg="black")
+            label = Label(self.main_window, text=text, font=("helvetica", 15), bg="white", fg="black")
             label.place(x=x, y=y)
 
     def create_entries(self):
@@ -73,12 +73,12 @@ class Employee:
 
         combo_box_user_type = ttk.Combobox(self.main_window, textvariable=self.employee_user_type,
                                            values=("Admin", "Employee"), state="readonly", justify=CENTER,
-                                           font=("goudy old style", 15))
+                                           font=("helvetica", 15))
         combo_box_user_type.place(x=850, y=230, width=180)
         combo_box_user_type.current(0)
 
     def create_search_frame(self):
-        search_label_frame = LabelFrame(self.main_window, text="Search Employee", font=("goudy old style", 12, "bold"),
+        search_label_frame = LabelFrame(self.main_window, text="Search Employee", font=("helvetica", 12, "bold"),
                                         bd=2, relief=RIDGE, bg="white", fg="black")
         search_label_frame.place(x=250, y=20, width=600, height=70)
 
@@ -92,17 +92,17 @@ class Employee:
         # Options
         combo_box_search = ttk.Combobox(frame, textvariable=self.search_by,
                                         values=("Select", "Name", "Email", "Contact"), state="readonly", justify=CENTER,
-                                        font=("goudy old style", 15))
+                                        font=("helvetica", 15))
         combo_box_search.place(x=10, y=10, width=180)
         combo_box_search.current(0)
 
         # Search text
-        search_text = Entry(frame, textvariable=self.search_text, font=("goudy old style", 15),
+        search_text = Entry(frame, textvariable=self.search_text, font=("helvetica", 15),
                             bg="lightyellow", fg="black")
         search_text.place(x=200, y=10)
 
         # Search button
-        search_button = Button(frame, text="Search", command=self.search_employee, font=("goudy old style", 15),
+        search_button = Button(frame, text="Search", command=self.search_employee, font=("helvetica", 15),
                                bg="#4caf50", fg="white", cursor="hand2")
         search_button.place(x=420, y=10, width=150, height=31)
 
@@ -114,20 +114,20 @@ class Employee:
         self.create_employee_table(employee_frame)
 
         # Add, update, delete, clear buttons
-        add_button = Button(self.main_window, text="Add", command=self.add_employee, font=("goudy old style", 15),
+        add_button = Button(self.main_window, text="Add", command=self.add_employee, font=("helvetica", 15),
                             bg="#2196f3", fg="black", cursor="hand2")
         add_button.place(x=500, y=285, width=110, height=31)
 
         update_button = Button(self.main_window, text="Update", command=self.update_employee,
-                               font=("goudy old style", 15), bg="#4caf50", fg="black", cursor="hand2")
+                               font=("helvetica", 15), bg="#4caf50", fg="black", cursor="hand2")
         update_button.place(x=620, y=285, width=110, height=31)
 
-        delete_button = Button(self.main_window, text="Delete", command=self.delete_employee, font=("goudy old style", 15), bg="#f44336", fg="black",
-                               cursor="hand2")
+        delete_button = Button(self.main_window, text="Delete", command=self.delete_employee, font=("helvetica", 15),
+                               bg="#f44336", fg="black", cursor="hand2")
         delete_button.place(x=740, y=285, width=110, height=31)
 
-        clear_button = Button(self.main_window, text="Clear", command=self.clear_employee_data, font=("goudy old style", 15), bg="#607d8b", fg="black",
-                              cursor="hand2")
+        clear_button = Button(self.main_window, text="Clear", command=self.clear_employee_data, font=("helvetica", 15),
+                              bg="#607d8b", fg="black", cursor="hand2")
         clear_button.place(x=860, y=285, width=110, height=31)
 
     def create_employee_table(self, frame):

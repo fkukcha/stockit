@@ -37,7 +37,7 @@ class Supplier:
         self.main_window.focus_force()
 
     def create_title_label(self):
-        title = Label(self.main_window, text="Supplier Details", font=("goudy old style", 20, "bold"), bg="#0f4d7d",
+        title = Label(self.main_window, text="Supplier Details", font=("helvetica", 20, "bold"), bg="#0f4d7d",
                       fg="white")
         title.place(x=50, y=10, width=1000, height=40)
 
@@ -47,7 +47,7 @@ class Supplier:
         ]
 
         for text, x, y in labels_info:
-            label = Label(self.main_window, text=text, font=("goudy old style", 15), bg="white", fg="black")
+            label = Label(self.main_window, text=text, font=("helvetica", 15), bg="white", fg="black")
             label.place(x=x, y=y)
 
     def create_entries(self):
@@ -57,7 +57,7 @@ class Supplier:
         ]
 
         for variable, x, y, width in entries_info:
-            entry = Entry(self.main_window, textvariable=variable, font=("goudy old style", 15), bg="lightyellow",
+            entry = Entry(self.main_window, textvariable=variable, font=("helvetica", 15), bg="lightyellow",
                           fg="black")
             entry.place(x=x, y=y, width=width)
 
@@ -67,16 +67,16 @@ class Supplier:
         self.search_text = StringVar()
 
         # Options
-        search_label = Label(frame, text="Invoice Nr.", font=("goudy old style", 15), bg="white")
+        search_label = Label(frame, text="Invoice Nr.", font=("helvetica", 15), bg="white")
         search_label.place(x=700, y=80)
 
         # Search text
-        search_text = Entry(frame, textvariable=self.search_text, font=("goudy old style", 15),
+        search_text = Entry(frame, textvariable=self.search_text, font=("helvetica", 15),
                             bg="lightyellow", fg="black")
         search_text.place(x=800, y=80, width=160)
 
         # Search button
-        search_button = Button(frame, text="Search", command=self.search_supplier, font=("goudy old style", 15),
+        search_button = Button(frame, text="Search", command=self.search_supplier, font=("helvetica", 15),
                                bg="#4caf50", fg="white", cursor="hand2")
         search_button.place(x=980, y=79, width=100, height=28)
 
@@ -88,20 +88,20 @@ class Supplier:
         self.create_supplier_table(supplier_frame)
 
         # Add, update, delete, clear buttons
-        add_button = Button(self.main_window, text="Add", command=self.add_supplier, font=("goudy old style", 15),
+        add_button = Button(self.main_window, text="Add", command=self.add_supplier, font=("helvetica", 15),
                             bg="#2196f3", fg="black", cursor="hand2")
         add_button.place(x=180, y=370, width=110, height=35)
 
         update_button = Button(self.main_window, text="Update", command=self.update_supplier,
-                               font=("goudy old style", 15), bg="#4caf50", fg="black", cursor="hand2")
+                               font=("helvetica", 15), bg="#4caf50", fg="black", cursor="hand2")
         update_button.place(x=300, y=370, width=110, height=35)
 
         delete_button = Button(self.main_window, text="Delete", command=self.delete_supplier,
-                               font=("goudy old style", 15), bg="#f44336", fg="black", cursor="hand2")
+                               font=("helvetica", 15), bg="#f44336", fg="black", cursor="hand2")
         delete_button.place(x=420, y=370, width=110, height=35)
 
         clear_button = Button(self.main_window, text="Clear", command=self.clear_supplier_data,
-                              font=("goudy old style", 15), bg="#607d8b", fg="black", cursor="hand2")
+                              font=("helvetica", 15), bg="#607d8b", fg="black", cursor="hand2")
         clear_button.place(x=540, y=370, width=110, height=35)
 
     def create_supplier_table(self, frame):

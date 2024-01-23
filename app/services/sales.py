@@ -29,25 +29,25 @@ class Sales:
         self.show()
 
     def create_title_label(self):
-        title = Label(self.main_window, text="View Customer Bills", font=("goudy old style", 30), bg="#184a45",
+        title = Label(self.main_window, text="View Customer Bills", font=("helvetica", 30), bg="#184a45",
                       fg="white", bd=3, relief=RIDGE)
         title.pack(side=TOP, fill=X, padx=10, pady=20)
 
     def create_invoice_label(self):
-        invoice = Label(self.main_window, text="Invoice No.", font=("times new roman", 15), bg="white")
+        invoice = Label(self.main_window, text="Invoice No.", font=("helvetica", 15), bg="white")
         invoice.place(x=50, y=100)
 
     def invoice_entry(self):
-        entry = Entry(self.main_window, textvariable=self.var_invoice, font=("goudy old style", 15),
+        entry = Entry(self.main_window, textvariable=self.var_invoice, font=("helvetica", 15),
                       bg="lightyellow", fg="black")
         entry.place(x=160, y=100, width=180)
 
     def search_button(self):
-        search_button = Button(self.main_window, text="Search", command=self.search, font=("times new roman", 15, "bold"), bg="#2196f3", fg="white", cursor="hand2")
+        search_button = Button(self.main_window, text="Search", command=self.search, font=("helvetica", 15, "bold"), bg="#2196f3", fg="white", cursor="hand2")
         search_button.place(x=360, y=100, width=120, height=28)
 
     def clear_button(self):
-        clear_button = Button(self.main_window, text="Clear", command=self.clear, font=("times new roman", 15, "bold"), bg="lightgray", cursor="hand2")
+        clear_button = Button(self.main_window, text="Clear", command=self.clear, font=("helvetica", 15, "bold"), bg="lightgray", cursor="hand2")
         clear_button.place(x=490, y=100, width=120, height=28)
 
     def sales_frame(self):
@@ -55,7 +55,7 @@ class Sales:
         sales_frame.place(x=50, y=140, width=200, height=330)
 
         scrolly = Scrollbar(sales_frame, orient=VERTICAL)
-        self.sales_list = Listbox(sales_frame, font=("goudy old styöe", 15), bg="white", yscrollcommand=scrolly.set)
+        self.sales_list = Listbox(sales_frame, font=("helvetica", 15), bg="white", yscrollcommand=scrolly.set)
         scrolly.pack(side=RIGHT, fill=Y)
         scrolly.config(command=self.sales_list.yview)
         self.sales_list.pack(fill=BOTH, expand=1)
@@ -65,7 +65,7 @@ class Sales:
         bill_frame = Frame(self.main_window, bd=3, relief=RIDGE)
         bill_frame.place(x=280, y=140, width=410, height=330)
 
-        title2 = Label(bill_frame, text="Customer Bill Area", font=("goudy old style", 20), bg="orange")
+        title2 = Label(bill_frame, text="Customer Bill Area", font=("helvetica", 20), bg="orange")
         title2.pack(side=TOP, fill=X)
 
         scrolly2 = Scrollbar(bill_frame, orient=VERTICAL)
