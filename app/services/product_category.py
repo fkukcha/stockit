@@ -50,28 +50,28 @@ class ProductCategory:
 
     def title_label(self):
         """creates title"""
-        title = Label(self.main_window, text="Product Category", font=("goudy old style", 30), bg="#0f4d7d", fg="white")
+        title = Label(self.main_window, text="Product Category", font=("helvetica", 30), bg="#0f4d7d", fg="white")
         title.place(x=50, y=25, width=1050)
 
     def name_label(self):
         """creates label"""
         name_label = Label(
-            self.main_window, text="Enter Category Name Here", font=("goudy old style", 25), bg="white", fg="black")
+            self.main_window, text="Enter Category Name Here", font=("helvetica", 25), bg="white", fg="black")
         name_label.place(x=50, y=100, width=600)
 
     def create_entry_and_buttons(self):
         """creates entry text + buttons"""
-        entry_txt = Entry(self.main_window, textvariable=self.var_name, font=("goudy old style", 18), bg="#F5F5DC",
+        entry_txt = Entry(self.main_window, textvariable=self.var_name, font=("helvetica", 18), bg="#F5F5DC",
                           fg="black")
         entry_txt.place(x=50, y=175, width=275)
         entry_txt = Entry(
-            self.main_window, textvariable=self.var_name, font=("goudy old style", 18), bg="#F5F5DC", fg="black")
+            self.main_window, textvariable=self.var_name, font=("helvetica", 18), bg="#F5F5DC", fg="black")
         entry_txt.place(x=50, y=175, width=275)
-        button_add = Button(self.main_window, text="ADD", font=("goudy old style", 11), bg="green", fg="white",
+        button_add = Button(self.main_window, text="ADD", font=("helvetica", 13), bg="green", fg="white",
                             cursor="hand2", command=self.add_category)
         button_add.place(x=350, y=175, width=100)
         button_delete = Button(
-            self.main_window, text="Delete", command=self.delete_category, font=("goudy old style", 11), bg="red", fg="white", cursor="hand2")
+            self.main_window, text="Delete", command=self.delete_category, font=("helvetica", 13), bg="red", fg="white", cursor="hand2")
         button_delete.place(x=460, y=175, width=100)
 
     def create_category_table(self):

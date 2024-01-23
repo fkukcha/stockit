@@ -38,7 +38,7 @@ class Product:
               fg="white").pack(side=TOP, fill=X)
 
         # Column1
-        Label(product_Frame, text="Category", font=("goody old style", 18), bg="white").place(x=30, y=60)
+        Label(product_Frame, text="Category", font=("helvetica", 18), bg="white").place(x=30, y=60)
         Label(product_Frame, text="Supplier", font=("goody old style", 18), bg="white").place(x=30,
                                                                                               y=110)
         Label(product_Frame, text="Name", font=("goody old style", 18), bg="white").place(x=30,
@@ -101,7 +101,7 @@ class Product:
         )
         clear_button.place(x=340, y=400, width=100, height=40)
 
-        search_label_frame = LabelFrame(self.main_window, text="Search Product", font=("goudy old style", 12, "bold"),
+        search_label_frame = LabelFrame(self.main_window, text="Search Product", font=("helvetica", 12, "bold"),
                                         bd=2, relief=RIDGE, bg="white", fg="black")
         search_label_frame.place(x=480, y=10, width=600, height=80)
 
@@ -118,7 +118,7 @@ class Product:
 
         # Search button
         style = ttk.Style()
-        style.configure("Search.TButton", background="black", foreground="black")
+        style.configure("Search.TButton", background="black", foreground="black", font=("helvetica", 13))
         search_button = ttk.Button(
             search_label_frame, text="Search", command=self.search_product, style="Search.TButton", cursor="hand2"
         )

@@ -41,7 +41,7 @@ class StockIT:
 
         # Clock
         self.clock_label = Label(self.main_window, text="Welcome to StockIT\t\t Date: DD-MM-YYYY\t\t Time: HH:MM:SS",
-                                 font=("times new roman", 15), bg="#4d636d", fg="white")
+                                 font=("helvetica", 15), bg="#4d636d", fg="white")
         self.clock_label.place(x=0, y=70, relwidth=1, height=30)
 
         # Menu frame
@@ -93,12 +93,12 @@ class StockIT:
         for i in range(5):
             self.dashboard_menu_labels[i] = Label(self.main_window, text=dashboard_icons_labels[i], bd=5, relief=RIDGE,
                                                   bg=dashboard_icons_colors[i], fg="white",
-                                                  font=("goudy old style", 20, "bold"))
+                                                  font=("helvetica", 20, "bold"))
             self.dashboard_menu_labels[i].place(x=dashboard_icons_positions[i][0], y=dashboard_icons_positions[i][1],
                                                 height=150, width=300)
 
         # Footer
-        footer_label = Label(self.main_window, text="StockIT", font=("times new roman", 12), bg="#4d636d", fg="white")
+        footer_label = Label(self.main_window, text="StockIT", font=("helvetica", 12), bg="#4d636d", fg="white")
         footer_label.pack(side=BOTTOM, fill=X)
 
         self.update_content()

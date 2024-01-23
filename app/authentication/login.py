@@ -30,7 +30,7 @@ class Login:
         self.employee_id = StringVar()
         user_label = Label(login_frame, text="Employee ID", font=("Andalus", 15), bg="white", fg="#767171")
         user_label.place(x=50, y=100)
-        username_text = Entry(login_frame, textvariable=self.employee_id, font=("times new roman", 15), bg="#ECECEC")
+        username_text = Entry(login_frame, textvariable=self.employee_id, font=("helvetica", 15), bg="#ECECEC")
         username_text.place(x=50, y=140, width=250)
 
         # Password
@@ -38,7 +38,7 @@ class Login:
         password_label = Label(login_frame, text="Password", font=("Andalus", 15), bg="white", fg="#767171")
         password_label.place(x=50, y=200)
         password_text = Entry(
-            login_frame, textvariable=self.password, show="*", font=("times new roman", 15), bg="#ECECEC")
+            login_frame, textvariable=self.password, show="*", font=("helvetica", 15), bg="#ECECEC")
         password_text.place(x=50, y=240, width=250)
 
         # Login button
@@ -53,12 +53,12 @@ class Login:
 
         # OR horizontal_line
         or_horizontal_line = Label(login_frame, text="OR", bg="white", fg="lightgray",
-                                   font=("times new roman", 15, "bold"))
+                                   font=("helvetica", 15, "bold"))
         or_horizontal_line.place(x=150, y=355)
 
         # Forget password button
         forget_password_button = Button(
-            login_frame, text="Forgot Password?", command=self.forget_password_form, font=("times new roman", 13),
+            login_frame, text="Forgot Password?", command=self.forget_password_form, font=("helvetica", 13),
             bg="white", fg="#00759E", bd=0, activebackground="white", activeforeground="#00759E")
         forget_password_button.place(x=100, y=390)
 
