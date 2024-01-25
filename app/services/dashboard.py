@@ -217,7 +217,7 @@ class StockIT:
             self.dashboard_menu_labels[3].config(text=f'Total Product\n[ {str(len(product))} ]')
 
             bill = len(os.listdir('../../bills'))
-            self.dashboard_menu_labels[4].config(text=f'Total Sales\n[{str(bill)}]')
+            self.dashboard_menu_labels[4].config(text=f'Total Bills\n[{str(bill)}]')
 
             time_ = time.strftime("%H:%M:%S")
             date_ = time.strftime("%d-%m-%Y")
