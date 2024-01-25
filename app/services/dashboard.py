@@ -70,9 +70,9 @@ class StockIT:
             "Dashboard": self.dashboard,
             "Employee": self.employee,
             "Supplier": self.supplier,
-            "Category": self.category,
+            "ProdCategory": self.category,
             "Product": self.product,
-            "Sales": self.sales,
+            "Bills": self.sales,
             "Billing": self.billing
         }
 
