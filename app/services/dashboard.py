@@ -62,7 +62,7 @@ class StockIT:
         menu_label.pack(side=TOP, fill=X)
 
         # Menu options' image
-        side_image_path = self.get_image_path(parent_dir, 'side.png')
+        side_image_path = self.get_image_path(parent_dir, 'side_right_arrow.png')
         self.icon_side = PhotoImage(file=side_image_path)
 
         # Menu options
