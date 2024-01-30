@@ -49,7 +49,7 @@ class StockIT:
         menu_frame.place(x=0, y=102, width=200, height=680)
 
         # Menu image
-        menu_image_path = self.get_image_path(parent_dir, 'menu_im.png')
+        menu_image_path = self.get_image_path(parent_dir, 'bg.png')
         menu_image = Image.open(menu_image_path)
         resized_menu_image = menu_image.resize((200, 200), Image.LANCZOS)
         self.menu_image_photo = ImageTk.PhotoImage(resized_menu_image)
