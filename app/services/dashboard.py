@@ -26,7 +26,7 @@ class StockIT:
         parent_dir = os.path.dirname(current_dir)
 
         # Title
-        title_image_path = self.get_image_path(parent_dir, 'logo1.png')
+        title_image_path = self.get_image_path(parent_dir, 'shopping_venture.png')
         self.icon_title = PhotoImage(file=title_image_path)
         title = Label(self.main_window, text="StockIT", image=self.icon_title, compound=LEFT,
                       font=("times new roman", 40, "bold"), bg="#010c48", fg="white", anchor="w", padx=20)
