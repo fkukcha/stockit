@@ -84,8 +84,8 @@ class StockIT:
             menu_options_button.pack(side=TOP, fill=X)
 
         # Dashboard content
-        dashboard_icons_positions = [(300, 120), (650, 120), (1000, 120), (300, 300), (650, 300)]
-        dashboard_icons_colors = ["#33bbf9", "#ff5722", "#009688", "#607d8b", "#ffc107"]
+        dashboard_icons_positions = [(400, 120), (700, 120), (700, 270), (400, 270), (400, 420)]
+        dashboard_icons_colors = ["#607d8b", "#607d8b", "#607d8b", "#607d8b", "#607d8b"]
         dashboard_icons_labels = ["Total Employees\n[ 0 ]", "Total Suppliers\n[ 0 ]", "Total Categories\n[ 0 ]",
                                   "Total Products\n[ 0 ]", "Total Sales\n[ 0 ]"]
         self.dashboard_menu_labels = ["employee_label", "supplier", "category_label", "product_label", "sales_label"]
@@ -96,6 +96,9 @@ class StockIT:
                                                   font=("helvetica", 20, "bold"))
             self.dashboard_menu_labels[i].place(x=dashboard_icons_positions[i][0], y=dashboard_icons_positions[i][1],
                                                 height=150, width=300)
+            if i == 4:
+                self.dashboard_menu_labels[i].place(
+                    x=dashboard_icons_positions[i][0], y=dashboard_icons_positions[i][1], height=150, width=600)
 
         # Footer
         footer_label = Label(self.main_window, text="StockIT", font=("helvetica", 12), bg="#4d636d", fg="white")
